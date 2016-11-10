@@ -1,8 +1,7 @@
 # AmericanVoice
 Project Layout
-root --- url_direct.rb
-
-      |
+root 
+      |--- url_direct.rb
       
       |- utils --- mysql.rb
       
@@ -23,5 +22,5 @@ root --- url_direct.rb
       |
       
       |- public --- Assets --- Javascript
-      
+
                             |- CSS
