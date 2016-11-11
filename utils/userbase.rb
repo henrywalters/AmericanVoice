@@ -1,4 +1,4 @@
-require './mysql'
+require './utils/mysql'
 
 def user_conflict?(username,email,display_name)
 	sql=MySql.new('root','Merry123!')

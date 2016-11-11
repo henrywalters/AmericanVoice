@@ -3,6 +3,9 @@
 require 'sinatra'
 require './utils/auth'
 
+set :bind, '0.0.0.0'
+set :port, 9393
+
 
 get '/generate/key' do
 	generate_key()

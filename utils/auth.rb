@@ -1,4 +1,4 @@
-require './mysql'
+require './utils/mysql'
 
 def generate_key()
 	letters = 'abcdefghijklmnopqrstuvwxyz'
