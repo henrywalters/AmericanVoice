@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 #require 'rest-client'
 require 'sinatra'
-
-set :bind, '0.0.0.0'
-set :port, 9393
+require 'rubygems'
 
 get '/testing/url' do
 	"Site Working"	
