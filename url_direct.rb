@@ -1,9 +1,11 @@
 #!/usr/bin/env ruby
 #require 'rest-client'
 require 'sinatra'
+require './utils/auth'
 
-get '/testing/url' do
-	"Site Working"	
+
+get '/generate/key' do
+	generate_key()
 end
 
 get '/' do 

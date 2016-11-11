@@ -24,11 +24,11 @@ def generate_key()
 			unique = true
 		end
 	end
-	puts key
 	## Change when deployed
 	sql=MySql.new('root','Merry123!')
 	sql.query("INSERT INTO AmericanVoice.auth_keys (`key`,`registered`) VALUES ('"+ key +"',0);")
 	sql.close
+	return key
 end
 
 def register_key(key)
