@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 #require 'rest-client'
 require 'sinatra'
-require 'rubygems'
 
 get '/testing/url' do
 	"Site Working"	
