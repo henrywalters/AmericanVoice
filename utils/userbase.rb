@@ -45,9 +45,46 @@ def new_user(username,email,display_name,password,privilege)
 					"#{email}",
 					"#{privilege}",
 					0,0,0,
-					"#{display_name}"
+					"#{display_name},
+					0"
 				);}
 
 	sql.query(query)
 	sql.close
+end
+
+def login(username)
+	sql=MySql.new()
+	sql.query("SELECT 
+    `userbase`.`username`,
+	FROM `users`;")
+	sql.iter_query().each do |user|
+		if user["username"] == username
+			sql.query(
+			%Q{
+				UPDATE userbase
+				SET logged_in=1
+				WHERE `username`="#{username}"
+			}
+			)
+		end
+	end
+end
+
+def logout(username)
+	sql=MySql.new()
+	sql.query("SELECT 
+    `userbase`.`username`,
+	FROM `users`;")
+	sql.iter_query().each do |user|
+		if user["username"] == username
+			sql.query(
+			%Q{
+				UPDATE userbase
+				SET logged_in=0
+				WHERE `username`="#{username}"
+			}
+			)
+		end
+	end
 end
