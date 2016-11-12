@@ -67,7 +67,7 @@ post '/register' do
 	if error
 		redirect "/register?error=true"
 	else
-		new_user(u,e,dn,p,"0")
+		new_user(u,e,dn,p1,"0")
 		redirect "/welcome/new/user"
 	end
 end
