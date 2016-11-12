@@ -29,4 +29,3 @@ end
 def correct_id(id)
 	return (id/10.0).to_i + 1
 end
-

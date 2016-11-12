@@ -5,21 +5,21 @@ def user_conflict?(username,email,display_name)
 	sql.query("SELECT 
     `userbase`.`username`,
     `userbase`.`email`,
-    `userbsase`.`display_name`
-	FROM `users`;")
+    `userbase`.`display_name`
+	FROM `userbase`;")
 	errors = {
 		:user_conflict => false,
 		:email_conflict => false,
 		:display_name_conflict => false
 	}
 	sql.iter_query().each do |user|
-		if user["username"] = user
+		if user["username"].upcase == username.upcase
 			errors[:user_conflict] = true
 		end
-		if user["email"] = email
+		if user["email"].upcase == email.upcase
 			errors[:email_conflict] = true
 		end
-		if user["display_name"] = display_name
+		if user["display_name"].upcase == display_name.upcase
 			errors[:display_name_conflict] = true
 		end
 	end
@@ -38,15 +38,16 @@ def new_user(username,email,display_name,password,privilege)
 				 `posts`,
 				 `comments`,
 				 `reputation`,
-				 `display_name`)
+				 `display_name`,
+				 `logged_in`)
 				Values (
 					"#{username}",
 					"#{password}",
 					"#{email}",
 					"#{privilege}",
 					0,0,0,
-					"#{display_name},
-					0"
+					"#{display_name}",
+					0
 				);}
 
 	sql.query(query)

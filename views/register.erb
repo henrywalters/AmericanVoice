@@ -1,3 +1,20 @@
 <form method="post">
 	<d1>
-		<dt>
+		<dt>Choose a Username:</dt>
+		<dd><input name="username" type="text"></dd>
+
+		<dt>Enter your Email:</dt>
+		<dd><input name="email" type="text"></dd>
+
+		<dt>Choose a Display Name:</dt>
+		<dd><input name="display_name" type="text"</dd>
+
+		<dt>Choose your Password:</dt>
+		<dd><input name="password1" type="password"></dd>
+		<dt>Confirm Password:</dt>
+		<dd><input name="password2" type="password"></dd>
+
+		<dt><%= @error_message %></dt>
+	</d1>
+	<p><input type="submit" value="Send"></p>
+</form>
