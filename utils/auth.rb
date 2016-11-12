@@ -3,7 +3,7 @@ require './utils/mysql'
 def generate_key()
 	letters = 'abcdefghijklmnopqrstuvwxyz'
 	key = ''
-	sql=MySql.new('root','Merry123!')
+	sql=MySql.new()
 	unique = false
 	while not unique
 		for i in 0...30
@@ -13,7 +13,7 @@ def generate_key()
 				key = key + letters[rand(26)]
 			end
 		end
-		sql.query("select * from AmericanVoice.auth_keys")
+		sql.query("select * from auth_keys")
 		matches = []
 		sql.iter_query().each do |keys|
 			if keys[key]==key
@@ -25,8 +25,8 @@ def generate_key()
 		end
 	end
 	## Change when deployed
-	sql=MySql.new('root','Merry123!')
-	sql.query("INSERT INTO AmericanVoice.auth_keys (`key`,`registered`) VALUES ('"+ key +"',0);")
+	sql=MySql.new()
+	sql.query("INSERT INTO auth_keys (`key`,`registered`) VALUES ('"+ key +"',0);")
 	sql.close
 	return key
 end
@@ -36,8 +36,8 @@ def register_key(key)
 		:key_exists => false,
 		:key_used => false
 	}
-	sql=MySql.new('root','Merry123!')
-	sql.query("select * from AmericanVoice.auth_keys")
+	sql=MySql.new()
+	sql.query("select * from auth_keys")
 	sql.iter_query().each do |keys|
 		if key == keys["key"]
 			errors[:key_exists] = true
@@ -49,7 +49,7 @@ def register_key(key)
 	if errors[:key_exists] == true && errors[:key_used] == false
 		sql.query(
 			%Q{
-				UPDATE AmericanVoice.auth_keys
+				UPDATE .auth_keys
 				SET registered=1
 				WHERE `key`="#{key}"
 			}
