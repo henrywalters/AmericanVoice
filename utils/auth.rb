@@ -49,7 +49,7 @@ def register_key(key)
 	if errors[:key_exists] == true && errors[:key_used] == false
 		sql.query(
 			%Q{
-				UPDATE .auth_keys
+				UPDATE auth_keys
 				SET registered=1
 				WHERE `key`="#{key}"
 			}
