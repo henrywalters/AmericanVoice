@@ -1,12 +1,12 @@
 require './utils/mysql'
 
 def user_conflict?(username,email,display_name)
-	sql=MySql.new('root','Merry123!')
+	sql=MySql.new()
 	sql.query("SELECT 
-    `users`.`username`,
-    `users`.`email`,
-    `users`.`display_name`
-	FROM `AmericanVoice`.`users`;")
+    `userbase`.`username`,
+    `userbase`.`email`,
+    `userbsase`.`display_name`
+	FROM `users`;")
 	errors = {
 		:user_conflict => false,
 		:email_conflict => false,
@@ -29,8 +29,8 @@ def user_conflict?(username,email,display_name)
 end
 
 def new_user(username,email,display_name,password,privilege)
-	sql=MySql.new('root','Merry123!')
-	query = %Q{INSERT INTO `AmericanVoice`.`users`
+	sql=MySql.new()
+	query = %Q{INSERT INTO `userbase`
 				(`username`,
 				 `password`,
 				 `email`,
@@ -45,7 +45,7 @@ def new_user(username,email,display_name,password,privilege)
 					"#{email}",
 					"#{privilege}",
 					0,0,0,
-					"#{display_name}",0
+					"#{display_name}"
 				);}
 
 	sql.query(query)

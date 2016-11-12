@@ -2,14 +2,10 @@
 #require 'rest-client'
 require 'sinatra'
 require './utils/auth'
+require './utils/userbase'
 
 set :bind, '0.0.0.0'
 set :port, 9393
-
-
-get '/generate/key' do
-	generate_key()
-end
 
 get '/' do 
 	erb :home
