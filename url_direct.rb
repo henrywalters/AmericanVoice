@@ -7,25 +7,51 @@ require './utils/userbase'
 set :bind, '0.0.0.0'
 set :port, 9393
 
+enable :sessions
+
 get '/' do 
-	erb :home
+	if defined?(session[:user]) && session[:user] != ""
+		erb :user_home	
+	else
+		erb :home
+	end
 end
 
 post '/' do 
-	if params[:login] == nil
-		redirect '/register' 
-	else
-		redirect 'login'
+	if params[:login]
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		session[:user] = ""
+		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
 	end
 end
 
 get '/login' do 
+	if defined?(params[:error]) && params[:error]
+		@error_message = "Username/Password match not found"
+	else
+		@error_message = ""
+	end
 	erb :login
 end
 
 post '/login' do 
-	user = params[:username]
-	pass = params[:password]
+	u = params[:username]
+	p = params[:password]
+
+	if good_login?(u,p)
+		session[:user] = u
+		redirect '/'
+	else
+		redirect '/login?error=true'
+	end
 end
 
 get '/register' do

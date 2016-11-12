@@ -54,38 +54,18 @@ def new_user(username,email,display_name,password,privilege)
 	sql.close
 end
 
-def login(username)
-	sql=MySql.new()
-	sql.query("SELECT 
-    `userbase`.`username`,
-	FROM `users`;")
-	sql.iter_query().each do |user|
-		if user["username"] == username
-			sql.query(
-			%Q{
-				UPDATE userbase
-				SET logged_in=1
-				WHERE `username`="#{username}"
-			}
-			)
-		end
-	end
-end
-
-def logout(username)
-	sql=MySql.new()
-	sql.query("SELECT 
-    `userbase`.`username`,
-	FROM `users`;")
-	sql.iter_query().each do |user|
-		if user["username"] == username
-			sql.query(
-			%Q{
-				UPDATE userbase
-				SET logged_in=0
-				WHERE `username`="#{username}"
-			}
-			)
-		end
+def good_login?(username, password)
+	sql = MySql.new()
+	sql.query(%Q{Select * FROM userbase 
+		WHERE
+		password="#{password}" AND 
+		username="#{username}";
+		})
+	if sql.iter_query().length == 0
+		return false
+		sql.close
+	else
+		return true
+		sql.close
 	end
 end
