@@ -54,6 +54,7 @@ post '/login' do
 
 	if good_login?(u,p)
 		session[:user] = u
+		session[:privilege] = privilege(u) 
 		login(u)
 		redirect '/'
 	else
@@ -119,7 +120,28 @@ end
 
 get '/settings' do 
 	if defined?(session[:user]) && logged_in?(session[:user])
+		@key_error = params[:key_error]
 		erb :settings
+	else
+		redirect '/'
+	end
+end
+
+post '/settings' do 
+	if params[:enter_key]
+		if register_key(params[:key]) && session[:privilege] == 0
+			grant_write_access(session[:user])
+			redirect '/'
+		else
+			redirect '/settings?key_error=true'
+		end
+	end
+end
+
+get '/generate/key' do 
+	if defined?(session[:privilege]) && session[:privilege] == 2
+		@key = generate_key()
+		erb :generate_key
 	else
 		redirect '/'
 	end

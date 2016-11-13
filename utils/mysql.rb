@@ -37,4 +37,31 @@ def sel_userbase
 	sql.close
 end
 
+def sel_keys
+	sql = MySql.new()
+	sql.query("SELECT * FROM auth_keys;")
+	print sql.iter_query()
+	sql.close
+end
+
+def grant_admin_access(username)
+	sql=MySql.new()
+	sql.query("SELECT 
+    username
+	FROM `userbase`;")
+	sql.iter_query().each do |user|
+		if user["username"] == username
+			sql.query(
+			%Q{
+				UPDATE userbase
+				SET privilege=2
+				WHERE `username`="#{username}";
+			}
+			)
+		end
+	end
+	sql.close
+end
+
+
 sel_userbase

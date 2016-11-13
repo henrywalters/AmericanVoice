@@ -43,6 +43,8 @@ def register_key(key)
 			errors[:key_exists] = true
 			if keys["registered"] == 1
 				errors[:key_used] = true
+				sql.close
+				return false
 			end
 		end
 	end
@@ -56,10 +58,9 @@ def register_key(key)
 			)
 		sql.close
 		return true
-	else
-		sql.close
-		return false
 	end
+	sql.close
+	return false
 end
 
 def grant_write_access(username)
@@ -78,4 +79,12 @@ def grant_write_access(username)
 			)
 		end
 	end
+	sql.close
 end
+
+def privilege(user)
+	sql = MySql.new()
+	sql.query(%Q{SELECT privilege FROM `userbase` WHERE `username`="#{user}";})
+	sql.close
+	return sql.iter_query()[0]["privilege"]
+end	
