@@ -12,7 +12,7 @@ enable :sessions
 
 
 get '/' do 
-	if defined?(session[:user]) && session[:user] != ""
+	if defined?(session[:user]) && logged_in?(session[:user])
 		erb :user_home	
 	else
 		erb :home
@@ -27,7 +27,7 @@ post '/' do
 		redirect '/register'
 	end
 	if params[:logout]
-		session[:user] = ""
+		logout(session[:user])
 		redirect '/'
 	end
 	if params[:settings]
@@ -50,6 +50,7 @@ post '/login' do
 
 	if good_login?(u,p)
 		session[:user] = u
+		login(u)
 		redirect '/'
 	else
 		redirect '/login?error=true'

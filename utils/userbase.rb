@@ -107,7 +107,7 @@ def logout(username)
 end
 
 def logged_in?(username)
-	sql.MySql.new()
+	sql = MySql.new()
 	sql.query(%Q{SELECT * FROM userbase WHERE `username`="#{username}" AND `logged_in`=1;})
 	if sql.iter_query().length != 0	
 		sql.close
