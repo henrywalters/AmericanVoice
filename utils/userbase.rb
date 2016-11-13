@@ -73,15 +73,15 @@ end
 def login(username)
 	sql=MySql.new()
 	sql.query("SELECT 
-    `userbase`.`username`,
-	FROM `users`;")
+    username
+	FROM `userbase`;")
 	sql.iter_query().each do |user|
 		if user["username"] == username
 			sql.query(
 			%Q{
 				UPDATE userbase
 				SET logged_in=1
-				WHERE `username`="#{username}"
+				WHERE `username`="#{username}";
 			}
 			)
 		end
@@ -91,8 +91,8 @@ end
 def logout(username)
 	sql=MySql.new()
 	sql.query("SELECT 
-    `userbase`.`username`,
-	FROM `users`;")
+    username
+	FROM `userbase`;")
 	sql.iter_query().each do |user|
 		if user["username"] == username
 			sql.query(
