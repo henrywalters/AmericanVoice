@@ -1,12 +1,49 @@
-<form method="post">
+<html>
+<style>
+#form{ float: left;
+      position: relative;
+      left: 35%;
+      border-style: solid;
+      border-color:3px black; <!-- box that encompasses elements -->
+  }
+#login{background-color: white;
+            float: left;
+      		position: relative;
+      		left: 35%;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s; <!-- login button-->
+}
+#login:hover{
+			background-color: #000000;
+     		color: white;
+            border: 1px solid white;}
+dt1,dt2{font-family: helvetica;
+	font-weight: bold;
+	text-align: center;
+}
+dt3{color:red;
+}
+#username{
+	font-family: arial;
+	font-size:14px;
+}
+</style>
+<body>
+<form method="post" id="form">
 	<d1>
-		<dt>Username:</dt>
-		<dd><input name="username" type="text"></dd>
-		<dt>Password:</dt>
-		<dd><input name="password" type="password"></dd>
-		<dt>
-		<%= @error_message if @error_message != "" %>
-		</dt>
+		<dt1>Username:</dt1>
+		<dd><input name="username" type="text" id="username"></dd>
+		<dt2>Password:</dt2>
+		<dd><input name="password" type="password" id=""></dd>
+		<dt3> <%= @error_message if @error_message != "" %>
+		</dt3>
 	</d1>
-	<p><input type="submit" value="Send"></p>
+	<p><input type="submit" value="Login" id="login"></p>
 </form>
+</body>
+</html>
