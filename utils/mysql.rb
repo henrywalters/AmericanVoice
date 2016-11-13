@@ -44,6 +44,13 @@ def sel_keys
 	sql.close
 end
 
+def sel_posts
+	sql = MySql.new()
+	sql.query("SELECT * FROM posts;")
+	print sql.iter_query()
+	sql.close
+end
+
 def grant_admin_access(username)
 	sql=MySql.new()
 	sql.query("SELECT 
@@ -62,5 +69,3 @@ def grant_admin_access(username)
 	end
 	sql.close
 end
-
-sel_keys

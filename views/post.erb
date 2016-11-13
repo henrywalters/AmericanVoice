@@ -1,0 +1,12 @@
+<form method="post">
+	<d1>
+		<dt>Article Title:</dt>
+		<dd><input name="post_title" type="text"></dd>
+		<dt>Article Body:</dt>
+		<dd><textarea name="post_body" style="width:500px;height:400px;"></textarea></dd>
+		<dt>Tags:</dt>
+		<dd><input name="post_tags" type="text"></dd>
+		<dd><%= "Nothing can be left empty" if @post_error %>
+	</d1>
+	<p><input name="enter_post" type="submit" value="Submit Post" id="enter_post"></p>
+</form>

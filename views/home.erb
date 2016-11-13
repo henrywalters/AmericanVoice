@@ -1,43 +1,64 @@
-<!-- home.erb -->
 <html>
-
 <head>
 </head>
-<style>
-  h1 {
-    border-bottom: 5px solid white;
-    border-bottom-style: ridge;
-  }
-  h1 {
-    font-family: Helvetica;
-    font-weight: bolder;
-  }
-  #login {
-    background-color: white;
-    color: black;
-    font-family: Helvetica;
-    font-weight: bold;
-    float: right;
-    font-size: 20px;
-    border: 1px solid #000000;
-  }
-  #register {
-    background-color: white;
-    color: black;
-    font-family: Helvetica;
-    font-weight: bold;
-    float: right;
-    font-size: 20px;
-    border: 1px solid #000000;
-  }
-  #form{
-  display:inline-block;
-  float:right;
-}
-</style>
-
-<h1>The American Voice
-	<form method="post">
-	<input name="login" type="submit" value="Login" id="login"> &nbsp
-	<input name="register" type="submit" value="Register" id="register"></h1>
+    <style>
+        header {
+            border-bottom: 5px solid white;
+            border-bottom-style: ridge;
+            height: 45px;
+        }
+        h1 {
+            display: inline-block;
+            font-family:Helvetica;
+            font-weight: bolder;
+            margin: 0;
+            padding: 0;
+            line-height: 57px;
+        }
+        .form {
+            margin: 0;
+            padding: 0;
+            float: right;
+            display: inline-block;
+            line-height: 62px;
+        }
+        #login{
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s;}
+        #login:hover{
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        }    
+        #register {
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;
+        }
+        #register:hover {
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        }
+    </style>
+<body>
+    <header>
+        <h1>The American Voice</h1>
+        <form class="form" method="post">
+            <input name="login" type="submit" value="Login" id="login">
+            <input name="register" type="submit" value="Register" id="register">
+        </form>
+    </header>
+</body>
 </html>

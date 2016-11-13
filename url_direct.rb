@@ -4,6 +4,7 @@ require 'sinatra'
 require 'encrypted_strings'
 require './utils/auth'
 require './utils/userbase'
+require './utils/posts'
 
 set :bind, '0.0.0.0'
 set :port, 9393
@@ -32,6 +33,9 @@ post '/' do
 	end
 	if params[:settings]
 		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
 	end
 end
 
@@ -143,6 +147,32 @@ get '/generate/key' do
 		@key = generate_key()
 		erb :generate_key
 	else
+		redirect '/'
+	end
+end
+
+get '/post' do 
+	if defined?(session[:user]) && logged_in?(session[:user]) && defined?(session[:privilege]) && session[:privilege] > 0
+		if defined?(params[:post_error]) && params[:post_error]
+			@post_error = true
+		else
+			@post_error = false
+		end
+		erb :post
+	else
+		redirect '/'
+	end
+end	
+
+post '/post' do
+	title = params[:post_title]
+	body = params[:post_body]
+	tags = params[:post_tags]
+
+	if title.delete(' ') == '' || body.delete(' ') == '' || tags.delete(' ') == ''
+		redirect '/post?post_error=true'
+	else
+		new_post(session[:user],title,body,tags)
 		redirect '/'
 	end
 end
