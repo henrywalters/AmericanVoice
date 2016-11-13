@@ -41,7 +41,7 @@ def register_key(key)
 	sql.iter_query().each do |keys|
 		if key == keys["key"]
 			errors[:key_exists] = true
-			if keys["registered"] == 1
+			if keys["registered"] == "1"
 				errors[:key_used] = true
 				sql.close
 				return false
@@ -52,7 +52,7 @@ def register_key(key)
 		sql.query(
 			%Q{
 				UPDATE auth_keys
-				SET registered=1
+				SET registered="1"
 				WHERE `key`="#{key}"
 			}
 			)
