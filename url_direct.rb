@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 #require 'rest-client'
 require 'sinatra'
+require 'encrypted_strings'
 require './utils/auth'
 require './utils/userbase'
 
@@ -8,6 +9,7 @@ set :bind, '0.0.0.0'
 set :port, 9393
 
 enable :sessions
+
 
 get '/' do 
 	if defined?(session[:user]) && session[:user] != ""
@@ -44,7 +46,7 @@ end
 
 post '/login' do 
 	u = params[:username]
-	p = params[:password]
+	p = params[:password].encrypt
 
 	if good_login?(u,p)
 		session[:user] = u
@@ -93,7 +95,7 @@ post '/register' do
 	if error
 		redirect "/register?error=true"
 	else
-		new_user(u,e,dn,p1,"0")
+		new_user(u,e,dn,p1.encrypt,"0")
 		redirect "/welcome/new/user"
 	end
 end

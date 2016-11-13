@@ -69,3 +69,51 @@ def good_login?(username, password)
 		sql.close
 	end
 end
+
+def login(username)
+	sql=MySql.new()
+	sql.query("SELECT 
+    `userbase`.`username`,
+	FROM `users`;")
+	sql.iter_query().each do |user|
+		if user["username"] == username
+			sql.query(
+			%Q{
+				UPDATE userbase
+				SET logged_in=1
+				WHERE `username`="#{username}"
+			}
+			)
+		end
+	end
+end
+
+def logout(username)
+	sql=MySql.new()
+	sql.query("SELECT 
+    `userbase`.`username`,
+	FROM `users`;")
+	sql.iter_query().each do |user|
+		if user["username"] == username
+			sql.query(
+			%Q{
+				UPDATE userbase
+				SET logged_in=0
+				WHERE `username`="#{username}"
+			}
+			)
+		end
+	end
+end
+
+def logged_in?(username)
+	sql.MySql.new()
+	sql.query(%Q{SELECT * FROM userbase WHERE `username`="#{username}" AND `logged_in`=1;})
+	if sql.iter_query().length != 0	
+		sql.close
+		return true
+	else
+		sql.close
+		return false
+	end
+end
