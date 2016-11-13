@@ -36,12 +36,16 @@ post '/' do
 end
 
 get '/login' do 
-	if defined?(params[:error]) && params[:error]
-		@error_message = "Username/Password match not found"
+	if defined?(session[:user]) && logged_in?(session[:user])
+		redirect '/'
 	else
-		@error_message = ""
+		if defined?(params[:error]) && params[:error]
+			@error_message = "Username/Password match not found"
+		else
+			@error_message = ""
+		end
+		erb :login
 	end
-	erb :login
 end
 
 post '/login' do 
@@ -58,12 +62,16 @@ post '/login' do
 end
 
 get '/register' do
-	if defined?(params[:error]) && params[:error]
-		@error_message = "Something went wrong. Either username, email, or display name is already chosen, or password is too short or does not match"
-	else
-		@error_message = ""
+	if defined?(session[:user]) && logged_in?(session[:user])
+		redirect '/'
+	else	
+		if defined?(params[:error]) && params[:error]
+			@error_message = "Something went wrong. Either username, email, or display name is already chosen, or password is too short or does not match"
+		else
+			@error_message = ""
+		end
+		erb :register
 	end
-	erb :register
 end
 
 post '/register' do 
@@ -107,4 +115,12 @@ end
 
 post "/welcome/new/user" do 
 	redirect "/"
+end
+
+get '/settings' do 
+	if defined?(session[:user]) && logged_in?(session[:user])
+		erb :settings
+	else
+		redirect '/'
+	end
 end

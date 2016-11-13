@@ -36,3 +36,5 @@ def sel_userbase
 	print sql.iter_query()
 	sql.close
 end
+
+sel_userbase
