@@ -60,5 +60,11 @@
             <input name="register" type="submit" value="Register" id="register">
         </form>
     </header>
+    <% for i in 0..@links.length %>
+        <p>
+            <a href=<%=@links[i]%>><%=@titles[i]%></a>
+        </p>
+    <% end %>
 </body>
+
 </html>

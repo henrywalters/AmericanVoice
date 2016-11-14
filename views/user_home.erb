@@ -64,6 +64,7 @@
         #logout:hover{background-color: #000000;
             color: white;
             border: 1px solid white;}
+
     </style>
 <body>
     <header>
@@ -74,5 +75,10 @@
             <input name="logout" type="submit" value="Logout" id="logout">
         </form>
     </header>
+    <% for i in 0..@links.length %>
+        <p>
+            <a href=<%=@links[i]%>><%=@titles[i]%></a>
+        </p>
+    <% end %>
 </body>
 </html>

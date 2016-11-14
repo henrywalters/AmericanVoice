@@ -13,6 +13,20 @@ enable :sessions
 
 
 get '/' do 
+	posts = sel_posts()
+	@titles = []
+	post_limit = 10
+	post_count = 0
+	@links = []
+	posts.each do | post |
+		@titles.push(post["title"])
+		@links.push('posts/' + post["title"].split().join('-'))
+		post_count = post_count + 1
+		if post_count == post_limit
+			break
+		end
+	end
+
 	if defined?(session[:user]) && logged_in?(session[:user])
 		erb :user_home	
 	else

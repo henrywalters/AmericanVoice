@@ -33,21 +33,21 @@ end
 def sel_userbase
 	sql = MySql.new()
 	sql.query("SELECT * FROM userbase;")
-	print sql.iter_query()
+	return sql.iter_query()
 	sql.close
 end
 
 def sel_keys
 	sql = MySql.new()
 	sql.query("SELECT * FROM auth_keys;")
-	print sql.iter_query()
+	return sql.iter_query()
 	sql.close
 end
 
 def sel_posts
 	sql = MySql.new()
 	sql.query("SELECT * FROM posts;")
-	print sql.iter_query()
+	return sql.iter_query()
 	sql.close
 end
 
@@ -64,8 +64,12 @@ def grant_admin_access(username)
 				SET privilege=2
 				WHERE `username`="#{username}";
 			}
-			)
+			) 
 		end
 	end
 	sql.close
 end
+
+str = "hello my name is"
+str = str.split()
+print str.join('-')
