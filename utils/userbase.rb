@@ -86,6 +86,7 @@ def login(username)
 			)
 		end
 	end
+	sql.close
 end
 
 def logout(username)
@@ -104,6 +105,7 @@ def logout(username)
 			)
 		end
 	end
+	sql.close
 end
 
 def logged_in?(username)

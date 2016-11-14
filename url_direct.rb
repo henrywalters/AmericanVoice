@@ -183,10 +183,26 @@ post '/post' do
 	body = params[:post_body]
 	tags = params[:post_tags]
 
-	if title.delete(' ') == '' || body.delete(' ') == '' || tags.delete(' ') == ''
+	post_count = sel_posts_where(title).length
+
+	if post_count != 0 || title.delete(' ') == '' || body.delete(' ') == '' || tags.delete(' ') == ''
 		redirect '/post?post_error=true'
 	else
 		new_post(session[:user],title,body,tags)
 		redirect '/'
 	end
+end
+
+get '/posts/*' do 
+	title = params[:splat].first.split('-').join(' ')
+	post = sel_posts_where(title)
+	@title = post["title"]
+	@body = post["body"]
+	@tags = post["tags"]
+	viewed(@title)
+	erb :view_post
+end
+
+post '/posts/*' do 
+	redirect '/'
 end

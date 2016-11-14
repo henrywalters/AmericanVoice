@@ -40,15 +40,23 @@ end
 def sel_keys
 	sql = MySql.new()
 	sql.query("SELECT * FROM auth_keys;")
-	return sql.iter_query()
 	sql.close
+	return sql.iter_query()
 end
 
 def sel_posts
 	sql = MySql.new()
 	sql.query("SELECT * FROM posts;")
-	return sql.iter_query()
 	sql.close
+	return sql.iter_query()
+end
+
+def sel_posts_where(name)
+	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM posts WHERE title="#{name}";})
+	sql.close
+	return sql.iter_query()[0]
+	
 end
 
 def grant_admin_access(username)
@@ -69,7 +77,3 @@ def grant_admin_access(username)
 	end
 	sql.close
 end
-
-str = "hello my name is"
-str = str.split()
-print str.join('-')
