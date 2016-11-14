@@ -13,7 +13,7 @@ enable :sessions
 
 
 get '/' do 
-	posts = sel_posts()
+	posts = sel_posts().reverse
 	@titles = []
 	post_limit = 10
 	post_count = 0
