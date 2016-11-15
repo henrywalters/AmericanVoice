@@ -1,4 +1,15 @@
+<html>
+
+<body>
+<h3><%= @title %></h3>
+<h5>Submitted by: <%= @dn %></h5>
 <blockquote class="imgur-embed-pub" lang="en" data-id="<%= @data%>">
 <a href="<%= @link%>"></a>
 </blockquote>
 <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+<h5>Tags: <%= @tags %></h5>
+<form method="post">
+	<p><input name="home" type="submit" value="Home"></p>
+</form>
+</body>
+</html>

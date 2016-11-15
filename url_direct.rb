@@ -212,6 +212,7 @@ get '/posts/*' do
 	@title = post["title"]
 	@body = post["body"]
 	@tags = post["tags"]
+	@dn = get_display_name(post["user"])
 	viewed_post(@title)
 	erb :view_post
 end
@@ -260,6 +261,13 @@ get '/image/post/*' do
 	end
 	@data = "a/#{link}"
 	@link = "//imgur.com/#{link}"
+	@title = img[0]["title"]
+	@tags = img[0]["tags"]
+	@dn = get_display_name(img[0]["user"])
 
 	erb :view_image_post
+end
+
+post '/image/post/*' do
+	redirect '/'
 end

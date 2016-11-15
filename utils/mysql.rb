@@ -37,6 +37,13 @@ def sel_userbase
 	sql.close
 end
 
+def get_display_name(username)
+	sql = MySql.new()
+	sql.query(%Q{SELECT display_name FROM userbase WHERE username="#{username}";})
+	sql.close
+	return sql.iter_query()[0]["display_name"]
+end
+
 def sel_keys
 	sql = MySql.new()
 	sql.query("SELECT * FROM auth_keys;")
@@ -93,3 +100,4 @@ def grant_admin_access(username)
 	end
 	sql.close
 end
+

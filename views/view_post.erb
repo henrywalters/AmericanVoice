@@ -1,12 +1,13 @@
 <html>
 <body>
 <h3><%= @title %></h3>
+<h5>Submitted by: <%= @dn %></h5>
 <p1><%= @body %></p1>
-<p1><%= @tags %></p1>
-</body>
+<br>
+<p1>Tags: <%= @tags %></p1>
 
 <form method="post">
 	<p><input name="home" type="submit" value="Home"></p>
 </form>
-
+</body>
 </html>
