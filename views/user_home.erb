@@ -85,8 +85,10 @@
     <header>
         <h1>The American Voice</h1>
         <form class="form" method="post">
+        <% if @privilege > 0 %>
             <input name="post" type="submit" value="Post Text" id="post">
             <input name="post_image" type="submit" value="Post Image" id="post_image">
+        <% end %>
             <input name="settings" type="submit" value="Settings" id="settings">
             <input name="logout" type="submit" value="Logout" id="logout">
 

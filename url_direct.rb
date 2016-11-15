@@ -22,6 +22,7 @@ get '/' do
 	post_count = 0
 	@links = []
 	@types = []
+
 	all_posts.each do | post |
 		@titles.push(post["title"])
 		if post["type"] == "text"
@@ -38,6 +39,7 @@ get '/' do
 	end
 
 	if defined?(session[:user]) && logged_in?(session[:user])
+		@privilege = privilege(session[:user])
 		erb :user_home	
 	else
 		erb :home
