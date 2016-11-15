@@ -9,7 +9,8 @@ def new_post(user,title,body,tags)
 			`body`,
 			`tags`,
 			`views`,
-			`time_posted`
+			`time_posted`,
+			`type`
 		)
 		VALUES (
 			"#{user}",
@@ -17,7 +18,8 @@ def new_post(user,title,body,tags)
 			"#{body}",
 			"#{tags}",
 			0,
-			NOW()
+			NOW(),
+			"text"
 		);
 	})
 	sql.close

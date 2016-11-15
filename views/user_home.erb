@@ -92,9 +92,9 @@
 
         </form>
     </header>
-    <% for i in 0..@links.length %>
+    <% for i in 0...@links.length %>
         <p>
-            <a href=<%=@links[i]%>><%=@titles[i]%></a>
+            <%= @types[i].capitalize %> Post: <a href=<%=@links[i]%>><%=@titles[i]%></a>
         </p>
     <% end %>
 </body>

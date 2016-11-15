@@ -7,7 +7,8 @@ def new_image(user,title,image_link,tags)
 			`image_link`,
 			`tags`,
 			`views`,
-			`time_posted`
+			`time_posted`,
+			`type`
 		)
 		VALUES (
 			"#{user}",
@@ -15,7 +16,8 @@ def new_image(user,title,image_link,tags)
 			"#{image_link}",
 			"#{tags}",
 			0,
-			NOW()
+			NOW(),
+			"image"
 		);
 	})
 	sql.close

@@ -13,17 +13,25 @@ set :port, 9393
 
 enable :sessions
 
-
 get '/' do 
 	posts = sel_posts().reverse
 	images = sel_image_posts().reverse
+	all_posts = posts + images
+	all_posts = all_posts.sort_by { |post| post["time_posted"]}
 	@titles = []
 	post_limit = 10
 	post_count = 0
 	@links = []
-	posts.each do | post |
+	@types = []
+	all_posts.each do | post |
 		@titles.push(post["title"])
-		@links.push('posts/' + post["title"].split().join('-'))
+		if post["type"] == "text"
+			@links.push('posts/' + post["title"].split().join('-'))
+		end
+		if post["type"] == "image"
+			@links.push('image/post/' + post["title"].split().join('-'))
+		end
+		@types.push(post["type"])
 		post_count = post_count + 1
 		if post_count == post_limit
 			break
@@ -248,7 +256,8 @@ get '/image/post/*' do
 	if img.length == 0
 		redirect '/'
 	else
-		link = img[0]["image_link"].split('/')[4]
+		link = img[0]["image_link"].split('/')
+		link = link[link.length-1]
 	end
 	@data = "a/#{link}"
 	@link = "//imgur.com/#{link}"
