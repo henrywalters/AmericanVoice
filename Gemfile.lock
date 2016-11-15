@@ -45,8 +45,6 @@ GEM
       dm-core (~> 1.2.0)
     encrypted_strings (0.3.3)
     fastercsv (1.5.5)
-    haml (4.0.7)
-      tilt
     json (1.8.3)
     json_pure (1.8.3)
     multi_json (1.12.1)
@@ -68,7 +66,6 @@ PLATFORMS
 DEPENDENCIES
   data_mapper
   encrypted_strings
-  haml
   mysql2
   sinatra
 

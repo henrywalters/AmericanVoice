@@ -4,4 +4,3 @@ gem "mysql2"
 gem "sinatra"
 gem "data_mapper"
 gem "encrypted_strings"
-gem 'haml'

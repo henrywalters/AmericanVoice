@@ -8,22 +8,24 @@ def new_post(user,title,body,tags)
 			`title`,
 			`body`,
 			`tags`,
-			`views`
+			`views`,
+			`time_posted`
 		)
 		VALUES (
 			"#{user}",
 			"#{title}",
 			"#{body}",
 			"#{tags}",
-			0
+			0,
+			NOW()
 		);
 	})
 	sql.close
 end
 
-def viewed(title)
-	post = sel_posts_where(title)
-	views = post["views"] += 1
+def viewed_post(title)
+	post = sel_posts_where(title)[0]
+	views = post["views"] + 1
 
 	sql=MySql.new()
 	sql.query(

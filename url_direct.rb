@@ -6,6 +6,7 @@ require 'haml'
 require './utils/auth'
 require './utils/userbase'
 require './utils/posts'
+require './utils/images'
 
 set :bind, '0.0.0.0'
 set :port, 9393
@@ -15,6 +16,7 @@ enable :sessions
 
 get '/' do 
 	posts = sel_posts().reverse
+	images = sel_image_posts().reverse
 	@titles = []
 	post_limit = 10
 	post_count = 0
@@ -51,6 +53,9 @@ post '/' do
 	end
 	if params[:post]
 		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
 	end
 end
 
@@ -184,9 +189,9 @@ post '/post' do
 	body = params[:post_body]
 	tags = params[:post_tags]
 
-	post_count = sel_posts_where(title).length
+	post_count = sel_posts_where(title)
 
-	if post_count != 0 || title.delete(' ') == '' || body.delete(' ') == '' || tags.delete(' ') == ''
+	if post_count.length != 0 || title.delete(' ') == '' || body.delete(' ') == '' || tags.delete(' ') == ''
 		redirect '/post?post_error=true'
 	else
 		new_post(session[:user],title,body,tags)
@@ -196,11 +201,11 @@ end
 
 get '/posts/*' do 
 	title = params[:splat].first.split('-').join(' ')
-	post = sel_posts_where(title)
+	post = sel_posts_where(title)[0]
 	@title = post["title"]
 	@body = post["body"]
 	@tags = post["tags"]
-	viewed(@title)
+	viewed_post(@title)
 	erb :view_post
 end
 
@@ -208,14 +213,45 @@ post '/posts/*' do
 	redirect '/'
 end
 
-get "/upload" do
-  haml :upload
-end      
-    
-# Handle POST-request (Receive and save the uploaded file)
-post "/upload" do 
-  File.open('uploads/' + params['myfile'][:filename], "w") do |f|
-    f.write(params['myfile'][:tempfile].read)
-  end
-  return "The file was successfully uploaded!"
+get '/post/image' do 
+	if defined?(session[:user]) && logged_in?(session[:user]) && defined?(session[:privilege]) && session[:privilege] > 0
+		if params[:error] == "true"
+			@error = true
+		else
+			@error = false
+		end		
+
+		erb :image_upload
+	else
+		redirect '/'
+	end
+end
+
+post '/post/image' do 
+	link = params[:imgur_link]
+	title = params[:image_title]
+	tags = params[:tags]
+	post_count = sel_image_posts_where(title)
+
+	if post_count.length != 0 || title == '' || tags == '' || link.include?('http://imgur.com/a/') == false
+		redirect '/post/image?error=true'
+	else
+		link = link.split('/')[4]
+		new_image(session[:user],title,link,tags)
+		redirect '/'
+	end
+end
+
+get '/image/post/*' do 
+	title = params[:splat].first.split('-').join(' ')
+	img = sel_image_posts_where(title)
+	if img.length == 0
+		redirect '/'
+	else
+		link = img[0]["image_link"].split('/')[4]
+	end
+	@data = "a/#{link}"
+	@link = "//imgur.com/#{link}"
+
+	erb :view_image_post
 end

@@ -55,9 +55,25 @@ def sel_posts_where(name)
 	sql = MySql.new()
 	sql.query(%Q{SELECT * FROM posts WHERE title="#{name}";})
 	sql.close
-	return sql.iter_query()[0]
+	return sql.iter_query()
 	
 end
+
+def sel_image_posts_where(name)
+	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM image_posts WHERE title="#{name}";})
+	sql.close
+	return sql.iter_query()
+	
+end
+
+def sel_image_posts
+	sql = MySql.new()
+	sql.query("SELECT * FROM image_posts;")
+	sql.close
+	return sql.iter_query()
+end
+
 
 def grant_admin_access(username)
 	sql=MySql.new()
@@ -78,3 +94,4 @@ def grant_admin_access(username)
 	sql.close
 end
 
+print sel_image_posts
