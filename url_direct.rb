@@ -2,6 +2,7 @@
 #require 'rest-client'
 require 'sinatra'
 require 'encrypted_strings'
+require 'haml'
 require './utils/auth'
 require './utils/userbase'
 require './utils/posts'
@@ -205,4 +206,16 @@ end
 
 post '/posts/*' do 
 	redirect '/'
+end
+
+get "/upload" do
+  haml :upload
+end      
+    
+# Handle POST-request (Receive and save the uploaded file)
+post "/upload" do 
+  File.open('uploads/' + params['myfile'][:filename], "w") do |f|
+    f.write(params['myfile'][:tempfile].read)
+  end
+  return "The file was successfully uploaded!"
 end
