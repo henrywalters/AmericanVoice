@@ -1,20 +1,64 @@
-<form method="post">
+<html>
+<style> 
+#form{float: left;
+      position: relative;
+      left: 37%;
+      border-style: solid;
+      border-color:3px black;
+      width: 250px;
+  	  padding-top: 10px;}
+dt1{font-family: helvetica;
+	font-weight: bold;
+	padding-left:37px;
+}
+dt2{font-family: helvetica;
+	font-weight: bold;
+	padding-left:37px;}
+dt3{font-family: helvetica;
+	font-weight: bold;
+	padding-left:37px;}
+dt4{font-family: helvetica;
+	font-weight: bold;
+	padding-left:37px;}
+dt5{font-family: helvetica;
+	font-weight: bold;
+	padding-left:37px;}
+dt6{color:red;
+	padding-left: 37px;}
+#submit{background-color: white;
+            float: left;
+      		position: relative;
+      		left: 33%;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            margin-bottom: 20px;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s; <!-- login button-->}
+#submit:hover{background-color: #000000;
+     		color: white;
+            border: 1px solid white;}
+
+</style>
+<form method="post" id="form">
 	<d1>
-		<dt>Choose a Username:</dt>
-		<dd><input name="username" type="text"></dd>
+		<dt1>Choose Username:</dt1>
+		<dd><input name="username" type="text" id="username"></dd>
 
-		<dt>Enter your Email:</dt>
-		<dd><input name="email" type="text"></dd>
+		<dt2>Enter Email Address:</dt2>
+		<dd><input name="email" type="text" id="email"></dd>
 
-		<dt>Choose a Display Name:</dt>
-		<dd><input name="display_name" type="text"</dd>
+		<dt3>Choose Display Name:</dt3>
+		<dd><input name="display_name" type="text" id="displayname"></dd>
+		<dt4>Choose Password:</dt4>
+		<dd><input name="password1" type="password" id="password1"></dd>
+		<dt5>Confirm Password:</dt5>
+		<dd><input name="password2" type="password" id="password2"></dd>
 
-		<dt>Choose your Password:</dt>
-		<dd><input name="password1" type="password"></dd>
-		<dt>Confirm Password:</dt>
-		<dd><input name="password2" type="password"></dd>
-
-		<dt><%= @error_message %></dt>
+		<dt6><%= @error_message %></dt6>
 	</d1>
-	<p><input type="submit" value="Send"></p>
+	<p><input type="submit" value="Submit" id="Submit"></p>
 </form>
+</html>
