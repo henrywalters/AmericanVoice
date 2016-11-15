@@ -179,7 +179,7 @@ get '/generate/key' do
 end
 
 get '/post' do 
-	if defined?(session[:user]) && logged_in?(session[:user]) && defined?(session[:privilege]) && session[:privilege] > 0
+	if defined?(session[:user]) && logged_in?(session[:user]) && privilege(session[:user]) > 0
 		if defined?(params[:post_error]) && params[:post_error]
 			@post_error = true
 		else
@@ -222,7 +222,7 @@ post '/posts/*' do
 end
 
 get '/post/image' do 
-	if defined?(session[:user]) && logged_in?(session[:user]) && defined?(session[:privilege]) && session[:privilege] > 0
+	if defined?(session[:user]) && logged_in?(session[:user]) && privilege(session[:user]) > 0
 		if params[:error] == "true"
 			@error = true
 		else
