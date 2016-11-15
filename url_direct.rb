@@ -2,7 +2,6 @@
 #require 'rest-client'
 require 'sinatra'
 require 'encrypted_strings'
-require 'haml'
 require './utils/auth'
 require './utils/userbase'
 require './utils/posts'
