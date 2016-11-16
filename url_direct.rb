@@ -332,7 +332,7 @@ end
 post '/image/post/*' do
 	title = params[:splat].first.split('-').join(' ')
 	if params[:delete]
-		redirect "/delete/image/post/#{title}"
+		redirect "/delete/image/post/#{title.split(' ').join('-')}"
 	else
 		redirect '/'
 	end
