@@ -216,7 +216,7 @@ get '/posts/*' do
 	@body = post["body"]
 	@tags = post["tags"]
 	@dn = get_display_name(post["user"])
-	if post["user"] == session["user"]
+	if post["user"] == session["user"] && logged_in?(post["user"])
 		@editable = true
 	else
 		@editable = false
