@@ -4,10 +4,17 @@
 <h5>Submitted by: <%= @dn %></h5>
 <p1><%= @body %></p1>
 <br>
+<br>
 <p1>Tags: <%= @tags %></p1>
 
 <form method="post">
 	<p><input name="home" type="submit" value="Home"></p>
+
+<% if @editable %>
+	<p><input name="edit" type="submit" value="Edit Post" id="edit"></p>
+	<p><input name="delete" type="submit" value="Delete Post" id="delete"></p>
+
+<% end %>
 </form>
 </body>
 </html>

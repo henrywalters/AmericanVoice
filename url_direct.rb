@@ -6,6 +6,7 @@ require './utils/auth'
 require './utils/userbase'
 require './utils/posts'
 require './utils/images'
+require './utils/text_edit'
 
 set :bind, '0.0.0.0'
 set :port, 9393
@@ -215,12 +216,37 @@ get '/posts/*' do
 	@body = post["body"]
 	@tags = post["tags"]
 	@dn = get_display_name(post["user"])
+	if post["user"] == session["user"]
+		@editable = true
+	else
+		@editable = false
+	end
 	viewed_post(@title)
 	erb :view_post
 end
 
 post '/posts/*' do 
-	redirect '/'
+	title = params[:splat].first.split('-').join(' ')
+	if params[:delete]
+		redirect "/delete/post/#{title.split(' ').join('-')}"
+	elsif params[:edit]
+		redirect "/edit/post/#{title.split(' ').join('-')}"
+	else
+		redirect '/'
+	end
+end
+
+get '/edit/post/*' do 
+	title = params[:splat].first.split('-').join(' ')
+	posts = sel_posts_where(title)
+	if posts.length == 0
+		redirect '/'
+	else
+		@body = posts[0]["body"]
+		@title = posts[0]["title"]
+		@tags = posts[0]["tags"]
+		erb :post
+	end
 end
 
 get '/post/image' do 
