@@ -38,3 +38,12 @@ def viewed_post(title)
 		)
 	sql.close
 end
+
+def delete_post(title)
+	sql = MySql.new()
+	sql.query(%Q{
+		DELETE FROM posts
+		WHERE `title`="#{title}";
+		})
+	sql.close
+end

@@ -239,13 +239,41 @@ end
 get '/edit/post/*' do 
 	title = params[:splat].first.split('-').join(' ')
 	posts = sel_posts_where(title)
-	if posts.length == 0
+	if posts.length == 0 || logged_in?(session["user"]) == false
 		redirect '/'
 	else
 		@body = posts[0]["body"]
 		@title = posts[0]["title"]
 		@tags = posts[0]["tags"]
 		erb :post
+	end
+end
+
+post '/edit/post/*' do
+	title = params[:post_title]
+	body = params[:post_body]
+	tags = params[:post_tags]
+
+	post_count = sel_posts_where(title)
+
+	if title.delete(' ') == '' || body.delete(' ') == '' || tags.delete(' ') == ''
+		redirect '/post?post_error=true'
+	else
+		delete_post(title)
+		new_post(session[:user],title,body,tags)
+		redirect '/'
+	end
+end
+
+
+get '/delete/post/*' do
+	title = params[:splat].first.split('-').join(' ')
+	posts = sel_posts_where(title)
+	if posts.length == 0 || logged_in?(session["user"]) == false
+		redirect '/'
+	else
+		delete_post(title)
+		redirect '/'
 	end
 end
 
