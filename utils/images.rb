@@ -24,7 +24,7 @@ def new_image(user,title,image_link,tags)
 end
 
 def viewed_image(title)
-	post = sel_posts_where(title)[0]
+	post = sel_image_posts_where(title)[0]
 	views = post["views"] += 1
 
 	sql=MySql.new()
@@ -34,5 +34,14 @@ def viewed_image(title)
 			SET views=#{views};
 		}
 		)
+	sql.close
+end
+
+def delete_image_post(title)
+	sql = MySql.new()
+	sql.query(%Q{
+		DELETE FROM image_posts
+		WHERE `title`="#{title}";
+		})
 	sql.close
 end

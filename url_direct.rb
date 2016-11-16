@@ -320,10 +320,31 @@ get '/image/post/*' do
 	@title = img[0]["title"]
 	@tags = img[0]["tags"]
 	@dn = get_display_name(img[0]["user"])
-
+	viewed_image(title)
+	if session["user"] == img[0]["user"] && logged_in?(session["user"])
+		@editable = true
+	else
+		@editable = false
+	end
 	erb :view_image_post
 end
 
 post '/image/post/*' do
-	redirect '/'
+	title = params[:splat].first.split('-').join(' ')
+	if params[:delete]
+		redirect "/delete/image/post/#{title}"
+	else
+		redirect '/'
+	end
+end
+
+get '/delete/image/post/*' do 
+	title = params[:splat].first.split('-').join(' ')
+	posts = sel_image_posts_where(title)
+	if posts.length == 0 || logged_in?(session["user"]) == false
+		redirect '/'
+	else
+		delete_image_post(title)
+		redirect '/'
+	end
 end

@@ -10,6 +10,9 @@
 <h5>Tags: <%= @tags %></h5>
 <form method="post">
 	<p><input name="home" type="submit" value="Home"></p>
+	<% if @editable %>
+		<p><input name="delete" type="submit" value="Delete Image"></p>
+	<% end %>
 </form>
 </body>
 </html>
