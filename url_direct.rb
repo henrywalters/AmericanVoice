@@ -333,11 +333,18 @@ end
 
 get '/post/image' do 
 	if defined?(session[:user]) && logged_in?(session[:user]) && privilege(session[:user]) > 0
-		if params[:error] == "true"
-			@error = true
-		else
-			@error = false
-		end		
+		if params[:title_conflict]
+			@title_conflict = true
+		end
+		if params[:empty_title]
+			@empty_title = true
+		end
+		if params[:empty_tag]
+			@empty_tag = true
+		end
+		if params[:bad_link]
+			@bad_link = true
+		end
 
 		erb :image_upload
 	else
@@ -351,8 +358,24 @@ post '/post/image' do
 	tags = params[:tags]
 	post_count = sel_image_posts_where(title)
 
-	if post_count.length != 0 || title == '' || tags == '' || link.include?('http://imgur.com/a/') == false
-		redirect '/post/image?error=true'
+	errors = []
+
+	if post_count.length != 0
+		errors.push('title_conflict=true')
+	end
+	if title.delete(' ') == ''
+		errors.push('empty_title=true')
+	end
+	if link.include?('http://imgur.com/a/') == false
+		errors.push('bad_link=true')
+	end
+	if tags.delete(' ') == ''
+		errors.push('empty_tag=true')
+	end
+
+	if errors.length != 0
+		error = "?"+errors.join('&')
+		redirect "/post/image#{error}"
 	else
 		link = link.split('/')[4]
 		new_image(session[:user],title,link,tags)
