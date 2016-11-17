@@ -103,11 +103,14 @@ get '/register' do
 	if defined?(session[:user]) && logged_in?(session[:user])
 		redirect '/'
 	else	
-		if defined?(params[:error]) && params[:error]
-			@error_message = "Something went wrong. Either username, email, or display name is already chosen, or password is too short or does not match"
-		else
-			@error_message = ""
-		end
+		@user_conflict = true if params[:user_conflict]
+		@bad_user = true if params[:bad_user]
+		@pass_conflict =true if params[:pass_conflict]
+		@bad_pass = true if params[:bad_pass]
+		@email_conflict = true if params[:email_conflict]
+		@bad_email = true if params[:bad_email]
+		@dn_conflict = true if params[:dn_conflict]
+		@bad_dn = true if params[:bad_dn]
 		erb :register
 	end
 end
@@ -121,26 +124,37 @@ post '/register' do
 
 	test = user_conflict?(u,e,dn)
 
-	error = false
+	errors = []
 
-	if p1 != p2 || p1.length < 6
-		error = true
-	end
+	special_chars = ['!','@','#','$','%','^','&','*','(',')']
 
-	if test[:user_conflict] || u.length == 0
-		error = true
+	if p1 != p2
+		errors.push("pass_conflict=true")
 	end
-
-	if test[:email_conflict] || e.length < 4
-		error = true
+	if p1.length < 6 || special_chars.any? {|char| p1.include?(char)} == false
+		errors.push("bad_pass=true")
 	end
-
-	if test[:display_name_conflict] || dn.length == 0
-		error = true
+	if test[:user_conflict]
+		errors.push("user_conflict=true")
 	end
-	
-	if error
-		redirect "/register?error=true"
+	if u.length == 0
+		errors.push("bad_user=true")
+	end
+	if test[:email_conflict]
+		errors.push("email_conflict=true")
+	end
+	if e.length < 5 || (e.include?("@") == false && e.include?(".edu") == false && e.include?(".com") == false && e.include?(".net") == false)
+		errors.push("bad_email=true")
+	end
+	if test[:display_name_conflict]
+		errors.push("dn_conflict=true")
+	end
+	if test.length == 0
+		errors.push("bad_dn=true")
+	end
+	if errors.length != 0
+		error = errors.join('&')
+		redirect "/register?#{error}"
 	else
 		new_user(u,e,dn,p1.encrypt,"0")
 		redirect "/welcome/new/user"
