@@ -37,6 +37,9 @@ get '/' do
 		if post_count == post_limit
 			break
 		end
+		@types = @types.reverse
+		@titles = @titles.reverse
+		@links = @links.reverse
 	end
 
 	if defined?(session[:user]) && logged_in?(session[:user])
