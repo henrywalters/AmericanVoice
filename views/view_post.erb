@@ -1,14 +1,58 @@
 <html>
+<style>
+h3{font-family: helvetica;
+	font-size: 30px;
+	padding-left: 2px;}
+h5{font-family: helvetica;
+	font-weight: bold;
+	padding-left: 4px;
+}
+p1{font-family: arial;
+}
+#home{background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;}
+#home:hover{background-color: black;
+            color: white;
+            border: 1px solid black;}
+#edit{background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;}
+#edit:hover{background-color: #33cc33;
+            color: white;
+            border: 1px solid black;}	
+#delete{background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;}
+#delete:hover{background-color: red;
+            color: white;
+            border: 1px solid black;}
+</style>
 <body>
 <h3><%= @title %></h3>
-<h5>Submitted by: <%= @dn %></h5>
+<h5>by <%= @dn %></h5>
 <p1><%= @body %></p1>
 <br>
 <br>
-<p1>Tags: <%= @tags %></p1>
+<p1>Tags: <i><%= @tags %></i></p1>
 
 <form method="post">
-	<p><input name="home" type="submit" value="Home"></p>
+	<p><input name="home" type="submit" value="Home" id="home"></p>
 
 <% if @editable %>
 	<p><input name="edit" type="submit" value="Edit Post" id="edit"></p>
