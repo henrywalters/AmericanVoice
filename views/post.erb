@@ -1,18 +1,52 @@
+<html>
+<style>
+form{border:2px black solid;
+	width:570px;}
+dt{font-family: helvetica;
+font-weight: bold;}
+dt1{font-family: helvetica;
+}
+dd{font-family: arial;}
+#post_title{height: 30px;
+			width:250px;
+			font-weight: bold;
+			font-size: 27px;
+			margin-bottom: 5px;
+			padding-bottom: 12px;
+			padding-top: 10px;}
+#textinput{font-family: arial;}
+#enter_post{background-color: white;
+			margin-left: 47px;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            margin-bottom: 20px;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s;}
+#enter_post:hover{background-color: #000000;
+     		color: white;
+            border: 1px solid white;}
+dd1{color:red;
+	font-family: arial;
+	padding-left: 20px;}
+</style>
 <form method="post">
 	<d1>
 		<dt>Article Title:</dt>
 		<% if @title == nil %>
-			<dd><input name="post_title" type="text"></dd>
+			<dd><input name="post_title" type="text" id="post_title"></dd>
 		<% else %>
-			<dd><input name="post_title" type="text" value="<%=@title%>"></dd>
+			<dd><input name="post_title" type="text" value="<%=@title%>" id="post_title"></dd>
 		<% end %>
 		<dt>Article Body:</dt>
 		<% if @body == nil %>
-			<dd><textarea name="post_body" style="width:500px;height:400px;"></textarea></dd>
+			<dd><textarea name="post_body" style="width:500px;height:400px;" id="textinput"></textarea></dd>
 		<% else %>
-			<dd><textarea name="post_body" style="width:500px;height:400px; "><%=@body%></textarea></dd>
-			<dt>Tags:</dt>
+			<dd><textarea name="post_body" style="width:500px;height:400px; " id="textinput"><%=@body%></textarea></dd>
 		<% end %>
+		<dt>Tags:</dt>
 		<% if @tags == nil %>
 			<dd><input name="post_tags" type="text"></dd>
 		<% else %>
@@ -22,3 +56,4 @@
 	</d1>
 	<p><input name="enter_post" type="submit" value="Submit Post" id="enter_post"></p>
 </form>
+<html>
