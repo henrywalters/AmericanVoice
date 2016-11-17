@@ -265,6 +265,7 @@ end
 get '/edit/post/*' do 
 	title = params[:splat].first.split('-').join(' ')
 	posts = sel_posts_where(title)
+	session["edit_title"] = title
 	if posts.length == 0 || logged_in?(session["user"]) == false
 		redirect '/'
 	else
@@ -296,7 +297,7 @@ post '/edit/post/*' do
 	post_count = sel_posts_where(title)
 	errors = []
 
-	if post_count.length != 0
+	if post_count.length != 0 && session["edit_title"] != title
 		errors.push('title_conflict=true')
 	end
 	if title.delete(' ') == ''
@@ -308,7 +309,7 @@ post '/edit/post/*' do
 	if tags.delete(' ') == ''
 		errors.push('empty_tag=true')
 	end
-
+	session["edit_title"] = nil
 	if errors.length != 0
 		error = "?"+errors.join('&')
 		redirect "/post#{error}"
