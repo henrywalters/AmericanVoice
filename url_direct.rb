@@ -183,11 +183,19 @@ end
 
 get '/post' do 
 	if defined?(session[:user]) && logged_in?(session[:user]) && privilege(session[:user]) > 0
-		if defined?(params[:post_error]) && params[:post_error]
-			@post_error = true
-		else
-			@post_error = false
-		end
+			if params[:title_conflict]
+				@title_conflict = true
+			end
+			if params[:empty_title]
+				@empty_title = true 
+			end
+			if params[:empty_body]
+				@empty_body = true 
+			end
+			if params[:empty_tag]
+				@empty_tag = true 
+			end
+
 		erb :post
 	else
 		redirect '/'
@@ -200,9 +208,24 @@ post '/post' do
 	tags = params[:post_tags]
 
 	post_count = sel_posts_where(title)
+	errors = []
 
-	if post_count.length != 0 || title.delete(' ') == '' || body.delete(' ') == '' || tags.delete(' ') == ''
-		redirect '/post?post_error=true'
+	if post_count.length != 0
+		errors.push('title_conflict=true')
+	end
+	if title.delete(' ') == ''
+		errors.push('empty_title=true')
+	end
+	if body.delete(' ') == ''
+		errors.push('empty_body=true')
+	end
+	if tags.delete(' ') == ''
+		errors.push('empty_tag=true')
+	end
+
+	if errors.length != 0
+		error = "?"+errors.join('&')
+		redirect "/post#{error}"
 	else
 		new_post(session[:user],title,body,tags)
 		redirect '/'
@@ -242,6 +265,19 @@ get '/edit/post/*' do
 	if posts.length == 0 || logged_in?(session["user"]) == false
 		redirect '/'
 	else
+		if params[:title_conflict]
+			@title_conflict = true
+		end
+		if params[:empty_title]
+			@empty_title = true 
+		end
+		if params[:empty_body]
+			@empty_body = true 
+		end
+		if params[:empty_tag]
+			@empty_tag = true 
+		end
+
 		@body = posts[0]["body"]
 		@title = posts[0]["title"]
 		@tags = posts[0]["tags"]
@@ -255,9 +291,24 @@ post '/edit/post/*' do
 	tags = params[:post_tags]
 
 	post_count = sel_posts_where(title)
+	errors = []
 
-	if title.delete(' ') == '' || body.delete(' ') == '' || tags.delete(' ') == ''
-		redirect '/post?post_error=true'
+	if post_count.length != 0
+		errors.push('title_conflict=true')
+	end
+	if title.delete(' ') == ''
+		errors.push('empty_title=true')
+	end
+	if body.delete(' ') == ''
+		errors.push('empty_body=true')
+	end
+	if tags.delete(' ') == ''
+		errors.push('empty_tag=true')
+	end
+
+	if errors.length != 0
+		error = "?"+errors.join('&')
+		redirect "/post#{error}"
 	else
 		delete_post(title)
 		new_post(session[:user],title,body,tags)

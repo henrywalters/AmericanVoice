@@ -17,5 +17,3 @@ def text_to_html(str)
 	
 	return str
 end
-
-print text_to_html("[b]Hello My name is[/b] [i]henry[/i]")

@@ -4,8 +4,8 @@ form{border:2px black solid;
 	width:570px;}
 dt{font-family: helvetica;
 font-weight: bold;}
-dt1{font-family: helvetica;
-}
+dt1{font-family: helvetica; 
+color:red;}
 dd{font-family: arial;}
 #post_title{height: 30px;
 			width:250px;
@@ -40,19 +40,22 @@ dd1{color:red;
 		<% else %>
 			<dd><input name="post_title" type="text" value="<%=@title%>" id="post_title"></dd>
 		<% end %>
+		<dt1><%="Whoops! You forgot a title" if @empty_title%></dt1>
+		<dt1><%="This article already exists" if @title_conflict %></dt1>
 		<dt>Article Body:</dt>
 		<% if @body == nil %>
 			<dd><textarea name="post_body" style="width:500px;height:400px;" id="textinput"></textarea></dd>
 		<% else %>
 			<dd><textarea name="post_body" style="width:500px;height:400px; " id="textinput"><%=@body%></textarea></dd>
 		<% end %>
+		<dt1><%="Your post must include a body" if @empty_body%></dt1>
 		<dt>Tags:</dt>
 		<% if @tags == nil %>
 			<dd><input name="post_tags" type="text"></dd>
 		<% else %>
 			<dd><input name="post_tags" type="text" value="<%=@tags%>"></dd>
 		<% end %>
-		<dd><%= "Nothing can be left empty" if @post_error %>
+		<dt1><%="Don't forget a tag!" if @empty_tag%></dt1>
 	</d1>
 	<p><input name="enter_post" type="submit" value="Submit Post" id="enter_post"></p>
 </form>
