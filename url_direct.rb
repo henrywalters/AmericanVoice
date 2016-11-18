@@ -14,15 +14,21 @@ set :port, 9393
 enable :sessions
 
 get '/' do 
-	posts = sel_posts().reverse
-	images = sel_image_posts().reverse
+	posts = sel_posts()
+	images = sel_image_posts()
 	all_posts = posts + images
-	all_posts = all_posts.sort_by { |post| post["time_posted"]}
+	all_posts = all_posts.sort_by { |post| post["time_posted"]}.reverse
 	@titles = []
-	post_limit = 10
+	post_limit = 2
+	@pages = 0
 	post_count = 0
 	@links = []
 	@types = []
+	@titles_on_page = []
+	@links_on_page = []
+	@types_on_page = []
+
+	@page = params[:page] || 0
 
 	all_posts.each do | post |
 		@titles.push(post["title"])
@@ -33,14 +39,28 @@ get '/' do
 			@links.push('image/post/' + post["title"].split().join('-'))
 		end
 		@types.push(post["type"])
+
 		post_count = post_count + 1
-		if post_count == post_limit
-			break
+		if post_count % post_limit == 0 || post_count == all_posts.length
+			puts @types
+			@types = @types
+			@titles = @titles
+			@links = @links
+			@titles_on_page.push(@titles)
+			@titles = []
+			@links_on_page.push(@links)
+			@links = []
+			@types_on_page.push(@types)
+			@types = []
 		end
-		@types = @types.reverse
-		@titles = @titles.reverse
-		@links = @links.reverse
 	end
+	if post_count < post_limit
+		@types_on_page.push(@types)
+		@titles_on_page.push(@titles)
+		@links_on_page.push(@links)
+	end
+
+	@pages = @types_on_page.length
 
 	if defined?(session[:user]) && logged_in?(session[:user])
 		@privilege = privilege(session[:user])

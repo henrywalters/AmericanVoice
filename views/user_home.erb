@@ -94,10 +94,16 @@
 
         </form>
     </header>
-    <% for i in 0...@links.length %>
+    <% for i in 0...@links_on_page[@page.to_i].length %>
         <p>
-            <%= @types[i].capitalize %> Post: <a href=<%=@links[i]%>><%=@titles[i]%></a>
+            <%= @types_on_page[@page.to_i][i].capitalize %> Post: <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
         </p>
     <% end %>
+
+    <u1 class="pagination">
+    <% for i in (0...@pages.to_i) %>
+        <li><a href=<%="?page=#{i.to_s}"%>><%=(i+1).to_s%></a></li>
+    <% end %> 
+    </u1>
 </body>
 </html>

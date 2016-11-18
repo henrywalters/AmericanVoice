@@ -1,5 +1,3 @@
-require './utils/posts'
-
 def new_post(user,title,body,tags)
 	sql = MySql.new()
 	sql.query(%Q{
@@ -47,3 +45,14 @@ def delete_post(title)
 		})
 	sql.close
 end
+
+def page(post_limit, page_number)
+	offset = (page_number*post_limit).to_s
+	limit = (post_limit).to_s
+	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM posts LIMIT #{limit} OFFSET #{offset};})
+	sql.close
+	return sql.iter_query()
+end
+
+

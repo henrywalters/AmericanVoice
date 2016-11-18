@@ -101,4 +101,4 @@ def grant_admin_access(username)
 	sql.close
 end
 
-print sel_image_posts
+print sel_posts.length + sel_image_posts.length
