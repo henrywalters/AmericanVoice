@@ -79,7 +79,19 @@
         #logout:hover{background-color: #000000;
             color: white;
             border: 1px solid white;}
-
+ul.pagination{display: inline-block;
+    padding: 0;
+    margin: 0;}
+ul.pagination li{display: inline;}
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;}
+ul.pagination li a.active {
+    background-color: #4CAF50;
+    color: white;}
+ul.pagination li a:hover:not(.active) {background-color: #ddd;}
     </style>
 <body>
     <header>
@@ -100,10 +112,10 @@
         </p>
     <% end %>
 
-    <u1 class="pagination">
+    <ul class="pagination">
     <% for i in (0...@pages.to_i) %>
         <li><a href=<%="?page=#{i.to_s}"%>><%=(i+1).to_s%></a></li>
     <% end %> 
-    </u1>
+    </ul>
 </body>
 </html>
