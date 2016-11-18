@@ -1,17 +1,48 @@
 <html>
-
+<style>
+h1{font-family: helvetica;
+	font-size: 30px;
+	padding-left: 2px;}
+h2{font-family: helvetica;
+	font-weight: bold;
+	padding-left: 4px;
+	font-size: 14px;}
+h3{font-family: helvetica;}
+#home{background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;}
+#home:hover{background-color: black;
+            color: white;
+            border: 1px solid black;}
+#delete{background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;}
+#delete:hover{background-color: red;
+            color: white;
+            border: 1px solid black;}
+</style>
 <body>
-<h3><%= @title %></h3>
-<h5>Submitted by: <%= @dn %></h5>
+<h1><%= @title %></h1>
+<h2>by: <%= @dn %></h2>
 <blockquote class="imgur-embed-pub" lang="en" data-id="<%= @data%>">
 <a href="<%= @link%>"></a>
 </blockquote>
 <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-<h5>Tags: <%= @tags %></h5>
+<h3>Tags: <i><%= @tags %></i></h3>
 <form method="post">
-	<p><input name="home" type="submit" value="Home"></p>
+	<p><input name="home" type="submit" value="Home" id="home"></p>
 	<% if @editable %>
-		<p><input name="delete" type="submit" value="Delete Image"></p>
+		<p><input name="delete" type="submit" value="Delete Image" id="delete"></p>
 	<% end %>
 </form>
 </body>
