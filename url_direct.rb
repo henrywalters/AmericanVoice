@@ -7,6 +7,7 @@ require './utils/userbase'
 require './utils/posts'
 require './utils/images'
 require './utils/text_edit'
+require './utils/algorithms'
 
 set :bind, '0.0.0.0'
 set :port, 9393
@@ -19,7 +20,7 @@ get '/' do
 	all_posts = posts + images
 	all_posts = all_posts.sort_by { |post| post["time_posted"]}.reverse
 	@titles = []
-	post_limit = 2
+	post_limit = 3
 	@pages = 0
 	post_count = 0
 	@links = []
@@ -39,10 +40,9 @@ get '/' do
 			@links.push('image/post/' + post["title"].split().join('-'))
 		end
 		@types.push(post["type"])
-
 		post_count = post_count + 1
-		if post_count % post_limit == 0 || post_count == all_posts.length
-			puts @types
+		if post_count % post_limit == 0
+			@pages += 1
 			@types = @types
 			@titles = @titles
 			@links = @links
@@ -58,9 +58,14 @@ get '/' do
 		@types_on_page.push(@types)
 		@titles_on_page.push(@titles)
 		@links_on_page.push(@links)
+		@pages = 1
 	end
-
-	@pages = @types_on_page.length
+	if post_count > post_limit && post_count % post_limit != 0
+		@types_on_page.push(@types)
+		@titles_on_page.push(@titles)
+		@links_on_page.push(@links)
+		@pages += 1
+	end
 
 	if defined?(session[:user]) && logged_in?(session[:user])
 		@privilege = privilege(session[:user])
@@ -89,6 +94,9 @@ post '/' do
 	end
 	if params[:post_image]
 		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query]}"
 	end
 end
 
@@ -459,4 +467,11 @@ get '/delete/image/post/*' do
 		delete_image_post(title)
 		redirect '/'
 	end
+end
+
+get '/search/*' do 
+	query = params[:splat].first
+	matches = search(query, sel_posts)
+	session["search"] = matches
+	redirect '/'
 end

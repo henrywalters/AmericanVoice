@@ -97,6 +97,7 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
     <header>
         <h1>The American Voice</h1>
         <form class="form" method="post">
+        <input name="search_query" type="text" id="search_query"><input name="search" type="submit" id="search">
         <% if @privilege > 0 %>
             <input name="post" type="submit" value="Post Text" id="post">
             <input name="post_image" type="submit" value="Post Image" id="post_image">
@@ -106,6 +107,7 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
 
         </form>
     </header>
+
     <% for i in 0...@links_on_page[@page.to_i].length %>
         <p>
             <%= @types_on_page[@page.to_i][i].capitalize %> Post: <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
