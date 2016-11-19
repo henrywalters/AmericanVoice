@@ -487,10 +487,24 @@ get '/admin' do
 	if privilege(session[:user]) != 2
 		redirect '/'
 	else
-		Pony.mail({ :to => "henrywalters20@gmail.com",
-		:from => "henrywalters20@gmail.com",
-		:body => "working?"
-		})
+		Pony.options = {
+			:via => :smtp,
+			:via_options => {
+				:port => '587',
+				:domain => 'https://american-voice.herokuapp.com/',
+				:user_name => ENV['app59159934@heroku.com'],
+				:password => ENV['yhzxyc1u3706'],
+				:aithentication => :plain,
+				:enable_starttls_atuo => true
+			}
+		}
+
+		Pony.mail(
+			to: "henrywalter20@gmail.com",
+			from: "<noreply@american-voice.com",
+			subject: "Testing",
+			body: "DId this work?"
+		)
 	end
 end
 
