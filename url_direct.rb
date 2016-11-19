@@ -15,7 +15,7 @@ set :port, 9393
 enable :sessions
 
 get '/' do 
-	if defined?(session["search"]) && session["search"] != []
+	if defined?(session["search"]) && session["search"].length != 0
 		all_matches = session["search"]
 		all_posts = []
 		all_matches.each do |match|
