@@ -9,12 +9,13 @@ def search(checks, posts)
 	end
 	checks = checks.split(' ')
 	posts.each do |post|
-		tags = post["tags"].split(' ')
-		title = post["title"].split(' ')
+		tags = post["tags"]
+		title = post["title"]
 		checks.each do |check|
-			if tags.include?(check) || title.include?(check)
+			if tags.downcase.include?(check.downcase) || title.downcase.include?(check.downcase)
 				matches.each do |match|
 					if match[:post] == post
+						puts "Match"
 						match[:ranking] = match[:ranking] + 1
 					end
 				end
@@ -23,6 +24,6 @@ def search(checks, posts)
 	end
 	matches.delete_if{|i| i[:ranking] == 0}
 	matches.sort_by {|i| i[:ranking]}
-	
+
 	return matches
 end

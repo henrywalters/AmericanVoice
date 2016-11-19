@@ -15,10 +15,19 @@ set :port, 9393
 enable :sessions
 
 get '/' do 
-	posts = sel_posts()
-	images = sel_image_posts()
-	all_posts = posts + images
-	all_posts = all_posts.sort_by { |post| post["time_posted"]}.reverse
+	if defined?(session["search"]) && session["search"] != []
+		all_matches = session["search"]
+		all_posts = []
+		all_matches.each do |match|
+			all_posts.push(match[:post])
+		end
+	else
+		session["search"] = []
+		posts = sel_posts()
+		images = sel_image_posts()
+		all_posts = posts + images
+		all_posts = all_posts.sort_by { |post| post["time_posted"]}.reverse
+	end
 	@titles = []
 	post_limit = 3
 	@pages = 0
@@ -77,6 +86,7 @@ end
 
 post '/' do 
 	if params[:login]
+		session["search"] = []
 		redirect '/login' 
 	end
 	if params[:register]
@@ -84,6 +94,7 @@ post '/' do
 	end
 	if params[:logout]
 		logout(session[:user])
+		session["search"] = []
 		redirect '/'
 	end
 	if params[:settings]
@@ -471,7 +482,7 @@ end
 
 get '/search/*' do 
 	query = params[:splat].first
-	matches = search(query, sel_posts)
+	matches = search(query, sel_posts + sel_image_posts)
 	session["search"] = matches
 	redirect '/'
 end
