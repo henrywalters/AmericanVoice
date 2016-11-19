@@ -2,6 +2,8 @@
 #require 'rest-client'
 require 'sinatra'
 require 'encrypted_strings'
+require 'mail'
+require 'pony'
 require './utils/auth'
 require './utils/userbase'
 require './utils/posts'
@@ -95,6 +97,7 @@ post '/' do
 	end
 	if params[:logout]
 		logout(session[:user])
+		session[:user] = ""
 		session["search"] = []
 		redirect '/'
 	end
@@ -229,14 +232,6 @@ post '/settings' do
 	end
 end
 
-get '/generate/key' do 
-	if defined?(session[:privilege]) && session[:privilege] == 2
-		@key = generate_key()
-		erb :generate_key
-	else
-		redirect '/'
-	end
-end
 
 get '/post' do 
 	if defined?(session[:user]) && logged_in?(session[:user]) && privilege(session[:user]) > 0
@@ -486,4 +481,19 @@ get '/search/*' do
 	matches = search(query, sel_posts + sel_image_posts)
 	session["search"] = matches
 	redirect '/'
+end
+
+get '/admin' do 
+	if privilege(session[:user]) != 2
+		redirect '/'
+	else
+		Pony.mail({ :to => "henrywalters20@gmail.com",
+		:from => "henrywalters20@gmail.com",
+		:body => "working?"
+		})
+	end
+end
+
+post '/admin' do 
+
 end
