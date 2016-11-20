@@ -201,7 +201,7 @@ post '/register' do
 		redirect "/register?#{error}"
 	else
 		new_user(u,e,dn,p1.encrypt,"0")
-		session["user"] = u
+		session[:user] = u
 		send_registration_email(e,generate_key())
 		redirect "/welcome/new/user"
 	end
@@ -218,7 +218,7 @@ end
 get '/register/user/*' do 
 	auth_key = params[:splat].first
 	if register_key(auth_key)
-		register_user(session["user"])
+		register_user(session[:user])
 		redirect '/'
 	else
 		redirect '/'

@@ -82,7 +82,7 @@ def grant_write_access(username)
 	sql.close
 end
 
-def register_user(user)
+def register_user(username)
 	sql=MySql.new()
 	sql.query("SELECT 
     username
