@@ -56,4 +56,3 @@ Thanks again, we hope you enjoy our site."
 	smtp.send_message(message, @username+'@'+@server, to)
 end
 
-send_registration_email("henrywalters20@gmail.com","12345")
