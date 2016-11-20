@@ -202,6 +202,7 @@ post '/register' do
 	else
 		new_user(u,e,dn,p1.encrypt,"0")
 		session["user"] = u
+		send_registration_email(u)
 		redirect "/welcome/new/user"
 	end
 end
