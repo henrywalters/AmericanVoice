@@ -39,7 +39,8 @@ def new_user(username,email,display_name,password,privilege)
 				 `comments`,
 				 `reputation`,
 				 `display_name`,
-				 `logged_in`)
+				 `logged_in`,
+				 `registered`)
 				Values (
 					"#{username}",
 					"#{password}",
@@ -47,6 +48,7 @@ def new_user(username,email,display_name,password,privilege)
 					"#{privilege}",
 					0,0,0,
 					"#{display_name}",
+					0,
 					0
 				);}
 
@@ -108,6 +110,26 @@ def logout(username)
 	sql.close
 end
 
+def register(username)
+	sql=MySql.new()
+	sql.query("SELECT 
+    username
+	FROM `userbase`;")
+	sql.iter_query().each do |user|
+		if user["username"] == username
+			sql.query(
+			%Q{
+				UPDATE userbase
+				SET registered=1
+				WHERE `username`="#{username}"
+			}
+			)
+		end
+	end
+	sql.close
+end
+
+
 def logged_in?(username)
 	sql = MySql.new()
 	sql.query(%Q{SELECT * FROM userbase WHERE `username`="#{username}" AND `logged_in`=1;})
@@ -119,3 +141,4 @@ def logged_in?(username)
 		return false
 	end
 end
+

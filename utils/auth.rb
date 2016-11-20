@@ -82,6 +82,25 @@ def grant_write_access(username)
 	sql.close
 end
 
+def register_user(user)
+	sql=MySql.new()
+	sql.query("SELECT 
+    username
+	FROM `userbase`;")
+	sql.iter_query().each do |user|
+		if user["username"] == username
+			sql.query(
+			%Q{
+				UPDATE userbase
+				SET registered=1
+				WHERE `username`="#{username}";
+			}
+			)
+		end
+	end
+	sql.close
+end	
+
 def privilege(user)
 	sql = MySql.new()
 	sql.query(%Q{SELECT privilege FROM `userbase` WHERE `username`="#{user}";})

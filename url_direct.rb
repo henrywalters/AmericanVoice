@@ -201,6 +201,7 @@ post '/register' do
 		redirect "/register?#{error}"
 	else
 		new_user(u,e,dn,p1.encrypt,"0")
+		session["user"] = u
 		redirect "/welcome/new/user"
 	end
 end
@@ -211,6 +212,16 @@ end
 
 post "/welcome/new/user" do 
 	redirect "/"
+end
+
+get 'register/user/*' do 
+	auth_key = params[:splat].first
+	if register_key(auth_key)
+		register_user(session["user"])
+		redirect '/'
+	else
+		redirect '/'
+	end
 end
 
 get '/settings' do 
