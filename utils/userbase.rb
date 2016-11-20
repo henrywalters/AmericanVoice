@@ -142,3 +142,14 @@ def logged_in?(username)
 	end
 end
 
+def registered?(username)
+	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM userbase WHERE `username`="#{username}" AND `registered`=1;})
+	if sql.iter_query().length != 0	
+		sql.close
+		return true
+	else
+		sql.close
+		return false
+	end
+end

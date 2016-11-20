@@ -133,7 +133,7 @@ post '/login' do
 	u = params[:username]
 	p = params[:password].encrypt
 
-	if good_login?(u,p)
+	if good_login?(u,p) && registered?(u)
 		session[:user] = u
 		session[:privilege] = privilege(u) 
 		login(u)
