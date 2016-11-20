@@ -108,4 +108,5 @@ def grant_admin_access(username)
 	sql.close
 end
 
-print sel_userbase
+sql = MySql.new()
+sql.query(%Q{DELETE FROM userbase WHERE email="traderjohn20@gmail.com"})

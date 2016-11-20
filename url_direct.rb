@@ -215,7 +215,7 @@ post "/welcome/new/user" do
 	redirect "/"
 end
 
-get 'register/user/*' do 
+get '/register/user/*' do 
 	auth_key = params[:splat].first
 	if register_key(auth_key)
 		register_user(session["user"])
