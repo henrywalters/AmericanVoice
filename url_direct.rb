@@ -10,6 +10,7 @@ require './utils/posts'
 require './utils/images'
 require './utils/text_edit'
 require './utils/algorithms'
+require './utils/email'
 
 set :bind, '0.0.0.0'
 set :port, 9393
@@ -484,30 +485,20 @@ get '/search/*' do
 end
 
 get '/admin' do 
-	if privilege(session[:user]) != 2
-		redirect '/'
+	if defined?(session["user"]) && privilege(session["user"]) == 2
+		erb :admin_page
 	else
-		Pony.options = {
-			:via => :smtp,
-			:via_options => {
-				:port => '587',
-				:domain => 'https://american-voice.herokuapp.com/',
-				:user_name => ENV['app59159934@heroku.com'],
-				:password => ENV['yhzxyc1u3706'],
-				:aithentication => :plain,
-				:enable_starttls_atuo => true
-			}
-		}
-
-		Pony.mail(
-			to: "henrywalter20@gmail.com",
-			from: "<noreply@american-voice.com",
-			subject: "Testing",
-			body: "DId this work?"
-		)
+		redirect '/'
 	end
 end
 
 post '/admin' do 
-
+	if params[:submit_auth]
+		user = sel_userbase_where(params[:authorize_user])
+		if user != []
+			send_write_auth_key(user[0]["email"],generate_key())
+			redirect '/admin'
+		end
+	end
+	redirect '/admin'
 end

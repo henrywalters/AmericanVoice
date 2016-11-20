@@ -37,6 +37,13 @@ def sel_userbase
 	sql.close
 end
 
+def sel_userbase_where(username)
+	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM userbase WHERE username="#{username}";})
+	return sql.iter_query()
+	sql.close
+end
+
 def get_display_name(username)
 	sql = MySql.new()
 	sql.query(%Q{SELECT display_name FROM userbase WHERE username="#{username}";})
