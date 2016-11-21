@@ -202,7 +202,7 @@ post '/register' do
 	else
 		new_user(u,e,dn,p1.encrypt,"0")
 		session[:user] = u
-		send_registration_email(e,generate_key())
+		send_registration_email(e,generate_key(u))
 		redirect "/welcome/new/user"
 	end
 end
@@ -217,8 +217,9 @@ end
 
 get '/register/user/*' do 
 	auth_key = params[:splat].first
+	key = sel_keys_where(auth_key)
 	if register_key(auth_key)
-		register_user(session[:user])
+		register_user(key["target_user"])
 		redirect '/'
 	else
 		redirect '/'
@@ -227,8 +228,9 @@ end
 
 get '/grant/write/access/*' do 
 	auth_key = params[:splat].first
+	key = sel_keys_where(auth_key)
 	if register_key(params[:key]) && session[:privilege] == 0
-		grant_write_access(session[:user])
+		grant_write_access(key["target_user"])
 		redirect '/'
 	else
 		redirect '/'
@@ -519,7 +521,7 @@ post '/admin' do
 	if params[:submit_auth]
 		user = sel_userbase_where(params[:authorize_user])
 		if user != []
-			send_write_auth(user[0]["email"],generate_key())
+			send_write_auth(user[0]["email"],generate_key(user))
 			redirect '/admin'
 		end
 	end

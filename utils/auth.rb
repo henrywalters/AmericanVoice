@@ -1,6 +1,6 @@
 require './utils/mysql'
 
-def generate_key()
+def generate_key(target_user)
 	letters = 'abcdefghijklmnopqrstuvwxyz'
 	key = ''
 	sql=MySql.new()
@@ -26,7 +26,7 @@ def generate_key()
 	end
 	## Change when deployed
 	sql=MySql.new()
-	sql.query("INSERT INTO auth_keys (`key`,`registered`) VALUES ('"+ key +"',0);")
+	sql.query(%Q{INSERT INTO auth_keys (`key`,`registered`,`target_user`) VALUES ("#{key}",0,"#{target_user}");})
 	sql.close
 	return key
 end
