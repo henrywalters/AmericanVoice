@@ -7,7 +7,7 @@ require 'net/smtp'
 @website_url = "https://american-voice.herokuapp.com/"
 
 
-def send_write_auth_key(to, auth_key)
+def send_write_auth(to, auth_key)
 
 	@server = "gmail.com"
 	@username = "AmericanVoice0.1"
@@ -23,10 +23,9 @@ def send_write_auth_key(to, auth_key)
 You have been selected to contribute at 
 #{@website_url}. 
 
-Your authorization key is: #{auth_key} 
+Please follow the link below and you're ready to start posting.
 
-Head on over to your settings and enter the authorization 
-key and you're ready to start posting.
+#{@website_url}grant/write/access/#{auth_key}
 
 The team at the American Voice appreciates your support!"
 

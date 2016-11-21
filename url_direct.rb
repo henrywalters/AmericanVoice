@@ -225,6 +225,16 @@ get '/register/user/*' do
 	end
 end
 
+get 'grant/write/access/*' do 
+	auth_key = params[:splat].first
+	if register_key(params[:key]) && session[:privilege] == 0
+		grant_write_access(session[:user])
+		redirect '/'
+	else
+		redirect '/'
+	end
+end
+
 get '/settings' do 
 	if defined?(session[:user]) && logged_in?(session[:user])
 		@key_error = params[:key_error]

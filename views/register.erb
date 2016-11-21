@@ -23,10 +23,10 @@ dt4{font-family: helvetica;
 dt5{font-family: helvetica;
 	font-weight: bold;
 	padding-left:37px;}
-dt6{color:red;
-	padding-left: 37px;
+dt6{font-family: helvetica;
 	font-size:12px;
-}
+	padding-left:37px;
+	color:red;}
 #submit{background-color: white;
             float: left;
       		position: relative;
@@ -42,7 +42,6 @@ dt6{color:red;
 #submit:hover{background-color: #000000;
      		color: white;
             border: 1px solid white;}
-
 </style>
 <body>
 <form method="post" id="form">
@@ -50,22 +49,31 @@ dt6{color:red;
 		<dt1>Choose Username:</dt1>
 		<dd><input name="username" type="text" id="username"></dd>
 		<dt6><%="This user already exists" if @user_conflict%></dt6>
+		<br>
 		<dt6><%="Username is too short" if @bad_user%></dt6>
+		<br>
 		<dt2>Enter Email Address:</dt2>
 		<dd><input name="email" type="text" id="email"></dd>
 		<dt6><%="Email is already registered" if @email_conflict%></dt6>
+		<br>
 		<dt6><%="Email must be valid" if @bad_email%></dt6>
+		<br>
 		<dt3>Choose Display Name:</dt3>
 		<dd><input name="display_name" type="text" id="displayname"></dd>
 		<dt6><%="Display name is too short" if @bad_dn%></dt6>
+		<br>
 		<dt6><%="Display name already exists" if @dn_conflict%></dt6>
+		<br>
 		<dt4>Choose Password:</dt4>
 		<dd><input name="password1" type="password" id="password1"></dd>
 		<dt5>Confirm Password:</dt5>
 		<dd><input name="password2" type="password" id="password2"></dd>
 		<dt6><%="Passwords do not match" if @pass_conflict%></dt6>
-		<dt6><%="Password must be 6 characters or more and contain a special character" if @bad_pass%></dt6>
-
+		<br>
+		<%if @bad_pass%><dt6>Password must be 6 characters or</dt6>
+		<br>
+		<dt6>more and contain a special character"></dt6>
+		<%end%>
 	</d1>
 	<p><input type="submit" value="Submit" id="submit"></p>
 </form>
