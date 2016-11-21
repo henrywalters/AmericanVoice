@@ -112,7 +112,7 @@ post '/' do
 		redirect '/post/image'
 	end
 	if params[:search]
-		redirect "/search/#{params[:search_query]}"
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
 
@@ -503,7 +503,7 @@ get '/delete/image/post/*' do
 end
 
 get '/search/*' do 
-	query = params[:splat].first
+	query = params[:splat].first.split('-').join(' ')
 	matches = search(query, sel_posts + sel_image_posts)
 	session["search"] = matches
 	redirect '/'

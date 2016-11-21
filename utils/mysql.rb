@@ -114,3 +114,6 @@ def grant_admin_access(username)
 	end
 	sql.close
 end
+
+sql = MySql.new()
+print sel_userbase
