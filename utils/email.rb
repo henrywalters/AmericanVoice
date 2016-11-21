@@ -20,8 +20,7 @@ def send_write_auth(to, auth_key)
 
 	message = 
 	"SUBJECT: Contribution authorization
-You have been selected to contribute at 
-#{@website_url}. 
+You have been selected to contribute at the American Voice.
 
 Please follow the link below and you're ready to start posting.
 
