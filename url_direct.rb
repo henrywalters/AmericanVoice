@@ -312,6 +312,7 @@ get '/posts/*' do
 	post = sel_posts_where(title)[0]
 	@title = post["title"]
 	@body = post["body"]
+	puts @title
 	@tags = post["tags"]
 	@dn = get_display_name(post["user"])
 	if post["user"] == session["user"] && logged_in?(post["user"])

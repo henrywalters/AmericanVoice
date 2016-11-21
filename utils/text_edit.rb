@@ -1,8 +1,7 @@
 
 
 def text_to_html(str)
-	str.sub! '[b]', '<b>'
-	str.sub! '[/b]', '</b>'
+	str.sub! '\n', '</br>'
 	str.sub! '[i]', '<i>'
 	str.sub! '[/i]', '</i>'
 	str.sub! '[sm]', '<small>'
@@ -16,4 +15,8 @@ def text_to_html(str)
 	str.sub! '\n', '<br>'
 	
 	return str
+end
+
+def text_to_array(str)
+	return str.split("\n")
 end

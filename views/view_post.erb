@@ -46,8 +46,9 @@ p1{font-family: arial;
 <body>
 <h3><%= @title %></h3>
 <h5>by <%= @dn %></h5>
-<p1><%= @body %></p1>
-<br>
+<% @body.split("\n").each do |line| %>
+<p><%=line%></p>
+<% end %>
 <br>
 <p1>Tags: <i><%= @tags %></i></p1>
 
