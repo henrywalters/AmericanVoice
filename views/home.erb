@@ -168,16 +168,22 @@ div{height: relative;
     </header>
 
     <% for i in 0...@links_on_page[@page.to_i].length %>
-    <div>
-            <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
+
             <% if @types_on_page[@page.to_i][i] == "text" %>
+            <div id="text_post"> 
+                <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
                 <p><%=@contents_on_page[@page.to_i][i].slice!(0,120) + "..."%></p>
+            </div>
             <% end %>
+
             <% if @types_on_page[@page.to_i][i] == "image" %>
+            <div id="img_post">
+                <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
                 <blockquote class="imgur-embed-pub" lang="en" data-id="<%= @contents_on_page[@page.to_i][i][0]%>">
                 <a href="<%= @contents_on_page[@page.to_i][i][1]%>"></a>
                 </blockquote>
                 <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+            </div>
             <% end %>
     </div>
     <% end %>
