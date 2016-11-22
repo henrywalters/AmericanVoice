@@ -33,7 +33,7 @@ get '/' do
 		all_posts = all_posts.sort_by { |post| post["time_posted"]}.reverse
 	end
 	@titles = []
-	post_limit = 3
+	post_limit = 10
 	@pages = 0
 	post_count = 0
 	@links = []
