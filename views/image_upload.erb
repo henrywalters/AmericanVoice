@@ -1,15 +1,13 @@
 <html>
 <style>
-body{border: 2px black;
-	border-style: solid;
-      width: 250px;
-  	  padding-top: 10px;
-  	}
+
 h3{font-family: helvetica;
 	font-size:20px;
 	border-bottom:2px black;
 	border-bottom-style:solid;
 	text-align: center;}
+#form{border:2px black solid;
+	width:300px;}
 p1{padding-left: 20px;
 	padding-right:20px;
 	text-align: justify;
@@ -53,8 +51,9 @@ dt1{margin-left: 40px;
 	color: red;
 }
 </style>
-<h3>New Image Post</h3>
 <body>
+<form method="post" id="form">
+<h3>New Image Post</h3>
 <p1>Note: A full image uploading</p1>
 <br>
 <p1> system is under development</p1>
@@ -67,7 +66,6 @@ dt1{margin-left: 40px;
 <p1>Upload your desired image</p1>
 <br>
 <p1>and post the link below.</p1>
-<form method="post">
 <d1>
 <dt>Image Title:</dt>
 <dd><input name="image_title" type="text"></dd>
@@ -80,7 +78,8 @@ dt1{margin-left: 40px;
 <dt>Tags:</dt>
 <dd><input name="tags" type="text"></dd>
 <dt1><%="Must include some tags" if @empty_tag %></dt1>
-	<p><input name="enter_post" type="submit" value="Submit Image" id="enter_post"></p>
+	<p><input name="submit" type="submit" value="Submit Image" id="enter_post"></p>
+
 </form>
 </body>
 </html>

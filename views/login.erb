@@ -1,4 +1,4 @@
-
+<html>
 <style>
 #form{ float: left;
       position: relative;
@@ -6,8 +6,9 @@
       border-style: solid;
       border-color:3px black;
       width: 300px; <!-- box that encompasses elements -->
+      padding-top:10px;
   }
-#login{background-color: white;
+#login2{background-color: white;
             float: left;
           position: relative;
           left: 33%;
@@ -19,7 +20,7 @@
             margin-bottom: 20px;
             transition-duration: 0.4s;
             -webkit-transition-duration: 0.4s; <!-- login button-->}
-#login:hover{background-color: #000000;
+#login2:hover{background-color: #000000;
         color: white;
             border: 1px solid white;}
 dt1,dt2{font-family: helvetica;
@@ -34,7 +35,6 @@ dt3{color:red;
 
 }
 </style>
-<html>
 <body>
 <form method="post" id="form">
   <d1>
@@ -45,7 +45,7 @@ dt3{color:red;
     <dt3> <%= @error_message if @error_message != "" %>
     </dt3>
   </d1>
-  <p><input type="submit" value="Login" id="login"></p>
+  <p><input name = "submit" type="submit" value="Login" id="login2"></p>
 </form>
 </body>
 </html>

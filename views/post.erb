@@ -1,6 +1,6 @@
 <html>
 <style>
-form{border:2px black solid;
+#form{border:2px black solid;
 	width:570px;}
 dt{font-family: helvetica;
 font-weight: bold;}
@@ -32,7 +32,8 @@ dd1{color:red;
 	font-family: arial;
 	padding-left: 20px;}
 </style>
-<form method="post">
+<body>
+<form method="post" id="form">
 	<d1>
 		<dt>Article Title:</dt>
 		<% if @title == nil %>
@@ -57,6 +58,7 @@ dd1{color:red;
 		<% end %>
 		<dt1><%="Don't forget a tag!" if @empty_tag%></dt1>
 	</d1>
-	<p><input name="enter_post" type="submit" value="Submit Post" id="enter_post"></p>
+	<p><input name="submit" type="submit" value="Submit Post" id="enter_post"></p>
 </form>
+</body>
 <html>

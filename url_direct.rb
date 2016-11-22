@@ -134,16 +134,43 @@ get '/login' do
 end
 
 post '/login' do 
-	u = params[:username]
-	p = params[:password].encrypt
+	if params[:submit]
+		u = params[:username]
+		p = params[:password].encrypt
 
-	if good_login?(u,p) && registered?(u)
-		session[:user] = u
-		session[:privilege] = privilege(u) 
-		login(u)
+		if good_login?(u,p) && registered?(u)
+			session[:user] = u
+			session[:privilege] = privilege(u) 
+			login(u)
+			redirect '/'
+		else
+			redirect '/login?error=true'
+		end
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
 		redirect '/'
-	else
-		redirect '/login?error=true'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
 
@@ -164,50 +191,77 @@ get '/register' do
 end
 
 post '/register' do 
-	u = params[:username]
-	dn = params[:display_name]
-	e = params[:email]
-	p1 = params[:password1]
-	p2 = params[:password2]
+	if params[:submit]
+		u = params[:username]
+		dn = params[:display_name]
+		e = params[:email]
+		p1 = params[:password1]
+		p2 = params[:password2]
 
-	test = user_conflict?(u,e,dn)
+		test = user_conflict?(u,e,dn)
 
-	errors = []
+		errors = []
 
-	special_chars = ['!','@','#','$','%','^','&','*','(',')','_','-','+','=','1','2','3','4','5','6','7','8','9','0']
+		special_chars = ['!','@','#','$','%','^','&','*','(',')','_','-','+','=','1','2','3','4','5','6','7','8','9','0']
 
-	if p1 != p2
-		errors.push("pass_conflict=true")
+		if p1 != p2
+			errors.push("pass_conflict=true")
+		end
+		if p1.length < 6 || special_chars.any? {|char| p1.include?(char)} == false
+			errors.push("bad_pass=true")
+		end
+		if test[:user_conflict]
+			errors.push("user_conflict=true")
+		end
+		if u.length == 0
+			errors.push("bad_user=true")
+		end
+		if test[:email_conflict]
+			errors.push("email_conflict=true")
+		end
+		if e.length < 5 || (e.include?("@") == false && e.include?(".edu") == false && e.include?(".com") == false && e.include?(".net") == false)
+			errors.push("bad_email=true")
+		end
+		if test[:display_name_conflict]
+			errors.push("dn_conflict=true")
+		end
+		if test.length == 0
+			errors.push("bad_dn=true")
+		end
+		if errors.length != 0
+			error = errors.join('&')
+			redirect "/register?#{error}"
+		else
+			new_user(u,e,dn,p1.encrypt,"0")
+			session[:user] = u
+			send_registration_email(e,generate_key(u))
+			redirect "/welcome/new/user"
+		end
 	end
-	if p1.length < 6 || special_chars.any? {|char| p1.include?(char)} == false
-		errors.push("bad_pass=true")
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
 	end
-	if test[:user_conflict]
-		errors.push("user_conflict=true")
+	if params[:register]
+		redirect '/register'
 	end
-	if u.length == 0
-		errors.push("bad_user=true")
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
+		redirect '/'
 	end
-	if test[:email_conflict]
-		errors.push("email_conflict=true")
+	if params[:settings]
+		redirect '/settings'
 	end
-	if e.length < 5 || (e.include?("@") == false && e.include?(".edu") == false && e.include?(".com") == false && e.include?(".net") == false)
-		errors.push("bad_email=true")
+	if params[:post]
+		redirect '/post'
 	end
-	if test[:display_name_conflict]
-		errors.push("dn_conflict=true")
+	if params[:post_image]
+		redirect '/post/image'
 	end
-	if test.length == 0
-		errors.push("bad_dn=true")
-	end
-	if errors.length != 0
-		error = errors.join('&')
-		redirect "/register?#{error}"
-	else
-		new_user(u,e,dn,p1.encrypt,"0")
-		session[:user] = u
-		send_registration_email(e,generate_key(u))
-		redirect "/welcome/new/user"
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
 
@@ -251,13 +305,42 @@ get '/settings' do
 end
 
 post '/settings' do 
-	if params[:enter_key]
-		if register_key(params[:key]) && session[:privilege] == 0
-			grant_write_access(session[:user])
-			redirect '/'
-		else
-			redirect '/settings?key_error=true'
+	if params[:submit]
+		if sub
+			if params[:enter_key]
+				if register_key(params[:key]) && session[:privilege] == 0
+					grant_write_access(session[:user])
+					redirect '/'
+				else
+					redirect '/settings?key_error=true'
+				end
+			end
 		end
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
+		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
 
@@ -284,32 +367,59 @@ get '/post' do
 end	
 
 post '/post' do
-	title = params[:post_title]
-	body = params[:post_body]
-	tags = params[:post_tags]
+	if params[:submit]
+		title = params[:post_title]
+		body = params[:post_body]
+		tags = params[:post_tags]
 
-	post_count = sel_posts_where(title)
-	errors = []
+		post_count = sel_posts_where(title)
+		errors = []
 
-	if post_count.length != 0
-		errors.push('title_conflict=true')
-	end
-	if title.delete(' ') == ''
-		errors.push('empty_title=true')
-	end
-	if body.delete(' ') == ''
-		errors.push('empty_body=true')
-	end
-	if tags.delete(' ') == ''
-		errors.push('empty_tag=true')
-	end
+		if post_count.length != 0
+			errors.push('title_conflict=true')
+		end
+		if title.delete(' ') == ''
+			errors.push('empty_title=true')
+		end
+		if body.delete(' ') == ''
+			errors.push('empty_body=true')
+		end
+		if tags.delete(' ') == ''
+			errors.push('empty_tag=true')
+		end
 
-	if errors.length != 0
-		error = "?"+errors.join('&')
-		redirect "/post#{error}"
-	else
-		new_post(session[:user],title,body,tags)
+		if errors.length != 0
+			error = "?"+errors.join('&')
+			redirect "/post#{error}"
+		else
+			new_post(session[:user],title,body,tags)
+			redirect '/'
+		end
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
 		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
 
@@ -336,8 +446,34 @@ post '/posts/*' do
 		redirect "/delete/post/#{title.split(' ').join('-')}"
 	elsif params[:edit]
 		redirect "/edit/post/#{title.split(' ').join('-')}"
-	else
+	end
+	if params[:home]
 		redirect '/'
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
+		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
 
@@ -369,33 +505,60 @@ get '/edit/post/*' do
 end
 
 post '/edit/post/*' do
-	title = params[:post_title]
-	body = params[:post_body]
-	tags = params[:post_tags]
+	if params[:submit]
+		title = params[:post_title]
+		body = params[:post_body]
+		tags = params[:post_tags]
 
-	post_count = sel_posts_where(title)
-	errors = []
+		post_count = sel_posts_where(title)
+		errors = []
 
-	if post_count.length != 0 && session["edit_title"] != title
-		errors.push('title_conflict=true')
+		if post_count.length != 0 && session["edit_title"] != title
+			errors.push('title_conflict=true')
+		end
+		if title.delete(' ') == ''
+			errors.push('empty_title=true')
+		end
+		if body.delete(' ') == ''
+			errors.push('empty_body=true')
+		end
+		if tags.delete(' ') == ''
+			errors.push('empty_tag=true')
+		end
+		session["edit_title"] = nil
+		if errors.length != 0
+			error = "?"+errors.join('&')
+			redirect "/post#{error}"
+		else
+			delete_post(title)
+			new_post(session[:user],title,body,tags)
+			redirect '/'
+		end
 	end
-	if title.delete(' ') == ''
-		errors.push('empty_title=true')
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
 	end
-	if body.delete(' ') == ''
-		errors.push('empty_body=true')
+	if params[:register]
+		redirect '/register'
 	end
-	if tags.delete(' ') == ''
-		errors.push('empty_tag=true')
-	end
-	session["edit_title"] = nil
-	if errors.length != 0
-		error = "?"+errors.join('&')
-		redirect "/post#{error}"
-	else
-		delete_post(title)
-		new_post(session[:user],title,body,tags)
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
 		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
 
@@ -433,33 +596,60 @@ get '/post/image' do
 end
 
 post '/post/image' do 
-	link = params[:imgur_link]
-	title = params[:image_title]
-	tags = params[:tags]
-	post_count = sel_image_posts_where(title)
+	if params[:submit]
+		link = params[:imgur_link]
+		title = params[:image_title]
+		tags = params[:tags]
+		post_count = sel_image_posts_where(title)
 
-	errors = []
+		errors = []
 
-	if post_count.length != 0
-		errors.push('title_conflict=true')
-	end
-	if title.delete(' ') == ''
-		errors.push('empty_title=true')
-	end
-	if link.include?('http://imgur.com/a/') == false
-		errors.push('bad_link=true')
-	end
-	if tags.delete(' ') == ''
-		errors.push('empty_tag=true')
-	end
+		if post_count.length != 0
+			errors.push('title_conflict=true')
+		end
+		if title.delete(' ') == ''
+			errors.push('empty_title=true')
+		end
+		if link.include?('http://imgur.com/a/') == false
+			errors.push('bad_link=true')
+		end
+		if tags.delete(' ') == ''
+			errors.push('empty_tag=true')
+		end
 
-	if errors.length != 0
-		error = "?"+errors.join('&')
-		redirect "/post/image#{error}"
-	else
-		link = link.split('/')[4]
-		new_image(session[:user],title,link,tags)
+		if errors.length != 0
+			error = "?"+errors.join('&')
+			redirect "/post/image#{error}"
+		else
+			link = link.split('/')[4]
+			new_image(session[:user],title,link,tags)
+			redirect '/'
+		end
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
 		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
 
@@ -490,8 +680,34 @@ post '/image/post/*' do
 	title = params[:splat].first.split('-').join(' ')
 	if params[:delete]
 		redirect "/delete/image/post/#{title.split(' ').join('-')}"
-	else
+	end
+	if params[:home]
 		redirect '/'
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
+		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
 
