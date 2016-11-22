@@ -38,20 +38,24 @@ get '/' do
 	post_count = 0
 	@links = []
 	@types = []
+	@content = []
 	@titles_on_page = []
 	@links_on_page = []
 	@types_on_page = []
+	@contents_on_page = []
 
 	@page = params[:page] || 0
-
 	all_posts.each do | post |
 		@titles.push(post["title"])
 		if post["type"] == "text"
 			@links.push('posts/' + post["title"].split().join('-'))
+			@content.push(post["body"])
 		end
 		if post["type"] == "image"
 			@links.push('image/post/' + post["title"].split().join('-'))
+			@content.push(["a/#{post["image_link"]}","//imgur.com/#{post["link"]}"])
 		end
+		
 		@types.push(post["type"])
 		post_count = post_count + 1
 		if post_count % post_limit == 0
@@ -65,20 +69,25 @@ get '/' do
 			@links = []
 			@types_on_page.push(@types)
 			@types = []
+			@contents_on_page.push(@content)
+			@content = []
 		end
 	end
 	if post_count < post_limit
 		@types_on_page.push(@types)
 		@titles_on_page.push(@titles)
 		@links_on_page.push(@links)
+		@contents_on_page.push(@content)
 		@pages = 1
 	end
 	if post_count > post_limit && post_count % post_limit != 0
 		@types_on_page.push(@types)
 		@titles_on_page.push(@titles)
 		@links_on_page.push(@links)
+		@contents_on_page.push(@content)
 		@pages += 1
 	end
+
 
 	if defined?(session[:user]) && logged_in?(session[:user])
 		@privilege = privilege(session[:user])

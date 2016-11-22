@@ -116,4 +116,4 @@ def grant_admin_access(username)
 end
 
 sql = MySql.new()
-print sel_userbase
+print sel_image_posts

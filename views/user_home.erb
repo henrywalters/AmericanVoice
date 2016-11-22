@@ -92,12 +92,38 @@ ul.pagination li a.active {
     background-color: #4CAF50;
     color: white;}
 ul.pagination li a:hover:not(.active) {background-color: #ddd;}
+#search_query{border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        width:130px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;}
+#search_query:focus{width: 225px;}
+#searchicon{width:20px;
+            height:20px;
+            vertical-align: middle;
+            margin-bottom: 4px;
+            cursor: pointer;
+            border:2px solid #ddd;
+            border-radius: 3px;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;}
+#searchicon:hover{background-color: #ddd;
+        border: 2px solid #ddd;
+        border-radius: 3px;
+        }
+div{height: relative;
+    width:500px;
+    font-family: helvetica;
+    font-weight: bold;
+    box-shadow: 1px 2px 1px 1px #ccc;}
     </style>
 <body>
     <header>
         <h1>The American Voice</h1>
         <form class="form" method="post">
-        <input name="search_query" type="text" id="search_query"><input name="search" type="submit" id="search">
+        <input name="search_query" type="text" placeholder="Search" id="search_query">
+        <input name = "search" type="submit" value="search" id="searchicon" >
         <% if @privilege > 0 %>
             <input name="post" type="submit" value="Post Text" id="post">
             <input name="post_image" type="submit" value="Post Image" id="post_image">
@@ -109,9 +135,18 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
     </header>
 
     <% for i in 0...@links_on_page[@page.to_i].length %>
-        <p>
-            <%= @types_on_page[@page.to_i][i].capitalize %> Post: <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
-        </p>
+    <div>
+            <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
+            <% if @types_on_page[@page.to_i][i] == "text" %>
+                <p><%=@contents_on_page[@page.to_i][i]%></p>
+            <% end %>
+            <% if @types_on_page[@page.to_i][i] == "image" %>
+                <blockquote class="imgur-embed-pub" lang="en" data-id="<%= @contents_on_page[@page.to_i][i][0]%>">
+                <a href="<%= @contents_on_page[@page.to_i][i][1]%>"></a>
+                </blockquote>
+                <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+            <% end %>
+    </div>
     <% end %>
 
     <ul class="pagination">
