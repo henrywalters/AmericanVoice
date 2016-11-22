@@ -22,7 +22,64 @@
             display: inline-block;
             line-height: 62px;
         }
-        #login{
+        #post{
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s;}
+        #post:hover{
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        }    
+        #settings{
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;
+        }
+        #settings:hover{
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        }
+        #post_image{
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;
+        }
+        #post_image:hover{
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        }
+        #logout{
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;
+        }
+        #logout:hover{background-color: #000000;
+            color: white;
+            border: 1px solid white;}
+                #login{
             background-color: white;
             color: black;
             font-family: Helvetica;
@@ -51,6 +108,39 @@
             color: white;
             border: 1px solid white;
         }
+ul.pagination{display: inline-block;
+    padding: 0;
+    margin: 0;}
+ul.pagination li{display: inline;}
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;}
+ul.pagination li a.active {
+    background-color: #4CAF50;
+    color: white;}
+ul.pagination li a:hover:not(.active) {background-color: #ddd;}
+#search_query{border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        width:130px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;}
+#search_query:focus{width: 225px;}
+#searchicon{width:20px;
+            height:20px;
+            vertical-align: middle;
+            margin-bottom: 4px;
+            cursor: pointer;
+            border:2px solid #ddd;
+            border-radius: 3px;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;}
+#searchicon:hover{background-color: #ddd;
+        border: 2px solid #ddd;
+        border-radius: 3px;
+        }
 div{height: relative;
     width:500px;
     font-family: helvetica;
@@ -61,11 +151,22 @@ div{height: relative;
     <header>
         <h1>The American Voice</h1>
         <form class="form" method="post">
-            <input name="search_query" type="text" id="search_query"><input name="search" type="submit" id="search">
+        <input name="search_query" type="text" placeholder="Search" id="search_query">
+        <input name = "search" type="submit" value="search" id="searchicon" >
+        <% if defined?(session["user"]) && logged_in?(session["user"]) %>
+            <% if privilege(session["user"]) > 0 %>
+                <input name="post" type="submit" value="Post Text" id="post">
+                <input name="post_image" type="submit" value="Post Image" id="post_image">
+            <% end %>
+                <input name="settings" type="submit" value="Settings" id="settings">
+                <input name="logout" type="submit" value="Logout" id="logout">
+        <% else %>
             <input name="login" type="submit" value="Login" id="login">
             <input name="register" type="submit" value="Register" id="register">
+        <% end %>
         </form>
     </header>
+
     <% for i in 0...@links_on_page[@page.to_i].length %>
     <div>
             <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
@@ -81,11 +182,10 @@ div{height: relative;
     </div>
     <% end %>
 
-    <u1 class="pagination">
+    <ul class="pagination">
     <% for i in (0...@pages.to_i) %>
         <li><a href=<%="?page=#{i.to_s}"%>><%=(i+1).to_s%></a></li>
     <% end %> 
-    </u1>
+    </ul>
 </body>
-
 </html>

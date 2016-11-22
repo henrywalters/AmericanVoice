@@ -89,12 +89,7 @@ get '/' do
 	end
 
 
-	if defined?(session[:user]) && logged_in?(session[:user])
-		@privilege = privilege(session[:user])
-		erb :user_home	
-	else
-		erb :home
-	end
+	erb :home
 end
 
 post '/' do 
