@@ -130,6 +130,22 @@ def register(username)
 end
 
 
+def made_post(username)
+	sql = MySql.new()
+	sql.query("SELECT username, posts FROM `userbase`;")
+	sql.iter_query().each do |user|
+		if user["username"] == username
+			posts = user["posts"] + 1
+			sql.query(%Q{
+				UPDATE userbase
+				SET posts=#{posts.to_s}
+				WHERE `username`="#{username}";
+			})
+			break
+		end
+	end
+	sql.close
+end
 def logged_in?(username)
 	sql = MySql.new()
 	sql.query(%Q{SELECT * FROM userbase WHERE `username`="#{username}" AND `logged_in`=1;})

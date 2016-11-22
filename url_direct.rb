@@ -393,6 +393,7 @@ post '/post' do
 			redirect "/post#{error}"
 		else
 			new_post(session[:user],title,body,tags)
+			made_post(session[:user])
 			redirect '/'
 		end
 	end
@@ -623,6 +624,7 @@ post '/post/image' do
 		else
 			link = link.split('/')[4]
 			new_image(session[:user],title,link,tags)
+			made_post(session[:user])
 			redirect '/'
 		end
 	end
