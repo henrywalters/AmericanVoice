@@ -70,7 +70,7 @@ div{height: relative;
     <div>
             <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
             <% if @types_on_page[@page.to_i][i] == "text" %>
-                <p><%=@contents_on_page[@page.to_i][i]%></p>
+                <p><%=@contents_on_page[@page.to_i][i].slice!(0,120) + "..."%></p>
             <% end %>
             <% if @types_on_page[@page.to_i][i] == "image" %>
                 <blockquote class="imgur-embed-pub" lang="en" data-id="<%= @contents_on_page[@page.to_i][i][0]%>">
