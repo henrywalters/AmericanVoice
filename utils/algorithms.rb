@@ -25,5 +25,5 @@ def search(checks, posts)
 	matches.delete_if{|i| i[:ranking] == 0}
 	matches.sort_by {|i| i[:ranking]}
 
-	return matches
+	return matches.reverse
 end
