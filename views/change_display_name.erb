@@ -16,7 +16,7 @@
         } 
     </style>
 	<body>
-		<form method="post"
+		<form method="post">
 			<p>New Display Name: <input name = "new_display_name" type="text" id="new_display_name"></p>
 			<p><%="This username is already chosen" if @display_name_conflict %></p>
 			<input name="submit_new_display_name" type="submit" id="submit_new_display_name" value="Submit Display Name">

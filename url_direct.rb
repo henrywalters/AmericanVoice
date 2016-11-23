@@ -852,7 +852,8 @@ end
 
 get '/change/password' do 
 	if defined?(session[:user]) && logged_in?(session[:user])
-		@username_conflict = true if params[:username_conflict]
+		@password_conflict = true if params[:password_conflict]
+		@bad_password = true if params[:bad_password]
 		erb :change_password
 	else
 		redirect '/'
@@ -860,6 +861,24 @@ get '/change/password' do
 end
 
 post '/change/password' do 
+	if params[:submit_new_password]
+		p0 = params[:p0]
+		p1 = params[:p1]
+		p2 = params[:p2]
+		special_chars = ['!','@','#','$','%','^','&','*','(',')','_','-','+','=','1','2','3','4','5','6','7','8','9','0']
+		if p1 != p2
+			redirect '/change/password?bad_password=true'
+		end
+		if p1.length < 6 || special_chars.any? {|char| p1.include?(char)} == false
+			redirect '/change/password?bad_password=true'
+		end
+		if not good_password(sel_userbase_where(session[:user])[0]["password"])
+			redirect '/change/password?password_conflict=true'
+		else
+			update_password(sel_userbase_where(session[:user])[0]["password"],p1.encrypt)
+			redirect '/'
+		end
+	end
 
 	if params[:home]
 		redirect '/'

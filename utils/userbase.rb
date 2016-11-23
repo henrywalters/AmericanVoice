@@ -58,6 +58,30 @@ def display_name_conflict(display_name)
 	return false
 end	
 
+def good_password(password)
+	sql = MySql.new()
+	sql.query("SELECT * FROM `userbase`;")
+	sql.iter_query().each do |user|
+		if user["password"] == password.encrypt
+			sql.close
+			return true
+		end
+	end
+	sql.close
+	return false
+end
+
+
+def update_password(p1, p2)
+	sql = MySql.new()
+	sql.query(%Q{
+		UPDATE userbase
+		SET password="#{p2}"
+		WHERE password="#{p1}";
+		})
+	sql.close
+end
+
 def update_display_name(dn1, dn2)
 	sql = MySql.new()
 	sql.query(%Q{
