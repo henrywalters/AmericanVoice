@@ -33,15 +33,17 @@ end
 def sel_userbase
 	sql = MySql.new()
 	sql.query("SELECT * FROM userbase;")
-	return sql.iter_query()
 	sql.close
+	return sql.iter_query()
+
 end
 
 def sel_userbase_where(username)
 	sql = MySql.new()
 	sql.query(%Q{SELECT * FROM userbase WHERE username="#{username}";})
-	return sql.iter_query()
 	sql.close
+	return sql.iter_query()
+
 end
 
 def get_display_name(username)
@@ -115,4 +117,3 @@ def grant_admin_access(username)
 	sql.close
 end
 
-print sel_posts

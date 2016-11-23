@@ -1,0 +1,25 @@
+<html>
+	<style>
+	    #submit_new_username{
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s;}
+        #submit_new_username:hover{
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        } 
+    </style>
+	<body>
+		<form method="post"
+			<p>New Display Name: <input name = "new_display_name" type="text" id="new_display_name"></p>
+			<p><%="This username is already chosen" if @display_name_conflict %></p>
+			<input name="submit_new_display_name" type="submit" id="submit_new_display_name" value="Submit Display Name">
+		</form>
+	</body>
+</html>

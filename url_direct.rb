@@ -314,6 +314,12 @@ post '/settings' do
 	if params[:change_password]
 		redirect '/change/password'
 	end
+	if params[:change_display_name]
+		redirect '/change/display/name'
+	end
+	if params[:change_password]
+		redirect '/change/password'
+	end
 	if params[:login]
 		session["search"] = []
 		redirect '/login' 
@@ -765,6 +771,95 @@ post '/change/username' do
 			redirect '/'
 		end
 	end
+
+	if params[:home]
+		redirect '/'
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
+		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
+	end
+end
+
+get '/change/display/name' do 
+	if defined?(session[:user]) && logged_in?(session[:user])
+		@username_conflict = true if params[:username_conflict]
+		erb :change_display_name
+	else
+		redirect '/'
+	end
+end
+
+post '/change/display/name' do 
+	if params[:submit_new_display_name]
+		if display_name_conflict(params[:new_display_name])
+			redirect '/change/display/name?display_name_conflict=true'
+		else
+			update_display_name(get_display_name(session[:user]),params[:new_display_name])
+			redirect '/'
+		end
+	end
+	if params[:home]
+		redirect '/'
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
+		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
+	end
+end
+
+get '/change/password' do 
+	if defined?(session[:user]) && logged_in?(session[:user])
+		@username_conflict = true if params[:username_conflict]
+		erb :change_password
+	else
+		redirect '/'
+	end
+end
+
+post '/change/password' do 
 
 	if params[:home]
 		redirect '/'

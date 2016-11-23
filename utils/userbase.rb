@@ -35,10 +35,37 @@ def username_conflict(username)
 	")
 	sql.iter_query().each do |user|
 		if user["username"].upcase == username.upcase
+			sql.close
 			return true
 		end
 	end
+	sql.close
 	return false
+end
+
+def display_name_conflict(display_name)
+	sql = MySql.new()
+	sql.query("
+		SELECT * FROM `userbase`;
+	")
+	sql.iter_query().each do |user|
+		if user["display_name"].upcase == display_name.upcase
+			sql.close
+			return true
+		end
+	end
+	sql.close
+	return false
+end	
+
+def update_display_name(dn1, dn2)
+	sql = MySql.new()
+	sql.query(%Q{
+		UPDATE userbase
+		SET display_name="#{dn2}"
+		WHERE display_name="#{dn1}";
+		})
+	sql.close
 end
 
 def update_user(username1, username2)
