@@ -804,7 +804,7 @@ end
 
 get '/change/display/name' do 
 	if defined?(session[:user]) && logged_in?(session[:user])
-		@username_conflict = true if params[:username_conflict]
+		@display_name_conflict = true if params[:display_name_conflict]
 		erb :change_display_name
 	else
 		redirect '/'
