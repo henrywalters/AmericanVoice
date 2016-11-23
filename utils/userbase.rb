@@ -28,6 +28,39 @@ def user_conflict?(username,email,display_name)
 
 end
 
+def username_conflict(username)
+	sql = MySql.new()
+	sql.query("
+		SELECT username FROM `userbase`;
+	")
+	sql.iter_query().each do |user|
+		if user["username"].upcase == username.upcase
+			return true
+		end
+	end
+	return false
+end
+
+def update_user(username1, username2)
+	sql = MySql.new()
+	sql.query(%Q{
+		UPDATE userbase
+		SET username="#{username2}"
+		WHERE username="#{username1}";
+		})
+	sql.query(%{
+		UPDATE posts
+		SET user="#{username2}"
+		WHERE user="#{username1}";
+		})
+	sql.query(%{
+		UPDATE image_posts
+		SET user="#{username2}"
+		WHERE user="#{username1}";
+		})
+	sql.close
+end
+
 def new_user(username,email,display_name,password,privilege)
 	sql=MySql.new()
 	query = %Q{INSERT INTO `userbase`

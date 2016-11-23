@@ -1,8 +1,51 @@
+<html>
+<style>
+        #change_username{
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s;}
+        #change_username:hover{
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        } 
+        #change_display_name{
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s;}
+        #change_display_name:hover{
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        } 
+        #change_password{
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s;}
+        #change_password:hover{
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        } 
+</style>
 <form method="post">
-	<d1>
-		<dt>If you have a key, enter it here:</dt>
-		<dd><input name="key" type="text"></dd>
-		<%="Invalid Key" if @key_error%>
-	</d1>
-	<p><input name="submit" type="submit" value="Register Key" id="enter_key"></p>
+	<p><input name="change_username" type="submit" value="Change Username" id="change_username"></p>
+	<p><input name="change_display_name" type="submit" value="Change Display Name" id="change_display_name"></p>
+	<p><input name="change_password" type="submit" value="Change Password" id="change_password"></p>
 </form>
+</html>

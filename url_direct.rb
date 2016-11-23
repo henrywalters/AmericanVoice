@@ -305,17 +305,14 @@ get '/settings' do
 end
 
 post '/settings' do 
-	if params[:submit]
-		if sub
-			if params[:enter_key]
-				if register_key(params[:key]) && session[:privilege] == 0
-					grant_write_access(session[:user])
-					redirect '/'
-				else
-					redirect '/settings?key_error=true'
-				end
-			end
-		end
+	if params[:change_username]
+		redirect '/change/username'
+	end
+	if params[:change_display_name]
+		redirect '/change/display/name'
+	end
+	if params[:change_password]
+		redirect '/change/password'
 	end
 	if params[:login]
 		session["search"] = []
@@ -748,4 +745,53 @@ post '/admin' do
 		end
 	end
 	redirect '/admin'
+end
+
+get '/change/username' do
+	if defined?(session[:user]) && logged_in?(session[:user])
+		@username_conflict = true if params[:username_conflict]
+		erb :change_username
+	else
+		redirect '/'
+	end
+end
+
+post '/change/username' do 
+	if params[:submit_new_username]
+		if username_conflict(params[:new_username])
+			redirect '/change/username?username_conflict=true'
+		else
+			update_user(session[:user],params[:new_username])
+			redirect '/'
+		end
+	end
+
+	if params[:home]
+		redirect '/'
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
+		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
+	end
 end
