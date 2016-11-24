@@ -13,7 +13,7 @@ def new_post(user,title,body,tags)
 		VALUES (
 			"#{user}",
 			"#{title}",
-			"#{body}",
+			REPLACE("#{body}",'"','\"'),
 			"#{tags}",
 			0,
 			NOW(),
