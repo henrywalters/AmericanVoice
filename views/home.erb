@@ -4,7 +4,8 @@
     <style>
 ul.pagination{display: inline-block;
     padding: 0;
-    margin: 0;}
+    margin: 0;
+    font-family: helvetica;}
 ul.pagination li{display: inline;}
 ul.pagination li a {
     color: black;
@@ -22,26 +23,64 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
         -webkit-transition: width 0.4s ease-in-out;
         transition: width 0.4s ease-in-out;}
 #search_query:focus{width: 225px;}
-
-div{height: relative;
-    width:500px;
+#text_post{height: relative;
+    width:375px;
+    box-shadow: 1px 2px 1px 1px #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 7px;
+    word-wrap: break-word;
+    }
+h7{color:black;
+     transition-duration: 0.6s;
+    -webkit-transition-duration: 0.6s;}
+h7:hover{background-color: #ddd;}
+#title{
     font-family: helvetica;
     font-weight: bold;
-    box-shadow: 1px 2px 1px 1px #ccc;}
+    }
+#content{font-family: arial;
+    font-weight:normal;
+    font-size: 14px;
+    padding-left: 0;
+    max-width: 300px;
+    }
+#img_post{width:relative;
+    height:relative;
+    max-width: 500px;
+    max-height: 500px;
+    font-family: helvetica;
+    font-weight: bold;
+    box-shadow: 1px 2px 1px 1px #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 7px;}
+h8{color:black;
+     transition-duration: 0.6s;
+    -webkit-transition-duration: 0.6s;}
+h8:hover{background-color: #ddd;}
+#imgTitle{font-family: helvetica;
+    font-weight: bold;}
     </style>
 <body>
     <% for i in 0...@links_on_page[@page.to_i].length %>
 
             <% if @types_on_page[@page.to_i][i] == "text" %>
-            <div id="text_post"> 
-                <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
+            <div id="text_post">
+                <div id="title"> 
+                <a href=<%=@links_on_page[@page.to_i][i]%>><h7><%=@titles_on_page[@page.to_i][i]%><h7></a>
+                </div>
+                <div id="content>"
                 <p><%=@contents_on_page[@page.to_i][i].slice!(0,120) + "..."%></p>
+                </div>
             </div>
             <% end %>
 
             <% if @types_on_page[@page.to_i][i] == "image" %>
             <div id="img_post">
-                <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
+                <div id="imgTitle"
+                <a href=<%=@links_on_page[@page.to_i][i]%>><h8><%=@titles_on_page[@page.to_i][i]%><h8></a>
+                </div>
                 <blockquote class="imgur-embed-pub" lang="en" data-id="<%= @contents_on_page[@page.to_i][i][0]%>">
                 <a href="<%= @contents_on_page[@page.to_i][i][1]%>"></a>
                 </blockquote>
@@ -50,7 +89,6 @@ div{height: relative;
             <% end %>
     </div>
     <% end %>
-
     <ul class="pagination">
     <% for i in (0...@pages.to_i) %>
         <li><a href=<%="?page=#{i.to_s}"%>><%=(i+1).to_s%></a></li>
