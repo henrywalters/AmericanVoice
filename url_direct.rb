@@ -100,6 +100,9 @@ post '/' do
 	if params[:register]
 		redirect '/register'
 	end
+	if params[:feedback]
+		redirect '/feedback'
+	end
 	if params[:logout]
 		logout(session[:user])
 		session[:user] = ""
@@ -150,6 +153,9 @@ post '/login' do
 	if params[:login]
 		session["search"] = []
 		redirect '/login' 
+	end
+	if params[:feedback]
+		redirect '/feedback'
 	end
 	if params[:register]
 		redirect '/register'
@@ -242,6 +248,9 @@ post '/register' do
 		session["search"] = []
 		redirect '/login' 
 	end
+	if params[:feedback]
+		redirect '/feedback'
+	end
 	if params[:register]
 		redirect '/register'
 	end
@@ -323,6 +332,9 @@ post '/settings' do
 	if params[:login]
 		session["search"] = []
 		redirect '/login' 
+	end
+	if params[:feedback]
+		redirect '/feedback'
 	end
 	if params[:register]
 		redirect '/register'
@@ -407,6 +419,9 @@ post '/post' do
 	if params[:register]
 		redirect '/register'
 	end
+	if params[:feedback]
+		redirect '/feedback'
+	end
 	if params[:logout]
 		logout(session[:user])
 		session[:user] = ""
@@ -457,6 +472,9 @@ post '/posts/*' do
 	if params[:login]
 		session["search"] = []
 		redirect '/login' 
+	end
+	if params[:feedback]
+		redirect '/feedback'
 	end
 	if params[:register]
 		redirect '/register'
@@ -545,6 +563,9 @@ post '/edit/post/*' do
 	end
 	if params[:register]
 		redirect '/register'
+	end
+	if params[:feedback]
+		redirect '/feedback'
 	end
 	if params[:logout]
 		logout(session[:user])
@@ -638,6 +659,9 @@ post '/post/image' do
 	if params[:register]
 		redirect '/register'
 	end
+	if params[:feedback]
+		redirect '/feedback'
+	end
 	if params[:logout]
 		logout(session[:user])
 		session[:user] = ""
@@ -695,6 +719,9 @@ post '/image/post/*' do
 	end
 	if params[:register]
 		redirect '/register'
+	end
+	if params[:feedback]
+		redirect '/feedback'
 	end
 	if params[:logout]
 		logout(session[:user])
@@ -782,6 +809,9 @@ post '/change/username' do
 	if params[:register]
 		redirect '/register'
 	end
+	if params[:feedback]
+		redirect '/feedback'
+	end
 	if params[:logout]
 		logout(session[:user])
 		session[:user] = ""
@@ -835,6 +865,9 @@ post '/change/display/name' do
 		session[:user] = ""
 		session["search"] = []
 		redirect '/'
+	end
+	if params[:feedback]
+		redirect '/feedback'
 	end
 	if params[:settings]
 		redirect '/settings'
@@ -890,6 +923,9 @@ post '/change/password' do
 	if params[:register]
 		redirect '/register'
 	end
+	if params[:feedback]
+		redirect '/feedback'
+	end
 	if params[:logout]
 		logout(session[:user])
 		session[:user] = ""
@@ -908,4 +944,21 @@ post '/change/password' do
 	if params[:search]
 		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
+end
+
+get '/feedback' do
+	if defined?(session["user"]) && logged_in?(session["user"])
+		erb :feedback
+	else
+		redirect '/'
+	end
+end
+
+post '/feedback' do 
+	send_feedback(params[:subject],params[:message])
+	redirect '/thanks'
+end
+
+get '/thanks' do 
+	erb :thanks
 end
