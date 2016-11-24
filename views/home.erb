@@ -24,40 +24,31 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
 #search_query:focus{width: 225px;}
 
 div{height: relative;
-    width:350px;
-    box-shadow: 1px 2px 1px 1px #ccc;
-    margin-top: 5px;
-    display:block;}
-#title{
+    width:500px;
     font-family: helvetica;
     font-weight: bold;
-    margin-bottom: 10px;
-    }
-#content{font-family: arial;
-    font-weight:normal;
-    font-size: 14px;}
-#img_post{width:relative;
-    height:relative;
-    font-family: helvetica;
-    font-weight: bold;}
+    box-shadow: 1px 2px 1px 1px #ccc;}
+    </style>
+<body>
+    <% for i in 0...@links_on_page[@page.to_i].length %>
 
-<% for i in 0...@links_on_page[@page.to_i].length %>
-    <div id="title">
-            <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
             <% if @types_on_page[@page.to_i][i] == "text" %>
-    <div id="content">
+            <div id="text_post"> 
+                <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
                 <p><%=@contents_on_page[@page.to_i][i].slice!(0,120) + "..."%></p>
-    </div>
-    </div>
+            </div>
             <% end %>
-    <div id="img_post">
+
             <% if @types_on_page[@page.to_i][i] == "image" %>
+            <div id="img_post">
+                <a href=<%=@links_on_page[@page.to_i][i]%>><%=@titles_on_page[@page.to_i][i]%></a>
                 <blockquote class="imgur-embed-pub" lang="en" data-id="<%= @contents_on_page[@page.to_i][i][0]%>">
                 <a href="<%= @contents_on_page[@page.to_i][i][1]%>"></a>
                 </blockquote>
                 <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-    </div>
+            </div>
             <% end %>
+    </div>
     <% end %>
 
     <ul class="pagination">

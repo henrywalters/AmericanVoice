@@ -116,3 +116,5 @@ def grant_admin_access(username)
 	end
 	sql.close
 end
+
+print sel_posts
