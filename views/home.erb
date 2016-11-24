@@ -79,7 +79,7 @@ h8:hover{background-color: #ddd;}
 
             <% if @types_on_page[@page.to_i][i] == "image" %>
             <div id="img_post">
-                <div id="imgTitle"
+                <div id="imgTitle">
                 <a href=<%=@links_on_page[@page.to_i][i]%>><h8><%=@titles_on_page[@page.to_i][i]%><h8></a>
                 </div>
                 <blockquote class="imgur-embed-pub" lang="en" data-id="<%= @contents_on_page[@page.to_i][i][0]%>">
