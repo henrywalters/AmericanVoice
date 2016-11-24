@@ -42,8 +42,13 @@ p1{font-family: arial;
 #delete:hover{background-color: red;
             color: white;
             border: 1px solid black;}
+#post_content{
+      max-width:550px;
+}
 </style>
 <body>
+
+<div id="post_content">
 <h3><%= @title %></h3>
 <h5>by <%= @dn %></h5>
 <% @body.split("\n").each do |line| %>
@@ -61,5 +66,6 @@ p1{font-family: arial;
 
 <% end %>
 </form>
+</div>
 </body>
 </html>
