@@ -746,7 +746,7 @@ post '/admin' do
 	if params[:submit_auth]
 		user = sel_userbase_where(params[:authorize_user])
 		if user != []
-			send_write_auth(user[0]["email"],generate_key(user))
+			send_write_auth(user[0]["email"],generate_key(user[0]["user"]))
 			redirect '/admin'
 		end
 	end

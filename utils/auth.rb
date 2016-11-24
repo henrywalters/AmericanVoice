@@ -74,7 +74,7 @@ def grant_write_access(username)
 			%Q{
 				UPDATE userbase
 				SET privilege=1
-				WHERE `username`="#{username}";
+				WHERE username="#{username}";
 			}
 			)
 		end
