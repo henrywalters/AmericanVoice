@@ -1,18 +1,40 @@
 <html>
 <style>
-#feedback_post{float:left;}
+#feedback_post{border:2px black solid;
+	width:570px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	float-left;}
+p1,p{font-family: helvetica;}
+dd{font-family: helvetica;
+	font-weight: bold;}
+#subject{font-family: arial;}
+#message{font-family: arial;}
+#submit_feedback{background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top:10px;
+            border: 1px solid #000000;
+            transition-duration: 0.4s;
+            -webkit-transition-duration: 0.4s;}
+#submit_feedback:hover{background-color: #000000;
+     		color: white;
+            border: 1px solid white;}
 </style>
 <body>
-	<p1>Many of the features in this website will likely have some flaws</p1>
-	<p>Please send any feedback you have including bugs or suggestions</p>
-	<p>The American Voice Team appreciates all of your help</p>
-	<p>We will recieve all feedback posts via email and will gladly get back to you</p>
+	<p1>Many of the features in this website will likely have some flaws so</p1>
+	<p>please send any feedback you have including bugs or suggestions. The</p>
+	<p>American Voice Team appreciates all of your help and we will</p>
+	<p>receive all feedback posts via email and will gladly get back to you</p>
+	<p>as soon as possible.</p>
 	<br>
-	<form class="form" method="post" id="feedback_post">
+	<form class="feedback_post" method="post" id="feedback_post">
 		<dd>Subject</dd>
 		<dd><input name="subject" type="text" id="subject"></dd>
 		<dd>Body</dd>
-		<dd><textarea name="message" id="message" style="width:500px;height:400px; " ></textarea></dd>
+		<dd><textarea name="message" id="message" style="width:500px;height:400px;" ></textarea></dd>
 		<dd><input name="submit_feedback" type="submit" value="Submit Feedback" id="submit_feedback"></dd>
 	</form>
 </body>
