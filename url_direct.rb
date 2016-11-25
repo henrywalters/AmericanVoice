@@ -411,6 +411,9 @@ post '/post' do
 		if errors.length != 0
 			error = "?"+errors.join('&')
 			redirect "/post#{error}"
+		end
+		if defined?(session[:user]) == false || logged_in?(session[:user]) == false
+			redirect '/'
 		else
 			new_post(session[:user],title,body,tags)
 			made_post(session[:user])
