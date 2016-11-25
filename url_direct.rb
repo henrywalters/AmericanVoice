@@ -285,8 +285,13 @@ end
 get '/register/user/*' do 
 	auth_key = params[:splat].first
 	key = sel_keys_where(auth_key)
+	beta_users = 25
+	user_count = sel_userbase.length
 	if register_key(auth_key)
 		register_user(key["target_user"])
+		if user_count < beta_users
+			grant_write_access(key["target_user"])
+		end
 		redirect '/'
 	else
 		redirect '/'

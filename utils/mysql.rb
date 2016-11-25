@@ -116,3 +116,11 @@ def grant_admin_access(username)
 	end
 	sql.close
 end
+
+def delete_user(username)
+	sql = MySql.new()
+	sql.query(%Q{DELETE FROM userbase WHERE `username`="#{username}";})
+	sql.close
+end
+
+print sel_userbase
