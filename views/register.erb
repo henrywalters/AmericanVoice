@@ -5,8 +5,9 @@
       left: 37%;
       border-style: solid;
       border-color:3px black;
-      width: 325px;
+      width: 275px;
   	  padding-top: 10px;}
+dd{width:75%}
 dt1{font-family: helvetica;
 	font-weight: bold;
 	padding-left:37px;
@@ -42,13 +43,18 @@ dt6{font-family: helvetica;
 #submit:hover{background-color: #000000;
      		color: white;
             border: 1px solid white;}
+#username { width:90%; }
+#email { width:90%; }
+#displayname { width: 90%; }
+#password1 { width: 90%; }
+#password2 { width: 90%; }
 </style>
 <body>
 <div id="register_form">
 <form method="post" id="form">
 	<d1>
 		<dt1>Choose Username:</dt1>
-		<dd><input name="username" type="text" id="username"></dd>
+		<dd><input name="username" type="text" id="username" ></dd>
 		<dt6><%="This user already exists" if @user_conflict%></dt6>
 		<br>
 		<dt6><%="Username is too short" if @bad_user%></dt6>
@@ -73,7 +79,7 @@ dt6{font-family: helvetica;
 		<br>
 		<%if @bad_pass%><dt6>Password must be 6 characters or</dt6>
 		<br>
-		<dt6>more and contain a special character"></dt6>
+		<dt6>more and contain a special character</dt6>
 		<%end%>
 	</d1>
 	<p><input name = "submit" type="submit" value="Submit" id="submit"></p>
