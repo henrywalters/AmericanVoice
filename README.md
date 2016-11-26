@@ -1,26 +1,45 @@
 # AmericanVoice
-Project Layout
-root 
-      |--- url_direct.rb
-      
-      |- utils --- mysql.rb
-      
-      |         |- auth.rb
-      
-      |         |- userbase.rb
-      
-      |
-      
-      |- views --- home.erb
-      
-      |         |- login.erb
-      
-      |         |- register.erb
-      
-      |         |- layout.erb
-      
-      |
-      
-      |- public --- Assets --- Javascript
 
-                            |- CSS
+###Table of Contents###
+
+Utils
+      
+      mysql.rb
+
+      auth.rb
+      
+      userbase.rb
+      
+      posts.rb
+      
+      images.rb
+      
+      text_edit.rb
+      
+      algorithms.rb
+
+      email.rb
+
+url_direct.rb
+
+### Utils ###
+
+# mysql.rb #
+
+The MySql class is the first abstraction from the mysql database.
+
+One may initialize the class by calling:
+
+sql_instance = MySql.new()
+
+You can call any mysql query using the module: 
+
+sql_instance.query(sql_query) 
+
+To iterate through the results, call:
+
+sql_instace.iter_query()
+
+To close the connection, simply call
+
+sql_instance.close
