@@ -36,7 +36,7 @@ You can call any mysql query using the module:
 
 sql_instance.query(sql_query) 
 
-To iterate through the results, call:
+To return an array of results call:
 
 sql_instace.iter_query()
 
