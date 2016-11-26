@@ -1,8 +1,8 @@
-# AmericanVoice
+# AmericanVoice #
 
-###Table of Contents###
+#Table of Contents#
 
-Utils
+### Utils ###
       
       mysql.rb
 
@@ -20,11 +20,11 @@ Utils
 
       email.rb
 
-url_direct.rb
+### url_direct.rb ###
 
-### Utils ###
+# Utils #
 
-# mysql.rb #
+### mysql.rb ###
 
 The MySql class is the first abstraction from the mysql database.
 
