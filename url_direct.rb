@@ -418,7 +418,7 @@ post '/post' do
 			new_post(session[:user],title,body,tags)
 			redirect '/'
 		else
-			save_draft(session[:user],title,body,tags)
+			new_post(session[:user],title,body,tags)
 			made_post(session[:user])
 			redirect '/'
 		end
