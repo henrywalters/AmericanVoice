@@ -19,6 +19,8 @@ enable :sessions
 
 
 get '/' do 
+
+
 	if  session["search"] != nil && session["search"] != []
 		all_matches = session["search"]
 		all_posts = []
@@ -413,39 +415,49 @@ post '/post' do
 			redirect "/post#{error}"
 		end
 		if defined?(session[:user]) == false || logged_in?(session[:user]) == false
+			new_post(session[:user],title,body,tags)
 			redirect '/'
 		else
-			new_post(session[:user],title,body,tags)
+			save_draft(session[:user],title,body,tags)
 			made_post(session[:user])
 			redirect '/'
 		end
 	end
 	if params[:login]
 		session["search"] = []
+		save_draft(session[:user],title,body,tags)
 		redirect '/login' 
 	end
 	if params[:register]
+		save_draft(session[:user],title,body,tags)
 		redirect '/register'
 	end
 	if params[:feedback]
+		save_draft(session[:user],title,body,tags)
 		redirect '/feedback'
 	end
 	if params[:logout]
+		save_draft(session[:user],title,body,tags)
 		logout(session[:user])
 		session[:user] = ""
 		session["search"] = []
+
 		redirect '/'
 	end
 	if params[:settings]
+		save_draft(session[:user],title,body,tags)
 		redirect '/settings'
 	end
 	if params[:post]
+		save_draft(session[:user],title,body,tags)
 		redirect '/post'
 	end
 	if params[:post_image]
+		save_draft(session[:user],title,body,tags)
 		redirect '/post/image'
 	end
 	if params[:search]
+		save_draft(session[:user],title,body,tags)
 		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end

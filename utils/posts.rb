@@ -8,7 +8,7 @@ def new_post(user,title,body,tags)
 			`tags`,
 			`views`,
 			`time_posted`,
-			`type`
+			`type`,
 		)
 		VALUES (
 			"#{user}",
@@ -22,7 +22,30 @@ def new_post(user,title,body,tags)
 	})
 	sql.close
 end
-
+def save_draft(user,title,body,tags)
+	sql = MySql.new()
+	sql.query(%Q{
+		INSERT INTO posts(
+			`user`,
+			`title`,
+			`body`,
+			`tags`,
+			`views`,
+			`time_posted`,
+			`type`
+		)
+		VALUES (
+			"#{user}",
+			"#{title}",
+			REPLACE("#{body}",'"','\"'),
+			"#{tags}",
+			0,
+			NOW(),
+			"text_draft"
+		);
+	})
+	sql.close
+end
 def viewed_post(title)
 	post = sel_posts_where(title)[0]
 	views = post["views"] + 1

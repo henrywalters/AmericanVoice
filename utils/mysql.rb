@@ -69,17 +69,30 @@ end
 
 def sel_posts
 	sql = MySql.new()
-	sql.query("SELECT * FROM posts;")
+	sql.query(%Q{SELECT * FROM posts WHERE `type`="text";})
+	sql.close
+	return sql.iter_query()
+end
+
+def sel_drafts
+	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM posts WHERE `type`="text_draft";})
 	sql.close
 	return sql.iter_query()
 end
 
 def sel_posts_where(name)
 	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM posts WHERE title="#{name}" and `type`="text";})
+	sql.close
+	return sql.iter_query()	
+end
+
+def sel_all_posts_where(name)
+	sql = MySql.new()
 	sql.query(%Q{SELECT * FROM posts WHERE title="#{name}";})
 	sql.close
-	return sql.iter_query()
-	
+	return sql.iter_query()	
 end
 
 def sel_image_posts_where(name)
@@ -122,4 +135,3 @@ def delete_user(username)
 	sql.query(%Q{DELETE FROM userbase WHERE `username`="#{username}";})
 	sql.close
 end
-print sel_posts
