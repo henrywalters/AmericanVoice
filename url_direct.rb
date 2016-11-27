@@ -595,37 +595,42 @@ post '/edit/post/*' do
 			new_post(session[:user],title,body,tags,"text")
 			redirect '/'
 		end
-	end
-	if params[:login]
-		session["search"] = []
-		redirect '/login' 
-	end
-	if params[:register]
-		redirect '/register'
-	end
-	if params[:feedback]
-		redirect '/feedback'
-	end
-	if params[:profile]
-		redirect '/profile'
-	end
-	if params[:logout]
-		logout(session[:user])
-		session[:user] = ""
-		session["search"] = []
-		redirect '/'
-	end
-	if params[:settings]
-		redirect '/settings'
-	end
-	if params[:post]
-		redirect '/post'
-	end
-	if params[:post_image]
-		redirect '/post/image'
-	end
-	if params[:search]
-		redirect "/search/#{params[:search_query].split(' ').join('-')}"
+	else
+		title = params[:post_title]
+		body = params[:post_body]
+		tags = params[:post_tags]
+		
+		if params[:login]
+			session["search"] = []
+			redirect '/login' 
+		end
+		if params[:register]
+			redirect '/register'
+		end
+		if params[:feedback]
+			redirect '/feedback'
+		end
+		if params[:profile]
+			redirect '/profile'
+		end
+		if params[:logout]
+			logout(session[:user])
+			session[:user] = ""
+			session["search"] = []
+			redirect '/'
+		end
+		if params[:settings]
+			redirect '/settings'
+		end
+		if params[:post]
+			redirect '/post'
+		end
+		if params[:post_image]
+			redirect '/post/image'
+		end
+		if params[:search]
+			redirect "/search/#{params[:search_query].split(' ').join('-')}"
+		end
 	end
 end
 
