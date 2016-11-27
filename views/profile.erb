@@ -1,0 +1,23 @@
+<h3>Hello <%=@user["display_name"]%></h3>
+<% @posts_on_page[@page].each do |post| %>
+        <% if post["type"] == "text" %>
+            <div id="text_post">
+                <div id="title"> 
+                <a href=<%='posts/' + post["title"].split().join('-')%>><h7><%=post["title"]%><h7></a>
+                </div>
+                <div id="content>"
+                <p><%=post["body"].slice!(0,120) + "..."%></p>
+                </div>
+            </div>
+        <% end %>
+        <% if post["type"] == "text_draft"%>
+            <div id="text_post">
+                <div id="title"> 
+                <a href=<%='posts/' + post["title"].split().join('-')%>><h7>Draft: <%=post["title"]%><h7></a>
+                </div>
+                <div id="content>"
+                <p><%=post["body"].slice!(0,120) + "..."%></p>
+                </div>
+            </div>
+        <% end %>
+<% end %>

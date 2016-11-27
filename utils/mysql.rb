@@ -90,7 +90,7 @@ end
 
 def sel_all_posts_where(name)
 	sql = MySql.new()
-	sql.query(%Q{SELECT * FROM posts WHERE title="#{name}";})
+	sql.query(%Q{SELECT * FROM posts WHERE user="#{name}";})
 	sql.close
 	return sql.iter_query()	
 end
@@ -100,7 +100,13 @@ def sel_image_posts_where(name)
 	sql.query(%Q{SELECT * FROM image_posts WHERE title="#{name}";})
 	sql.close
 	return sql.iter_query()
-	
+end
+
+def sel_all_image_posts_where(username)
+	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM image_posts WHERE user="#{username}";})
+	sql.close
+	return sql.iter_query()
 end
 
 def sel_image_posts
@@ -135,3 +141,5 @@ def delete_user(username)
 	sql.query(%Q{DELETE FROM userbase WHERE `username`="#{username}";})
 	sql.close
 end
+
+print sel_all_posts_where("henry")

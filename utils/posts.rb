@@ -1,4 +1,4 @@
-def new_post(user,title,body,tags)
+def new_post(user,title,body,tags,type)
 	sql = MySql.new()
 	sql.query(%Q{
 		INSERT INTO posts(
@@ -8,7 +8,7 @@ def new_post(user,title,body,tags)
 			`tags`,
 			`views`,
 			`time_posted`,
-			`type`,
+			`type`
 		)
 		VALUES (
 			"#{user}",
@@ -17,7 +17,7 @@ def new_post(user,title,body,tags)
 			"#{tags}",
 			0,
 			NOW(),
-			"text"
+			"#{type}"
 		);
 	})
 	sql.close
@@ -78,4 +78,11 @@ def page(post_limit, page_number)
 	return sql.iter_query()
 end
 
-
+def user_page(user,post_limit, page_number)
+	offset = (page_number*post_limit).to_s
+	limit = (post_limit).to_s
+	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM posts LIMIT #{limit} OFFSET #{offset} WHERE user="#{user}";})
+	sql.close
+	return sql.iter_query()
+end	

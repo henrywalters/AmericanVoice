@@ -120,6 +120,9 @@ post '/' do
 	if params[:post_image]
 		redirect '/post/image'
 	end
+	if params[:profile]
+		redirect '/profile'
+	end
 	if params[:search]
 		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
@@ -161,6 +164,9 @@ post '/login' do
 	end
 	if params[:register]
 		redirect '/register'
+	end
+	if params[:profile]
+		redirect '/profile'
 	end
 	if params[:logout]
 		logout(session[:user])
@@ -256,6 +262,9 @@ post '/register' do
 	if params[:register]
 		redirect '/register'
 	end
+	if params[:profile]
+		redirect '/profile'
+	end
 	if params[:logout]
 		logout(session[:user])
 		session[:user] = ""
@@ -340,6 +349,9 @@ post '/settings' do
 		session["search"] = []
 		redirect '/login' 
 	end
+	if params[:profile]
+		redirect '/profile'
+	end
 	if params[:feedback]
 		redirect '/feedback'
 	end
@@ -389,10 +401,11 @@ get '/post' do
 end	
 
 post '/post' do
+	title = params[:post_title]
+	body = params[:post_body]
+	tags = params[:post_tags]
+
 	if params[:submit]
-		title = params[:post_title]
-		body = params[:post_body]
-		tags = params[:post_tags]
 
 		post_count = sel_posts_where(title)
 		errors = []
@@ -415,29 +428,32 @@ post '/post' do
 			redirect "/post#{error}"
 		end
 		if defined?(session[:user]) == false || logged_in?(session[:user]) == false
-			new_post(session[:user],title,body,tags)
 			redirect '/'
 		else
-			new_post(session[:user],title,body,tags)
+			new_post(session[:user],title,body,tags,"text")
 			made_post(session[:user])
 			redirect '/'
 		end
 	end
 	if params[:login]
 		session["search"] = []
-		save_draft(session[:user],title,body,tags)
+		new_post(session[:user],title,body,tags,"text_draft")
 		redirect '/login' 
 	end
 	if params[:register]
-		save_draft(session[:user],title,body,tags)
+		new_post(session[:user],title,body,tags,"text_draft")
 		redirect '/register'
 	end
 	if params[:feedback]
-		save_draft(session[:user],title,body,tags)
+		new_post(session[:user],title,body,tags,"text_draft")
 		redirect '/feedback'
 	end
+	if params[:profile]
+		new_post(session[:user],title,body,tags,"text_draft")
+		redirect '/profile'
+	end
 	if params[:logout]
-		save_draft(session[:user],title,body,tags)
+		new_post(session[:user],title,body,tags,"text_draft")
 		logout(session[:user])
 		session[:user] = ""
 		session["search"] = []
@@ -445,19 +461,19 @@ post '/post' do
 		redirect '/'
 	end
 	if params[:settings]
-		save_draft(session[:user],title,body,tags)
+		new_post(session[:user],title,body,tags,"text_draft")
 		redirect '/settings'
 	end
 	if params[:post]
-		save_draft(session[:user],title,body,tags)
+		new_post(session[:user],title,body,tags,"text_draft")
 		redirect '/post'
 	end
 	if params[:post_image]
-		save_draft(session[:user],title,body,tags)
+		new_post(session[:user],title,body,tags,"text_draft")
 		redirect '/post/image'
 	end
 	if params[:search]
-		save_draft(session[:user],title,body,tags)
+		new_post(session[:user],title,body,tags,"text_draft")
 		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end
@@ -513,6 +529,9 @@ post '/posts/*' do
 	end
 	if params[:post_image]
 		redirect '/post/image'
+	end
+	if params[:profile]
+		redirect '/profile'
 	end
 	if params[:search]
 		redirect "/search/#{params[:search_query].split(' ').join('-')}"
@@ -573,7 +592,7 @@ post '/edit/post/*' do
 			redirect "/post#{error}"
 		else
 			delete_post(title)
-			new_post(session[:user],title,body,tags)
+			new_post(session[:user],title,body,tags,"text")
 			redirect '/'
 		end
 	end
@@ -586,6 +605,9 @@ post '/edit/post/*' do
 	end
 	if params[:feedback]
 		redirect '/feedback'
+	end
+	if params[:profile]
+		redirect '/profile'
 	end
 	if params[:logout]
 		logout(session[:user])
@@ -679,6 +701,9 @@ post '/post/image' do
 	if params[:register]
 		redirect '/register'
 	end
+	if params[:profile]
+		redirect '/profile'
+	end
 	if params[:feedback]
 		redirect '/feedback'
 	end
@@ -754,6 +779,9 @@ post '/image/post/*' do
 	end
 	if params[:post]
 		redirect '/post'
+	end
+	if params[:profile]
+		redirect '/profile'
 	end
 	if params[:post_image]
 		redirect '/post/image'
@@ -841,6 +869,9 @@ post '/change/username' do
 	if params[:settings]
 		redirect '/settings'
 	end
+	if params[:profile]
+		redirect '/profile'
+	end
 	if params[:post]
 		redirect '/post'
 	end
@@ -888,6 +919,9 @@ post '/change/display/name' do
 	end
 	if params[:feedback]
 		redirect '/feedback'
+	end
+	if params[:profile]
+		redirect '/profile'
 	end
 	if params[:settings]
 		redirect '/settings'
@@ -952,6 +986,9 @@ post '/change/password' do
 		session["search"] = []
 		redirect '/'
 	end
+	if params[:profile]
+		redirect '/profile'
+	end
 	if params[:settings]
 		redirect '/settings'
 	end
@@ -1005,6 +1042,9 @@ post '/thanks' do
 	if params[:settings]
 		redirect '/settings'
 	end
+	if params[:profile]
+		redirect '/profile'
+	end
 	if params[:post]
 		redirect '/post'
 	end
@@ -1013,5 +1053,37 @@ post '/thanks' do
 	end
 	if params[:search]
 		redirect "/search/#{params[:search_query].split(' ').join('-')}"
+	end
+end
+
+get '/profile' do 
+	if defined?(session[:user]) && logged_in?(session[:user])
+		posts_on_page = 10
+
+		@user = sel_userbase_where(session[:user])[0]
+		text_posts = sel_all_posts_where(@user["username"])
+		img_posts = sel_all_image_posts_where(@user["username"])
+		all_posts = text_posts + img_posts
+		@all_posts = all_posts.sort_by { |post| post["time_posted"]}.reverse
+
+		@page = params[:page] || 0
+
+		@posts_on_page = []
+		@content = []
+		for i in 0...@all_posts.length
+			if (i+1)%posts_on_page == 0
+				@posts_on_page.push(@content)
+				@content = [@all_posts[i]]
+			else
+				@content.push(@all_posts[i])
+			end
+		end
+		if @content != []
+			@posts_on_page.push(@content)
+		end
+		puts @post_on_page
+		erb :profile
+	else
+		redirect '/'
 	end
 end

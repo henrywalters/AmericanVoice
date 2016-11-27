@@ -123,6 +123,21 @@
             color: white;
             border: 1px solid white;
         }
+        #profile {
+            background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;
+        }
+        #profile:hover {
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+        }
         #search_query{border: 2px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
@@ -172,6 +187,7 @@
                 <input name="post" type="submit" value="Post Text" id="post">
                 <input name="post_image" type="submit" value="Post Image" id="post_image">
             <% end %>
+                <input name="profile" type="submit" value="Profile" id="profile">
                 <input name="settings" type="submit" value="Settings" id="settings">
                 <input name="logout" type="submit" value="Logout" id="logout">
         <% else %>
