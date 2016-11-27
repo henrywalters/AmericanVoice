@@ -434,53 +434,83 @@ post '/post' do
 			made_post(session[:user])
 			redirect '/'
 		end
-	end
-	if params[:login]
-		session["search"] = []
-		new_post(session[:user],title,body,tags,"text_draft")
-		redirect '/login' 
-	end
-	if params[:register]
-		new_post(session[:user],title,body,tags,"text_draft")
-		redirect '/register'
-	end
-	if params[:feedback]
-		new_post(session[:user],title,body,tags,"text_draft")
-		redirect '/feedback'
-	end
-	if params[:profile]
-		new_post(session[:user],title,body,tags,"text_draft")
-		redirect '/profile'
-	end
-	if params[:logout]
-		new_post(session[:user],title,body,tags,"text_draft")
-		logout(session[:user])
-		session[:user] = ""
-		session["search"] = []
+	elsif params[:submit_draft]
 
-		redirect '/'
-	end
-	if params[:settings]
-		new_post(session[:user],title,body,tags,"text_draft")
-		redirect '/settings'
-	end
-	if params[:post]
-		new_post(session[:user],title,body,tags,"text_draft")
-		redirect '/post'
-	end
-	if params[:post_image]
-		new_post(session[:user],title,body,tags,"text_draft")
-		redirect '/post/image'
-	end
-	if params[:search]
-		new_post(session[:user],title,body,tags,"text_draft")
-		redirect "/search/#{params[:search_query].split(' ').join('-')}"
+		post_count = sel_posts_where(title)
+		errors = []
+
+		if post_count.length != 0
+			errors.push('title_conflict=true')
+		end
+		if title.delete(' ') == ''
+			errors.push('empty_title=true')
+		end
+		if body.delete(' ') == ''
+			errors.push('empty_body=true')
+		end
+		if tags.delete(' ') == ''
+			errors.push('empty_tag=true')
+		end
+
+		if errors.length != 0
+			error = "?"+errors.join('&')
+			redirect "/post#{error}"
+		end
+		if defined?(session[:user]) == false || logged_in?(session[:user]) == false
+			redirect '/'
+		else
+			new_post(session[:user],title,body,tags,"text_draft")
+			
+			redirect '/'
+		end
+	else
+		if params[:login]
+			session["search"] = []
+			new_post(session[:user],title,body,tags,"text_draft")
+			redirect '/login' 
+		end
+		if params[:register]
+			new_post(session[:user],title,body,tags,"text_draft")
+			redirect '/register'
+		end
+		if params[:feedback]
+			new_post(session[:user],title,body,tags,"text_draft")
+			redirect '/feedback'
+		end
+		if params[:profile]
+			new_post(session[:user],title,body,tags,"text_draft")
+			redirect '/profile'
+		end
+		if params[:logout]
+			new_post(session[:user],title,body,tags,"text_draft")
+			logout(session[:user])
+			session[:user] = ""
+			session["search"] = []
+
+			redirect '/'
+		end
+		if params[:settings]
+			new_post(session[:user],title,body,tags,"text_draft")
+			redirect '/settings'
+		end
+		if params[:post]
+			new_post(session[:user],title,body,tags,"text_draft")
+			redirect '/post'
+		end
+		if params[:post_image]
+			new_post(session[:user],title,body,tags,"text_draft")
+			redirect '/post/image'
+		end
+		if params[:search]
+			new_post(session[:user],title,body,tags,"text_draft")
+			redirect "/search/#{params[:search_query].split(' ').join('-')}"
+		end
 	end
 end
 
 get '/posts/*' do 
 	title = params[:splat].first.split('-').join(' ')
-	post = sel_posts_where(title)[0]
+	post = sel_all_posts_where_title(title)[0]
 	@title = post["title"]
 	@body = post["body"]
 	puts @title
@@ -540,7 +570,7 @@ end
 
 get '/edit/post/*' do 
 	title = params[:splat].first.split('-').join(' ')
-	posts = sel_posts_where(title)
+	posts = sel_all_posts_where_title(title)
 	session["edit_title"] = title
 	if posts.length == 0 || logged_in?(session["user"]) == false
 		redirect '/'
@@ -566,7 +596,7 @@ get '/edit/post/*' do
 end
 
 post '/edit/post/*' do
-	if params[:submit]
+	if params[:submit_post]
 		title = params[:post_title]
 		body = params[:post_body]
 		tags = params[:post_tags]
@@ -595,6 +625,37 @@ post '/edit/post/*' do
 			new_post(session[:user],title,body,tags,"text")
 			redirect '/'
 		end
+	elsif params[:submit_draft]
+		if params[:submit_post]
+		title = params[:post_title]
+		body = params[:post_body]
+		tags = params[:post_tags]
+
+		post_count = sel_posts_where(title)
+		errors = []
+
+		if post_count.length != 0 && session["edit_title"] != title
+			errors.push('title_conflict=true')
+		end
+		if title.delete(' ') == ''
+			errors.push('empty_title=true')
+		end
+		if body.delete(' ') == ''
+			errors.push('empty_body=true')
+		end
+		if tags.delete(' ') == ''
+			errors.push('empty_tag=true')
+		end
+		session["edit_title"] = nil
+		if errors.length != 0
+			error = "?"+errors.join('&')
+			redirect "/post#{error}"
+		else
+			delete_post(title)
+			save_draft(session[:user],title,body,tags,"text")
+			redirect '/'
+		end
+	end
 	else
 		title = params[:post_title]
 		body = params[:post_body]
@@ -1090,5 +1151,42 @@ get '/profile' do
 		erb :profile
 	else
 		redirect '/'
+	end
+end
+
+post '/profile' do 
+	if params[:home]
+		redirect '/'
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:feedback]
+		redirect '/feedback'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
+		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:profile]
+		redirect '/profile'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
 end

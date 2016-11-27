@@ -47,7 +47,7 @@ def save_draft(user,title,body,tags)
 	sql.close
 end
 def viewed_post(title)
-	post = sel_posts_where(title)[0]
+	post = sel_all_posts_where_title(title)[0]
 	views = post["views"] + 1
 
 	sql=MySql.new()

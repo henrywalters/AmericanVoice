@@ -88,6 +88,12 @@ def sel_posts_where(name)
 	return sql.iter_query()	
 end
 
+def sel_all_posts_where_title(title)
+	sql = MySql.new()
+	sql.query(%Q{SELECT * FROM posts WHERE title="#{title}";})
+	sql.close
+	return sql.iter_query()	
+end
 def sel_all_posts_where(name)
 	sql = MySql.new()
 	sql.query(%Q{SELECT * FROM posts WHERE user="#{name}";})
@@ -141,5 +147,3 @@ def delete_user(username)
 	sql.query(%Q{DELETE FROM userbase WHERE `username`="#{username}";})
 	sql.close
 end
-
-print sel_all_posts_where("henry")
