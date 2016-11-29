@@ -51,5 +51,16 @@ h8{color:red;
                 </div>
             </div>
         <% end %>
+        <% if post["type"] == "image" %>
+            <div id="img_post">
+                <div id="imgTitle">
+                <a href=<%=post["link"]%>><h7><%=post["title"]%><h7></a>
+                </div>
+                <blockquote class="imgur-embed-pub" lang="en" data-id="<%= "a/#{post["image_link"]}"%>">
+                <a href="<%= "//imgur.com/#{post["link"]}"%>"></a>
+                </blockquote>
+                <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+            </div>
+        <% end %>
 <% end %>
 </html>

@@ -466,23 +466,23 @@ post '/post' do
 	else
 		if params[:login]
 			session["search"] = []
-			new_post(session[:user],title,body,tags,"text_draft")
+			
 			redirect '/login' 
 		end
 		if params[:register]
-			new_post(session[:user],title,body,tags,"text_draft")
+			
 			redirect '/register'
 		end
 		if params[:feedback]
-			new_post(session[:user],title,body,tags,"text_draft")
+			
 			redirect '/feedback'
 		end
 		if params[:profile]
-			new_post(session[:user],title,body,tags,"text_draft")
+			
 			redirect '/profile'
 		end
 		if params[:logout]
-			new_post(session[:user],title,body,tags,"text_draft")
+			
 			logout(session[:user])
 			session[:user] = ""
 			session["search"] = []
@@ -490,19 +490,19 @@ post '/post' do
 			redirect '/'
 		end
 		if params[:settings]
-			new_post(session[:user],title,body,tags,"text_draft")
+			
 			redirect '/settings'
 		end
 		if params[:post]
-			new_post(session[:user],title,body,tags,"text_draft")
+			
 			redirect '/post'
 		end
 		if params[:post_image]
-			new_post(session[:user],title,body,tags,"text_draft")
+			
 			redirect '/post/image'
 		end
 		if params[:search]
-			new_post(session[:user],title,body,tags,"text_draft")
+			
 			redirect "/search/#{params[:search_query].split(' ').join('-')}"
 		end
 	end
