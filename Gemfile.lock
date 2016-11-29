@@ -78,6 +78,7 @@ DEPENDENCIES
   mail
   mysql2
   pony
+  rack (< 2.0)
   sinatra
 
 BUNDLED WITH

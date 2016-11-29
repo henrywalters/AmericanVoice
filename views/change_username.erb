@@ -1,6 +1,6 @@
 <html>
-	<style>
-	    #submit_new_username{
+    <style>
+        #submit_new_password{
             background-color: white;
             color: black;
             font-family: Helvetica;
@@ -9,17 +9,24 @@
             border: 1px solid #000000;
             transition-duration: 0.4s;
             -webkit-transition-duration: 0.4s;}
-        #submit_new_username:hover{
+        #submit_new_password:hover{
             background-color: #000000;
             color: white;
             border: 1px solid white;
-        } 
+        }
+p{font-family: arial;}
+p1{font-family: arial;
+    color:red;} 
     </style>
-	<body>
-		<form method="post"
-			<p>New Username: <input name = "new_username" type="text" id="new_username"></p>
-			<p><%="This username is already chosen" if @username_conflict %></p>
-			<input name="submit_new_username" type="submit" id="submit_new_username" value="Submit Username">
-		</form>
-	</body>
+    <body>
+        <form method="post">
+            <p>Original Password: <input name="p0" type="password" id="p0"></p>
+            <p>New Password: <input name="p1" type="password" id="p1"></p>
+            <p>Confirm Password: <input name="p2" type="password" id="p2"></p>
+            <p1><%="Incorrect Password" if @password_conflict %></p1>
+            <p1><%="New Passwords do not Match" if @bad_password %></p1>
+            <br>
+            <input name="submit_new_password" type="submit" id="submit_new_password" value="Save New Password">
+        </form>
+    </body>
 </html>
