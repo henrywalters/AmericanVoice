@@ -445,12 +445,6 @@ post '/post' do
 		if title.delete(' ') == ''
 			errors.push('empty_title=true')
 		end
-		if body.delete(' ') == ''
-			errors.push('empty_body=true')
-		end
-		if tags.delete(' ') == ''
-			errors.push('empty_tag=true')
-		end
 
 		if errors.length != 0
 			error = "?"+errors.join('&')
@@ -626,7 +620,6 @@ post '/edit/post/*' do
 			redirect '/'
 		end
 	elsif params[:submit_draft]
-		if params[:submit_post]
 		title = params[:post_title]
 		body = params[:post_body]
 		tags = params[:post_tags]
@@ -640,22 +633,15 @@ post '/edit/post/*' do
 		if title.delete(' ') == ''
 			errors.push('empty_title=true')
 		end
-		if body.delete(' ') == ''
-			errors.push('empty_body=true')
-		end
-		if tags.delete(' ') == ''
-			errors.push('empty_tag=true')
-		end
 		session["edit_title"] = nil
 		if errors.length != 0
 			error = "?"+errors.join('&')
 			redirect "/post#{error}"
 		else
 			delete_post(title)
-			save_draft(session[:user],title,body,tags,"text")
+			new_post(session[:user],title,body,tags,"text_draft")
 			redirect '/'
 		end
-	end
 	else
 		title = params[:post_title]
 		body = params[:post_body]
