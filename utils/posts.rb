@@ -1,6 +1,9 @@
 def new_post(user,title,body,tags,type)
 	sql = MySql.new()
-	sql.query(%Q{
+	if body.include?('"')
+		body.gsub!('"','{quote}')
+	end
+	puts (%Q{
 		INSERT INTO posts(
 			`user`,
 			`title`,
@@ -13,7 +16,7 @@ def new_post(user,title,body,tags,type)
 		VALUES (
 			"#{user}",
 			"#{title}",
-			"#{body.gsub!('"', '{quote}')}",
+			"#{body}",
 			"#{tags}",
 			0,
 			NOW(),
