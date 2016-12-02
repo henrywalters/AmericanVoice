@@ -3,7 +3,7 @@ def new_post(user,title,body,tags,type)
 	if body.include?('"')
 		body.gsub!('"','{quote}')
 	end
-	puts (%Q{
+	sql.query(%Q{
 		INSERT INTO posts(
 			`user`,
 			`title`,
