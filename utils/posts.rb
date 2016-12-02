@@ -13,7 +13,7 @@ def new_post(user,title,body,tags,type)
 		VALUES (
 			"#{user}",
 			"#{title}",
-			REPLACE("#{body}",'"','\"'),
+			"#{body.gsub!('"', '{quote}')}",
 			"#{tags}",
 			0,
 			NOW(),
@@ -37,7 +37,7 @@ def save_draft(user,title,body,tags)
 		VALUES (
 			"#{user}",
 			"#{title}",
-			REPLACE("#{body}",'"','\"'),
+			"#{body}"
 			"#{tags}",
 			0,
 			NOW(),

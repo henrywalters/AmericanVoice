@@ -408,7 +408,7 @@ post '/post' do
 	body = params[:post_body]
 	tags = params[:post_tags]
 
-	if params[:submit]
+	if params[:submit_post]
 
 		post_count = sel_posts_where(title)
 		errors = []
