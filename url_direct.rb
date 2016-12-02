@@ -57,7 +57,10 @@ get '/' do
 			@links.push('image/post/' + post["title"].split().join('-'))
 			@content.push(["a/#{post["image_link"]}","//imgur.com/#{post["link"]}"])
 		end
-		
+		if post["type"] == "image_gallery"
+			@links.push('image/post/' + post["title"].split().join('-'))
+			@content.push(["a/#{post["image_link"]}","//imgur.com/#{post["link"]}"])
+		end
 		@types.push(post["type"])
 		post_count = post_count + 1
 		if post_count % post_limit == 0
@@ -729,7 +732,7 @@ post '/post/image' do
 		if title.delete(' ') == ''
 			errors.push('empty_title=true')
 		end
-		if link.include?('http://imgur.com/a/') == false
+		if link.include?('http://imgur.com/') == false
 			errors.push('bad_link=true')
 		end
 		if tags.delete(' ') == ''
@@ -740,10 +743,18 @@ post '/post/image' do
 			error = "?"+errors.join('&')
 			redirect "/post/image#{error}"
 		else
-			link = link.split('/')[4]
-			new_image(session[:user],title,link,tags)
-			made_post(session[:user])
-			redirect '/'
+			if imgur_type(link) == "image"
+				link = link.split('/')[4]
+				new_image(session[:user],title,link,tags)
+				made_post(session[:user])
+				redirect '/'
+			end
+			if imgur_type(link) == "image_gallery"
+				link = link.split('/')[4]
+				new_image_gallery(session[:user],title,link,tags)
+				made_post(session[:user])
+				redirect '/'
+			end
 		end
 	end
 	if params[:login]

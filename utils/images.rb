@@ -23,6 +23,40 @@ def new_image(user,title,image_link,tags)
 	sql.close
 end
 
+def new_image_gallery(user,title,image_link,tags)
+	sql = MySql.new()
+	sql.query(%Q{
+		INSERT INTO image_posts(
+			`user`,
+			`title`,
+			`image_link`,
+			`tags`,
+			`views`,
+			`time_posted`,
+			`type`
+		)
+		VALUES (
+			"#{user}",
+			"#{title}",
+			"#{image_link}",
+			"#{tags}",
+			0,
+			NOW(),
+			"image_gallery"
+		);
+	})
+	sql.close
+end
+
+def imgur_type(link)
+	if link.include?("/a/")
+		return "image"
+	end
+	if link.include?("/gallery/")
+		return "image_gallery"
+	end
+end
+
 def viewed_image(title)
 	post = sel_image_posts_where(title)[0]
 	views = post["views"] += 1
