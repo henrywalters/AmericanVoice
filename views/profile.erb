@@ -24,7 +24,6 @@ h7:hover{background-color: #ddd;
 #img_post{width:relative;
     height:relative;
     max-width: 500px;
-    max-height: 500px;
     font-family: helvetica;
     font-weight: bold;
     box-shadow: 1px 2px 1px 1px #ccc;
@@ -62,6 +61,17 @@ h8{color:red;
             </div>
         <% end %>
         <% if post["type"] == "image" %>
+            <div id="img_post">
+                <div id="imgTitle">
+                <a href=<%=post["link"]%>><h7><%=post["title"]%><h7></a>
+                </div>
+                <blockquote class="imgur-embed-pub" lang="en" data-id="<%= "a/#{post["image_link"]}"%>">
+                <a href="<%= "//imgur.com/#{post["link"]}"%>"></a>
+                </blockquote>
+                <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+            </div>
+        <% end %>
+        <% if post["type"] == "image_gallery" %>
             <div id="img_post">
                 <div id="imgTitle">
                 <a href=<%=post["link"]%>><h7><%=post["title"]%><h7></a>
