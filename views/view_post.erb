@@ -46,6 +46,14 @@ p1{font-family: arial;
       max-width:550px;
 }
 </style>
+
+<head>
+      <script>
+      function postComment(){
+            var comment = prompt("Enter your comment");
+      }
+      </script>
+</head>
 <body>
 
 <div id="post_content">
@@ -63,7 +71,10 @@ p1{font-family: arial;
 <% if @editable %>
 	<p><input name="edit" type="submit" value="Edit Post" id="edit"></p>
 	<p><input name="delete" type="submit" value="Delete Post" id="delete"></p>
+      <% if @commentable %>
+            <button onclick="postComment()">Post Comment</button>
 
+      <% end %>
 <% end %>
 </form>
 </div>

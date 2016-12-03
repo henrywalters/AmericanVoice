@@ -13,7 +13,7 @@ def send_write_auth(to, auth_key)
 	@username = "AmericanVoice0.1"
 	@password = "lunalove123!"
 	#@website_url = "localhost:9393/"
-	@website_url = "https://american-voice.herokuapp.com/"
+	@website_url = "https://americanvoice.co/"
 	smtp = Net::SMTP.new 'smtp.gmail.com', 587
 	smtp.enable_starttls
 	smtp.start(@server,@username,@password, :login)
@@ -36,7 +36,7 @@ def send_registration_email(to,auth_key)
 	@username = "AmericanVoice0.1"
 	@password = "lunalove123!"
 	#@website_url = "localhost:9393/"
-	@website_url = "https://american-voice.herokuapp.com/"
+	@website_url = "http://americanvoice.co/"
 	smtp = Net::SMTP.new 'smtp.gmail.com', 587
 	smtp.enable_starttls
 	smtp.start(@server,@username,@password, :login)
@@ -59,7 +59,7 @@ def send_feedback(subject,message)
 	@username = "AmericanVoice0.1"
 	@password = "lunalove123!"
 	#@website_url = "localhost:9393/"
-	@website_url = "https://american-voice.herokuapp.com/"
+	@website_url = "http://american-voice.herokuapp.com/"
 	smtp = Net::SMTP.new 'smtp.gmail.com', 587
 	smtp.enable_starttls
 	smtp.start(@server,@username,@password, :login)
@@ -70,4 +70,3 @@ def send_feedback(subject,message)
 
 	smtp.send_message(message,@username+'@'+@server,@username+'@'+@server)
 end
-

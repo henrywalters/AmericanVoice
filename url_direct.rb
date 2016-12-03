@@ -525,6 +525,11 @@ get '/posts/*' do
 	@dn = get_display_name(post["user"])
 	if post["user"] == session["user"] && logged_in?(post["user"])
 		@editable = true
+		if privilege(session["user"]) > 0
+			@commentable = true
+		else
+			@commentable = false
+		end
 	else
 		@editable = false
 	end

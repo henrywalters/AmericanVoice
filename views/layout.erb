@@ -4,7 +4,7 @@
         header {
             border-bottom: 5px solid white;
             border-bottom-style: ridge;
-            height: 45px;
+            height: 60px;
         }
         h1 {
             display: inline-block;
@@ -20,7 +20,7 @@
             padding: 0;
             float: right;
             display: inline-block;
-            line-height: 62px;
+            line-height: 88px;
         }
         #post{
             background-color: white;
@@ -158,26 +158,40 @@
         border: 2px solid #ddd;
         border-radius: 3px;
         }
+        /*
     #home_link{transition-duration: 0.4s;
             -webkit-transition-duration: 0.4s;
             padding-left: 2px;
             padding-right: 2px;
-            padding-top: 13px;}
+            padding-top: 0px;}
         #home_link:hover{background-color: #d9d9d9;
-            padding-top: 13px;
+            padding-top: 0px;
             border-radius:3px;
             padding-left: 2px;
             padding-right: 2px;}
+    */
+        footer {
+            position:absolute;
+            bottom:0;
+            width:100%;
+            height:60px;
 
-        </style>
+        }
+
+        #avhead {
+            height:60px;
+            width:125px;
+            display:inline;
+        }
+ </style>
 <html>
 	<head>
 		<meta charset="utf-8">
-        <link rel="shortcut icon" type="image/x-icon" href="images/avicon.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="images/avicon2.ico">
 		<title>American Voice</title>
 	</head>
 	<header link="black">
-	    <a href="/" id="home_link"><h1>The American Voice</h1></a>
+	    <a href="/" id="home_link"><input type="image" name="avhead" src="images/avhead.png" id="avhead"></a>
         <form class="form" method="post">
         <input name="search_query" type="text" placeholder="Search" id="search_query">
         <input name = "search" type="image" src="https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-128.png" id="search" >
@@ -203,4 +217,6 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58407c212e18f637"></script>
 
 	</body>
+    <footer>
+    </footer>
 </html>

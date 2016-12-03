@@ -27,3 +27,39 @@ def search(checks, posts)
 
 	return matches.reverse
 end
+
+
+def is_offensive?(text,acceptable_ratio)
+	slurs = [
+		'nig',
+		'nigger',
+		'niggers',
+		'nigga',
+		'ni66a',
+		'jew',
+		'negro',
+		'fag',
+		'faggot',
+		'f4g',
+		'spick',
+		'niglet',
+		'negress',
+	]
+	swears = [
+		'fuck',
+		'bitch',
+		'cunt',
+		'shit',
+		'asshole',
+		'ass'
+	]
+	text = text.split()
+	bad_words = []
+	for word in text
+		if slurs.include?(word)
+			bad_words.push(word)
+		end
+	end
+	print bad_words
+end
+
