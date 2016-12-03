@@ -50,8 +50,14 @@ get '/' do
 	all_posts.each do | post |
 		@titles.push(post["title"])
 		if post["type"] == "text"
+			if post["body"].include? "{quote}"
+				body = post["body"].gsub("{quote}",'"')
+			else
+				body = post["body"]
+			end
+			puts body
 			@links.push('posts/' + post["title"].split().join('-'))
-			@content.push(post["body"])
+			@content.push(body)
 		end
 		if post["type"] == "image"
 			@links.push('image/post/' + post["title"].split().join('-'))
@@ -509,7 +515,11 @@ get '/posts/*' do
 	title = params[:splat].first.split('-').join(' ')
 	post = sel_all_posts_where_title(title)[0]
 	@title = post["title"]
-	@body = post["body"]
+	if post["body"].include?("{quote}")
+		@body = post["body"].gsub!("{quote}",'"')
+	else
+		@body = post["body"]
+	end
 	puts @title
 	@tags = post["tags"]
 	@dn = get_display_name(post["user"])
@@ -584,8 +594,10 @@ get '/edit/post/*' do
 		if params[:empty_tag]
 			@empty_tag = true 
 		end
-
 		@body = posts[0]["body"]
+		if @body.include?("{quote}")
+			@body.gsub!("{quote}",'"')
+		end
 		@title = posts[0]["title"]
 		@tags = posts[0]["tags"]
 		erb :post

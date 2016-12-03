@@ -23,13 +23,16 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
         -webkit-transition: width 0.4s ease-in-out;
         transition: width 0.4s ease-in-out;}
 #search_query:focus{width: 225px;}
-#text_post{height: relative;
-    width:375px;
+#text_post{height: 135;
+    max-height:135;
+    width:relative;
+    max-width:500px;
     box-shadow: 1px 2px 1px 1px #ccc;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 7px;
     word-wrap: break-word;
+    overflow: hidden;
     }
 h7{color:black;
      transition-duration: 0.6s;
@@ -43,10 +46,26 @@ h7:hover{background-color: #ddd;
 #content{font-family: arial;
     font-weight:normal;
     font-size: 14px;
-    padding-left: 0;
-    max-width: 300px;
+    padding-left: 14;
+    width: relative;
+    max-width: 500px;
+    height: relative;
+    max-height: 47px;
+    white-space:normal;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    padding-bottom:14px;
     }
 #img_post{width:relative;
+    height:relative;
+    max-width: 500px;
+    font-family: helvetica;
+    font-weight: bold;
+    box-shadow: 1px 2px 1px 1px #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 7px;}
+img{width:relative;
     height:relative;
     max-width: 500px;
     font-family: helvetica;
@@ -79,8 +98,8 @@ h8:hover{background-color: #ddd;}
                 <div id="title"> 
                 <a href=<%=@links_on_page[@page.to_i][i]%>><h7><%=@titles_on_page[@page.to_i][i]%><h7></a>
                 </div>
-                <div id="content>"
-                <p><%=@contents_on_page[@page.to_i][i].slice!(0,120) + "..."%></p>
+                <div id="content">
+                <p><%=@contents_on_page[@page.to_i][i] + "..."%></p>
                 </div>
             </div>
             <% end %>

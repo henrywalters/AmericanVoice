@@ -1,7 +1,7 @@
 <html>
 <style>
 #form{border:2px black solid;
-	width:570px;}
+	width:594px;}
 dt{font-family: helvetica;
 font-weight: bold;}
 dt1{font-family: helvetica; 
@@ -17,6 +17,7 @@ dd{font-family: arial;}
 #textinput{font-family: arial;}
 #enter_post{background-color: white;
 			margin-left: 47px;
+			margin-right: 47px;
             color: black;
             font-family: Helvetica;
             font-weight: bold;
@@ -34,7 +35,7 @@ dd1{color:red;
 </style>
 <head>
   <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-  <script>tinymce.init({ selector:'textarea' });</script>
+  <script>tinymce.init({ selector:'textarea', width: 500, max_width: 500, plugins: "advlist,image" });</script>
 </head>
 <body>
 <form method="post" id="form">
