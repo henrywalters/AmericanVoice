@@ -1,5 +1,6 @@
 def new_image(user,title,image_link,tags)
 	sql = MySql.new()
+	title = title.tr('?','')
 	sql.query(%Q{
 		INSERT INTO image_posts(
 			`user`,
@@ -25,6 +26,7 @@ end
 
 def new_image_gallery(user,title,image_link,tags)
 	sql = MySql.new()
+	title = title.tr('?','')
 	sql.query(%Q{
 		INSERT INTO image_posts(
 			`user`,
