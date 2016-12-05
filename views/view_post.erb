@@ -56,14 +56,11 @@ p1{font-family: arial;
 #post_content{
       max-width:550px;
 }
+
 </style>
 
 <head>
-      <script>
-      function postComment(){
-            var comment = prompt("Enter your comment");
-      }
-      </script>
+
 </head>
 <body>
 
@@ -83,8 +80,9 @@ p1{font-family: arial;
 	<p><input name="edit" type="submit" value="Edit Post" id="edit"></p>
 	<p><input name="delete" type="submit" value="Delete Post" id="delete"></p>
       <% if @commentable %>
-            <button onclick="postComment()" id="comment">Post Comment</button>
-
+            <p><textarea name="comment_field" style="width:500px"></textarea></p>
+            <button name="comment" id="comment">Post Comment</button>
+            <input type="hidden" name ="root_value" value="<% @title %>">
       <% end %>
 <% end %>
 </form>

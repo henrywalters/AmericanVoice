@@ -49,6 +49,25 @@ def save_draft(user,title,body,tags)
 	})
 	sql.close
 end
+
+def post_comment(user, root, body)
+	sql = MySql.new()
+	sql.query(%Q{
+		INSERT INTO comments(
+			`user`,
+			`root`,
+			`comment`
+		) 
+		VALUES
+		(
+			"#{user}",
+			"#{root}",
+			"#{body}"
+		);
+		})
+	sql.close
+end
+
 def viewed_post(title)
 	post = sel_all_posts_where_title(title)[0]
 	views = post["views"] + 1

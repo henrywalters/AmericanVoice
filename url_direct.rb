@@ -528,21 +528,28 @@ get '/posts/*' do
 	else
 		@editable = false
 	end
-	if privilege(session["user"]) > 0
-		@commentable = true
-	else
-		@commentable = false
+	if defined?(session["user"]) && logged_in?(session["user"])
+		if privilege(session["user"]) > 0
+			@commentable = true
+		else
+			@commentable = false
+		end
 	end
 	viewed_post(@title)
 	erb :view_post
 end
 
 post '/posts/*' do 
+	redirect_title = params[:splat].first
 	title = params[:splat].first.split('-').join(' ')
 	if params[:delete]
 		redirect "/delete/post/#{title.split(' ').join('-')}"
 	elsif params[:edit]
 		redirect "/edit/post/#{title.split(' ').join('-')}"
+	end
+	if params[:comment]
+		post_comment(session[:user],params[:root_value],params[:comment_field])
+		redirect("posts/" + redirect_title)
 	end
 	if params[:home]
 		redirect '/'
