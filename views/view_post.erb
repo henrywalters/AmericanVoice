@@ -42,6 +42,17 @@ p1{font-family: arial;
 #delete:hover{background-color: red;
             color: white;
             border: 1px solid black;}
+#comment{background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;}
+#comment:hover{background-color: black;
+            color: white;
+            border: 1px solid black;}
 #post_content{
       max-width:550px;
 }
@@ -72,7 +83,7 @@ p1{font-family: arial;
 	<p><input name="edit" type="submit" value="Edit Post" id="edit"></p>
 	<p><input name="delete" type="submit" value="Delete Post" id="delete"></p>
       <% if @commentable %>
-            <button onclick="postComment()">Post Comment</button>
+            <button onclick="postComment()" id="comment">Post Comment</button>
 
       <% end %>
 <% end %>
