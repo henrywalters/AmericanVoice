@@ -165,3 +165,5 @@ def delete_user(username)
 	sql.query(%Q{DELETE FROM userbase WHERE `username`="#{username}";})
 	sql.close
 end
+
+print sel_comments

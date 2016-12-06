@@ -91,6 +91,15 @@ def delete_post(title)
 	sql.close
 end
 
+def delete_comment(root)
+	sql = MySql.new()
+	sql.query(%Q{
+		DELETE FROM comments
+		WHERE `root`="#{root}";
+		})
+	sql.close
+end
+
 def page(post_limit, page_number)
 	offset = (page_number*post_limit).to_s
 	limit = (post_limit).to_s

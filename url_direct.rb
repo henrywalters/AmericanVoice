@@ -522,7 +522,6 @@ get '/posts/*' do
 	else
 		@body = post["body"]
 	end
-	puts @title
 	@tags = post["tags"]
 	@dn = get_display_name(post["user"])
 	if post["user"] == session["user"] && logged_in?(post["user"])
@@ -547,6 +546,13 @@ post '/posts/*' do
 	title = params[:splat].first.split('-').join(' ')
 
 	comment_length = sel_post_comments(title).length
+	comments = sel_post_comments(title)
+	if params[:delete_comment]
+		puts session[:delete_comment]
+		delete_comment(session[:delete_comment])
+		session[:delete_comment] = nil
+		redirect("posts/" + redirect_title)
+	end
 	if params[:delete]
 		redirect "/delete/post/#{title.split(' ').join('-')}"
 	elsif params[:edit]

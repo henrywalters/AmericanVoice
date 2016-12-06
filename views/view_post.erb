@@ -102,7 +102,9 @@ p1{font-family: arial;
                   <h3><%=@comments[i]["user"]%> said:</h5>
                   <p><%=@comments[i]["comment"]%></p>
                   <% if @comments[i]["user"] == session[:user] && logged_in?(session[:user])%>
-                        <button name=<%="delete-"+@comments[i]["root"]%> id="delete_comment">Delete Comment</button>
+                        <% session[:delete_comment] = @comments[i]["root"]%>
+                        <button name="delete_comment" id="delete_comment">Delete Comment</button>
+
                   <% end %>
             </div>
       <% end %>
