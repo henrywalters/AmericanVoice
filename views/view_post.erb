@@ -99,13 +99,13 @@ p1{font-family: arial;
 
       <% for i in 0...@comments.length %>
             <div id="comment_div">
-                  <h3><%=@comments[i]["user"]%> said:</h5>
+                  <h3><%=@display_names[i]%> said:</h5>
                   <p><%=@comments[i]["comment"]%></p>
                   <% if @comments[i]["user"] == session[:user] && logged_in?(session[:user])%>
-                        <% session[:delete_comment] = @comments[i]["root"]%>
-                        <button name="delete_comment" id="delete_comment">Delete Comment</button>
+                        <button name=<%="delete_comment-" + i.to_s%> id="delete_comment">Delete Comment</button>
 
                   <% end %>
+                  <% session["delete_comment-" + i.to_s] = @comments[i]["root"]%>
             </div>
       <% end %>
 </form>

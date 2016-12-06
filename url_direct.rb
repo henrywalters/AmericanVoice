@@ -514,7 +514,12 @@ end
 get '/posts/*' do 
 	title = params[:splat].first.split('-').join(' ')
 	post = sel_all_posts_where_title(title)[0]
+	@display_names = []	
 	@comments = sel_post_comments(title)
+	for i in 0...@comments.length
+		@display_names.push(@comments[i]["user"])
+	end
+	puts @display_names
 	@comment_length = @comments.length
 	@title = post["title"]
 	if post["body"].include?("{quote}")
@@ -547,11 +552,13 @@ post '/posts/*' do
 
 	comment_length = sel_post_comments(title).length
 	comments = sel_post_comments(title)
-	if params[:delete_comment]
-		puts session[:delete_comment]
-		delete_comment(session[:delete_comment])
-		session[:delete_comment] = nil
-		redirect("posts/" + redirect_title)
+	for i in 0...comment_length
+		if params["delete_comment-" + i.to_s]
+			puts session[:delete_comment]
+			delete_comment(session["delete_comment-"+i.to_s])
+			session[:delete_comment] = nil
+			redirect("posts/" + redirect_title)
+		end
 	end
 	if params[:delete]
 		redirect "/delete/post/#{title.split(' ').join('-')}"
@@ -1214,7 +1221,6 @@ get '/profile' do
 		if @content != []
 			@posts_on_page.push(@content)
 		end
-		puts @post_on_page
 		erb :profile
 	else
 		redirect '/'

@@ -39,48 +39,52 @@ h8{color:red;
 
 </style>
 <h3>Hello, <%=@user["display_name"]%>!</h3>
-<% @posts_on_page[@page].each do |post| %>
-        <% if post["type"] == "text" %>
-            <div id="text_post">
-                <div id="title"> 
-                <a href=<%='posts/' + post["title"].split().join('-')%>><h7><%=post["title"]%><h7></a>
+<% if @posts_on_page == [] %>
+    <p>Looks like you've made no posts</p>
+<% else %>
+    <% @posts_on_page[@page].each do |post| %>
+            <% if post["type"] == "text" %>
+                <div id="text_post">
+                    <div id="title"> 
+                    <a href=<%='posts/' + post["title"].split().join('-')%>><h7><%=post["title"]%><h7></a>
+                    </div>
+                    <div id="content>"
+                    <p><%=post["body"].slice!(0,120) + "..."%></p>
+                    </div>
                 </div>
-                <div id="content>"
-                <p><%=post["body"].slice!(0,120) + "..."%></p>
+            <% end %>
+            <% if post["type"] == "text_draft"%>
+                <div id="text_post">
+                    <div id="title"> 
+                    <a href=<%='posts/' + post["title"].split().join('-')%>><h8>[Draft]</h8>&nbsp<h7><%=post["title"]%><h7></a>
+                    </div>
+                    <div id="content>"
+                    <p><%=post["body"].slice!(0,120) + "..."%></p>
+                    </div>
                 </div>
-            </div>
-        <% end %>
-        <% if post["type"] == "text_draft"%>
-            <div id="text_post">
-                <div id="title"> 
-                <a href=<%='posts/' + post["title"].split().join('-')%>><h8>[Draft]</h8>&nbsp<h7><%=post["title"]%><h7></a>
+            <% end %>
+            <% if post["type"] == "image" %>
+                <div id="img_post">
+                    <div id="imgTitle">
+                    <a href=<%=post["link"]%>><h7><%=post["title"]%><h7></a>
+                    </div>
+                    <blockquote class="imgur-embed-pub" lang="en" data-id="<%= "a/#{post["image_link"]}"%>">
+                    <a href="<%= "//imgur.com/#{post["link"]}"%>"></a>
+                    </blockquote>
+                    <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
                 </div>
-                <div id="content>"
-                <p><%=post["body"].slice!(0,120) + "..."%></p>
+            <% end %>
+            <% if post["type"] == "image_gallery" %>
+                <div id="img_post">
+                    <div id="imgTitle">
+                    <a href=<%=post["link"]%>><h7><%=post["title"]%><h7></a>
+                    </div>
+                    <blockquote class="imgur-embed-pub" lang="en" data-id="<%= "a/#{post["image_link"]}"%>">
+                    <a href="<%= "//imgur.com/#{post["link"]}"%>"></a>
+                    </blockquote>
+                    <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
                 </div>
-            </div>
-        <% end %>
-        <% if post["type"] == "image" %>
-            <div id="img_post">
-                <div id="imgTitle">
-                <a href=<%=post["link"]%>><h7><%=post["title"]%><h7></a>
-                </div>
-                <blockquote class="imgur-embed-pub" lang="en" data-id="<%= "a/#{post["image_link"]}"%>">
-                <a href="<%= "//imgur.com/#{post["link"]}"%>"></a>
-                </blockquote>
-                <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-            </div>
-        <% end %>
-        <% if post["type"] == "image_gallery" %>
-            <div id="img_post">
-                <div id="imgTitle">
-                <a href=<%=post["link"]%>><h7><%=post["title"]%><h7></a>
-                </div>
-                <blockquote class="imgur-embed-pub" lang="en" data-id="<%= "a/#{post["image_link"]}"%>">
-                <a href="<%= "//imgur.com/#{post["link"]}"%>"></a>
-                </blockquote>
-                <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-            </div>
-        <% end %>
+            <% end %>
+    <% end %>
 <% end %>
 </html>

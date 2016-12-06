@@ -166,4 +166,4 @@ def delete_user(username)
 	sql.close
 end
 
-print sel_comments
+print sel_posts
