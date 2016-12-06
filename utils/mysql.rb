@@ -44,6 +44,18 @@ def sel_comments
 	return sql.iter_query()
 end
 
+def sel_post_comments(post_title)
+	comments = sel_comments
+	post_comments = []
+	comments.each do |comment|
+		if comment["root"].split('/')[0] == post_title
+			post_comments.push(comment)
+		end
+	end
+	return post_comments
+end
+
+
 def sel_userbase_where(username)
 	sql = MySql.new()
 	sql.query(%Q{SELECT * FROM userbase WHERE username="#{username}";})
@@ -153,5 +165,3 @@ def delete_user(username)
 	sql.query(%Q{DELETE FROM userbase WHERE `username`="#{username}";})
 	sql.close
 end
-
-print sel_comments

@@ -53,6 +53,17 @@ p1{font-family: arial;
 #comment:hover{background-color: black;
             color: white;
             border: 1px solid black;}
+#delete_comment{background-color: white;
+            color: black;
+            font-family: Helvetica;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #000000;
+            transition-duration: 0.6s;
+            -webkit-transition-duration: 0.6s;}
+#delete_comment:hover{background-color: black;
+            color: white;
+            border: 1px solid black;}
 #post_content{
       max-width:550px;
 }
@@ -82,8 +93,18 @@ p1{font-family: arial;
       <% if @commentable %>
             <p><textarea name="comment_field" style="width:500px"></textarea></p>
             <button name="comment" id="comment">Post Comment</button>
-            <input type="hidden" name ="root_value" value="<% @title %>">
+            <input type="hidden" name ="root_value" value="">
       <% end %>
+      <% for i in 0...@comments.length %>
+            <div id="comment_div">
+                  <h3><%=@comments[i]["user"]%> said:</h5>
+                  <p><%=@comments[i]["comment"]%></p>
+                  <% if @comments[i]["user"] == session[:user] %>
+                  <button name=<%="delete-"+@comments[i]["root"]%> id="delete_comment">Delete Comment</button>
+                  <% end %>
+            </div>
+      <% end %>
+
 <% end %>
 </form>
 </div>

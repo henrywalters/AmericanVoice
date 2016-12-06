@@ -514,6 +514,8 @@ end
 get '/posts/*' do 
 	title = params[:splat].first.split('-').join(' ')
 	post = sel_all_posts_where_title(title)[0]
+	@comments = sel_post_comments(title)
+	@comment_length = @comments.length
 	@title = post["title"]
 	if post["body"].include?("{quote}")
 		@body = post["body"].gsub!("{quote}",'"')
@@ -541,16 +543,20 @@ end
 
 post '/posts/*' do 
 	redirect_title = params[:splat].first
+
 	title = params[:splat].first.split('-').join(' ')
+
+	comment_length = sel_post_comments(title).length
 	if params[:delete]
 		redirect "/delete/post/#{title.split(' ').join('-')}"
 	elsif params[:edit]
 		redirect "/edit/post/#{title.split(' ').join('-')}"
 	end
 	if params[:comment]
-		post_comment(session[:user],params[:root_value],params[:comment_field])
+		post_comment(session[:user],title + '/' + comment_length.to_s,params[:comment_field])
 		redirect("posts/" + redirect_title)
 	end
+
 	if params[:home]
 		redirect '/'
 	end
