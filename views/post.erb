@@ -43,8 +43,10 @@ dd1{color:red;
 		<dt>Article Title:</dt>
 		<% if @title == nil %>
 			<dd><input name="post_title" type="text" id="post_title"></dd>
+			<input type="hidden" name="old_post_title" value="">
 		<% else %>
 			<dd><input name="post_title" type="text" value="<%=@title%>" id="post_title"></dd>
+			<input type="hidden" name="old_post_title" value="<%=@title%>">
 		<% end %>
 		<dt1><%="Whoops! You forgot a title" if @empty_title%></dt1>
 		<dt1><%="This article already exists" if @title_conflict %></dt1>

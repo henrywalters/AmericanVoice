@@ -55,7 +55,6 @@ get '/' do
 			else
 				body = post["body"]
 			end
-			puts body
 			@links.push('posts/' + post["title"].split().join('-'))
 			@content.push(body)
 		end
@@ -519,7 +518,6 @@ get '/posts/*' do
 	for i in 0...@comments.length
 		@display_names.push(@comments[i]["user"])
 	end
-	puts @display_names
 	@comment_length = @comments.length
 	@title = post["title"]
 	if post["body"].include?("{quote}")
@@ -527,7 +525,6 @@ get '/posts/*' do
 	else
 		@body = post["body"]
 	end
-	puts @body
 	@tags = post["tags"]
 	@dn = get_display_name(post["user"])
 	if post["user"] == session["user"] && logged_in?(post["user"])
@@ -555,7 +552,6 @@ post '/posts/*' do
 	comments = sel_post_comments(title)
 	for i in 0...comment_length
 		if params["delete_comment-" + i.to_s]
-			puts session[:delete_comment]
 			delete_comment(session["delete_comment-"+i.to_s])
 			session[:delete_comment] = nil
 			redirect("posts/" + redirect_title)
@@ -662,7 +658,7 @@ post '/edit/post/*' do
 			error = "?"+errors.join('&')
 			redirect "/post#{error}"
 		else
-			delete_post(title)
+			delete_post(params[:splat].first.split('-').join(' '))
 			new_post(session[:user],title,body,tags,"text")
 			redirect '/'
 		end
@@ -685,7 +681,7 @@ post '/edit/post/*' do
 			error = "?"+errors.join('&')
 			redirect "/post#{error}"
 		else
-			delete_post(title)
+			delete_post(params[:splat].first.split('-').join(' '))
 			new_post(session[:user],title,body,tags,"text_draft")
 			redirect '/'
 		end
