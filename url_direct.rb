@@ -527,6 +527,7 @@ get '/posts/*' do
 	else
 		@body = post["body"]
 	end
+	puts @body
 	@tags = post["tags"]
 	@dn = get_display_name(post["user"])
 	if post["user"] == session["user"] && logged_in?(post["user"])
