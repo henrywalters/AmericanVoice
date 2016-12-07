@@ -91,6 +91,7 @@ p1{font-family: arial;
 	<p><input name="edit" type="submit" value="Edit Post" id="edit"></p>
 	<p><input name="delete" type="submit" value="Delete Post" id="delete"></p>
 <% end %>
+<!--
       <% if @commentable %>
             <p><textarea name="comment_field" style="width:500px"></textarea></p>
             <button name="comment" id="comment">Post Comment</button>
@@ -108,6 +109,7 @@ p1{font-family: arial;
                   <% session["delete_comment-" + i.to_s] = @comments[i]["root"]%>
             </div>
       <% end %>
+-->
 </form>
 </div>
 </body>
