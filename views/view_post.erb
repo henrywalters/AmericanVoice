@@ -78,12 +78,11 @@ p1{font-family: arial;
 <div id="post_content">
 <h3><%= @title %></h3>
 <h5>by <%= @dn %></h5>
-<% @body.split("\n").each do |line| %>
-<p><%=line%></p>
-<% end %>
+<p><%= @body %></p>
 <br>
 <p1>Tags: <i><%= @tags %></i></p1>
-
+</div>
+<div id="comment_setting">
 <form method="post">
 	<p><input name="home" type="submit" value="Home" id="home"></p>
 
