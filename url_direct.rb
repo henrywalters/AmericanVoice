@@ -27,6 +27,7 @@ get '/' do
 		all_matches.each do |match|
 			all_posts.push(match[:post])
 		end
+		session["search"] = nil
 	else
 		session["search"] = []
 		posts = sel_posts()
