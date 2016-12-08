@@ -52,7 +52,6 @@ def sel_post_comments(post_title)
 			post_comments.push(comment)
 		end
 	end
-	sql.close
 	return post_comments
 end
 
@@ -166,4 +165,3 @@ def delete_user(username)
 	sql.query(%Q{DELETE FROM userbase WHERE `username`="#{username}";})
 	sql.close
 end
-

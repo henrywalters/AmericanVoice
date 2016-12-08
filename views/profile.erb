@@ -1,25 +1,60 @@
 <html>
 <style>
-#text_post{height: relative;
-    width:375px;
+ul.pagination{display: inline-block;
+    padding: 0;
+    margin: 0;
+    font-family: helvetica;}
+ul.pagination li{display: inline;}
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;}
+ul.pagination li a.active {
+    background-color: #4CAF50;
+    color: white;}
+ul.pagination li a:hover:not(.active) {background-color: #ddd;}
+#search_query{border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        width:130px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;}
+#search_query:focus{width: 225px;}
+#text_post{height: 135;
+    max-height:135;
+    width: 500px;
+    max-width:500px;
     box-shadow: 1px 2px 1px 1px #ccc;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 7px;
-    word-wrap: break-word;}
+    word-wrap: break-word;
+    overflow: hidden;
+    background-color: white;
+    }
 h7{color:black;
      transition-duration: 0.6s;
     -webkit-transition-duration: 0.6s;}
 h7:hover{background-color: #ddd;
 }
-#title{font-family: helvetica;
+#title{
+    font-family: helvetica;
     font-weight: bold;
-    font-size: 17px;}
+    font-size: 17px;
+    }
 #content{font-family: arial;
     font-weight:normal;
     font-size: 14px;
-    padding-left: 0;
-    max-width: 300px;
+    padding-left: 14;
+    width: relative;
+    max-width: 500px;
+    height: relative;
+    max-height: 47px;
+    white-space:normal;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    padding-bottom:14px;
     }
 #img_post{width:relative;
     height:relative;
@@ -29,14 +64,34 @@ h7:hover{background-color: #ddd;
     box-shadow: 1px 2px 1px 1px #ccc;
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 7px;}
-h3{font-family: helvetica;
-    font-size: 23px;}
-h8{color:red;
+    margin-left: 7px;
+    background-color: white;}
+img{width:relative;
+    height:relative;
+    max-width: 500px;
     font-family: helvetica;
-    font-weight: normal;
-}
-
+    font-weight: bold;
+    box-shadow: 1px 2px 1px 1px #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 7px;}
+#img_gallery{width:relative;
+    max-width: 500px;
+    max-height: 500px;
+    font-family: helvetica;
+    font-weight: bold;
+    box-shadow: 1px 2px 1px 1px #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 7px;}
+h8{color:black;
+     transition-duration: 0.6s;
+    -webkit-transition-duration: 0.6s;}
+h8:hover{background-color: #ddd;}
+#imgTitle{font-family: helvetica;
+    font-weight: bold;
+    font-size: 17px;}
+body{background-color: #f9f9f9;}
 </style>
 <h3>Hello, <%=@user["display_name"]%>!</h3>
 <% if @posts_on_page == [] %>
@@ -48,8 +103,8 @@ h8{color:red;
                     <div id="title"> 
                     <a href=<%='posts/' + post["title"].split().join('-')%>><h7><%=post["title"]%><h7></a>
                     </div>
-                    <div id="content>"
-                    <p><%=post["body"].slice!(0,120) + "..."%></p>
+                    <div id="content">
+                    <p><%=post["body"] + "..."%></p>
                     </div>
                 </div>
             <% end %>
@@ -59,7 +114,7 @@ h8{color:red;
                     <a href=<%='posts/' + post["title"].split().join('-')%>><h8>[Draft]</h8>&nbsp<h7><%=post["title"]%><h7></a>
                     </div>
                     <div id="content>"
-                    <p><%=post["body"].slice!(0,120) + "..."%></p>
+                    <p><%=post["body"] + "..."%></p>
                     </div>
                 </div>
             <% end %>
@@ -87,4 +142,24 @@ h8{color:red;
             <% end %>
     <% end %>
 <% end %>
+    <ul class="pagination">
+    <% if @page.to_i > 0%>
+        <li><a href=<%="?page=#{(@page.to_i).to_s}" %>>«</a></li>
+    <% end %>
+    <% if @pages.length < 5 %>
+        <% for i in @pages %>
+            <li><a href=<%="?page=#{(i+1).to_s}"%>><%=(i+1).to_s%></a></li>
+        <% end %> 
+    <% else %>
+        <li><a href="?page=0">1</a></li>
+        <li><a href=<%="?page=#{@pages[1]+1}"%>><%=(@pages[1].to_i+1).to_s%></a></li>
+        <li><a href=<%="?page=#{@pages[2]+1}"%>><%=(@pages[2].to_i+1).to_s%></a></li>
+        <li><a href=<%="?page=#{@pages[3]+1}"%>><%=(@pages[3].to_i+1).to_s%></a></li>
+        <li><a href=<%="?page=#{@pages[4]+1}"%>><%=(@pages[4].to_i+1).to_s%></a></li>
+
+    <% end %>
+    <% if @page < @pages.length-1 && @pages.length > 0 %>
+        <li><a href=<%="?page=#{(@page.to_i+2).to_s}" %>>»</a></li>
+    <% end %>
+    </ul>
 </html>

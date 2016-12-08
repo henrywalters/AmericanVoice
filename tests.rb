@@ -4,7 +4,7 @@ running = true
 post_count = 0
 while running
 	begin
-		new_post("test","test","
+		new_post("henry","test","
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis egestas turpis mi, vel sollicitudin nisi tincidunt ut. Integer tristique, est euismod feugiat dignissim, metus turpis tristique eros, tristique lacinia mauris risus a nunc. Quisque ac elementum lacus, vel porttitor neque. Nunc rhoncus faucibus ante at vulputate. Nulla pretium eget nulla hendrerit ornare. Etiam nibh risus, interdum sed finibus ac, commodo sed ante. Proin porttitor congue lorem ac ultricies.
 

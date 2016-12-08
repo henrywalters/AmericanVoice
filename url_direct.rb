@@ -1242,6 +1242,29 @@ get '/profile' do
 		if @content != []
 			@posts_on_page.push(@content)
 		end
+		if @page != 0
+			@page = @page.to_i - 1
+		else
+			@page = 0
+		end
+		pages = @posts_on_page.length
+		if pages < 5 
+			@pages = []
+			for i in 0...pages
+				@pages.push(i)
+			end
+		else
+			if @page > 1 && @page < pages - 2
+				@pages = [0,@page-1,@page,@page+1,pages-1]
+			elsif @page <= 1
+				@pages = [0,1,2,3,pages-1]
+			else
+				@pages = [0,pages-4,pages-3,pages-2,pages-1]
+			end
+		end
+		puts @page
+		puts @pages.length
+		puts @page < @pages.length
 		erb :profile
 	else
 		redirect '/'

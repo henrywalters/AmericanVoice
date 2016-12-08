@@ -33,6 +33,7 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
     margin-left: 7px;
     word-wrap: break-word;
     overflow: hidden;
+    background-color: white;
     }
 h7{color:black;
      transition-duration: 0.6s;
@@ -42,6 +43,7 @@ h7:hover{background-color: #ddd;
 #title{
     font-family: helvetica;
     font-weight: bold;
+    font-size: 17px;
     }
 #content{font-family: arial;
     font-weight:normal;
@@ -64,7 +66,8 @@ h7:hover{background-color: #ddd;
     box-shadow: 1px 2px 1px 1px #ccc;
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 7px;}
+    margin-left: 7px;
+    background-color: white;}
 img{width:relative;
     height:relative;
     max-width: 500px;
@@ -88,7 +91,9 @@ h8{color:black;
     -webkit-transition-duration: 0.6s;}
 h8:hover{background-color: #ddd;}
 #imgTitle{font-family: helvetica;
-    font-weight: bold;}
+    font-weight: bold;
+    font-size: 17px;}
+body{background-color: #f9f9f9;}
     </style>
 <body>
     <% for i in 0...@links_on_page[@page.to_i].length %>
