@@ -639,7 +639,7 @@ post '/edit/post/*' do
 		body = params[:post_body]
 		tags = params[:post_tags]
 
-		post_count = sel_posts_where(title)
+		post_count = sel_posts_where(session["edit_title"])
 		errors = []
 
 		if post_count.length != 0 && session["edit_title"] != title
@@ -668,7 +668,7 @@ post '/edit/post/*' do
 		body = params[:post_body]
 		tags = params[:post_tags]
 
-		post_count = sel_posts_where(title)
+		post_count = sel_posts_where(session["edit_title"])
 		errors = []
 
 		if post_count.length != 0 && session["edit_title"] != title
