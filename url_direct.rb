@@ -47,7 +47,7 @@ get '/' do
 	@types_on_page = []
 	@contents_on_page = []
 
-	@page = params[:page].to_i-1 || 1
+	@page = params[:page] || 0
 	all_posts.each do | post |
 		@titles.push(post["title"])
 		if post["type"] == "text"
@@ -99,7 +99,11 @@ get '/' do
 		@pages += 1
 	end
 	pages = @pages
-	@page = @page.to_i
+	if @page != 0
+		@page = @page.to_i - 1
+	else
+		@page = 0
+	end
 	if pages < 5 
 		@pages = []
 		for i in 0...@page.to_i
