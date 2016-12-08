@@ -47,7 +47,7 @@ get '/' do
 	@types_on_page = []
 	@contents_on_page = []
 
-	@page = params[:page] || 0
+	@page = params[:page].to_i-1 || 0
 	all_posts.each do | post |
 		@titles.push(post["title"])
 		if post["type"] == "text"
@@ -98,7 +98,22 @@ get '/' do
 		@contents_on_page.push(@content)
 		@pages += 1
 	end
-
+	pages = @pages
+	@page = @page.to_i
+	if pages < 5 
+		@pages = []
+		for i in 0...@page.to_i
+			@pages.push(i)
+		end
+	else
+		if @page > 1 && @page < pages - 2
+			@pages = [0,@page-1,@page,@page+1,pages-1]
+		elsif @page <= 1
+			@pages = [0,1,2,3,pages-1]
+		else
+			@pages = [0,pages-4,pages-3,pages-2,pages-1]
+		end
+	end
 
 	erb :home
 end

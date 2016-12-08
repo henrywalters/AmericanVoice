@@ -128,9 +128,24 @@ h8:hover{background-color: #ddd;}
     </div>
     <% end %>
     <ul class="pagination">
-    <% for i in (0...@pages.to_i) %>
-        <li><a href=<%="?page=#{i.to_s}"%>><%=(i+1).to_s%></a></li>
-    <% end %> 
+    <% if @page.to_i > 0 %>
+        <li><a href=<%="?page=#{(@page.to_i).to_s}" %>>«</a></li>
+    <% end %>
+    <% if @pages.length < 5 || @page.to_i < 5 %>
+        <% for i in @pages %>
+            <li><a href=<%="?page=#{(i+1).to_s}"%>><%=(i+1).to_s%></a></li>
+        <% end %> 
+    <% else %>
+        <li><a href="?page=0">1</a></li>
+        <li><a href=<%="?page=#{@pages[1]+1}"%>><%=(@pages[1].to_i+1).to_s%></a></li>
+        <li><a href=<%="?page=#{@pages[2]+1}"%>><%=(@pages[2].to_i+1).to_s%></a></li>
+        <li><a href=<%="?page=#{@pages[3]+1}"%>><%=(@pages[3].to_i+1).to_s%></a></li>
+        <li><a href=<%="?page=#{@pages[4]+1}"%>><%=(@pages[4].to_i+1).to_s%></a></li>
+
+    <% end %>
+    <% if @page.to_i <= @pages.length %>
+        <li><a href=<%="?page=#{(@page.to_i+2).to_s}" %>>»</a></li>
+    <% end %>
     </ul>
 </body>
 </html>
