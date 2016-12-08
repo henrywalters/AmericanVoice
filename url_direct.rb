@@ -104,9 +104,10 @@ get '/' do
 	else
 		@page = 0
 	end
+
 	if pages < 5 
 		@pages = []
-		for i in 0...@page.to_i
+		for i in 0...pages
 			@pages.push(i)
 		end
 	else
@@ -118,6 +119,9 @@ get '/' do
 			@pages = [0,pages-4,pages-3,pages-2,pages-1]
 		end
 	end
+	puts @page
+	puts @pages.length
+	puts @page < @pages.length #&& @pages.length > 0
 
 	erb :home
 end
