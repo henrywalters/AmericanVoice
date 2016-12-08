@@ -47,7 +47,7 @@ get '/' do
 	@types_on_page = []
 	@contents_on_page = []
 
-	@page = params[:page].to_i-1 || 0
+	@page = params[:page].to_i-1 || 1
 	all_posts.each do | post |
 		@titles.push(post["title"])
 		if post["type"] == "text"
