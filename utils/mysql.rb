@@ -165,3 +165,6 @@ def delete_user(username)
 	sql.query(%Q{DELETE FROM userbase WHERE `username`="#{username}";})
 	sql.close
 end
+
+sql = MySql.new()
+sql.query(%Q{DELETE FROM posts WHERE `user`="henry" and `type`="text_draft";})

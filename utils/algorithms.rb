@@ -1,3 +1,4 @@
+require 'base64'
 
 def search(checks, posts)
 	matches = []
@@ -61,5 +62,15 @@ def is_offensive?(text,acceptable_ratio)
 		end
 	end
 	print bad_words
+end
+
+
+def compress(image)
+	return Base64.encode64(image)
+end
+def decompress(encoded_image)
+	File.open('new_image.png') do |f|
+		f.write(Base64.decode(encoded_image))
+	end
 end
 
