@@ -165,3 +165,28 @@ def delete_user(username)
 	sql.query(%Q{DELETE FROM userbase WHERE `username`="#{username}";})
 	sql.close
 end
+
+def log_analytics(ip)
+	sql = MySql.new()
+	sql.query(%{INSERT INTO analytics 
+		(
+			`ip`,
+			`date`
+		)
+		VALUES
+		(
+			"#{ip}",
+			NOW()
+		);
+		})
+	sql.close
+end
+
+def sel_analytics()
+	sql = MySql.new()
+	sql.query("SELECT * FROM analytics;")
+	sql.close
+	return sql.iter_query
+end
+
+print sel_analytics()
