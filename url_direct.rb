@@ -46,6 +46,7 @@ get '/' do
 	@links_on_page = []
 	@types_on_page = []
 	@contents_on_page = []
+	@dn = []
 
 	@page = params[:page] || 0
 	all_posts.each do | post |
@@ -58,14 +59,17 @@ get '/' do
 			end
 			@links.push('posts/' + post["title"].split().join('-'))
 			@content.push(body)
+			@dn.push(get_display_name(post["user"]))
 		end
 		if post["type"] == "image"
 			@links.push('image/post/' + post["title"].split().join('-'))
 			@content.push(["a/#{post["image_link"]}","//imgur.com/#{post["link"]}"])
+			@dn.push(get_display_name(post["user"]))
 		end
 		if post["type"] == "image_gallery"
 			@links.push('image/post/' + post["title"].split().join('-'))
 			@content.push(["a/#{post["image_link"]}","//imgur.com/#{post["link"]}"])
+			@dn.push(get_display_name(post["user"]))
 		end
 		@types.push(post["type"])
 		post_count = post_count + 1
