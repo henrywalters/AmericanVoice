@@ -77,7 +77,7 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
             <% if post["type"] == "text" %>
                 <div id="text_post">
                     <div id="title"> 
-                    <a href=<%='posts/' + post["title"].split().join('-')%>><h7><%=post["title"]%><h7></a>
+                    <a href=<%='posts/' + post["title"].split().join('-')%>><h7><%=deparse_title(post["title"])%><h7></a>
                     </div>
                     <div id="content">
                     <p><%=post["body"].slice!(0,120) + "..."%></p>

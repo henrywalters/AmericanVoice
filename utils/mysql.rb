@@ -30,6 +30,17 @@ def correct_id(id)
 	return (id/10.0).to_i + 1
 end
 
+def deparse_post(title)
+	sql = MySql.new()
+	sql.query(%Q{
+		UPDATE posts WHERE `title` ="#{title}"
+		SET `title` = REPLACE(`title`,'{hypen}','-')
+		SET `title` = REPLACE(`title`, '{question}','?')
+		SET `title` = REPLACE(`title`, '{ampersand}','&');
+		})
+	sql.close
+end
+
 def sel_userbase
 	sql = MySql.new()
 	sql.query("SELECT * FROM userbase;")
@@ -188,5 +199,3 @@ def sel_analytics()
 	sql.close
 	return sql.iter_query
 end
-
-print sel_image_posts()

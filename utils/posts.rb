@@ -1,8 +1,11 @@
+require './utils/algorithms'
+
 def new_post(user,title,body,tags,type)
 	sql = MySql.new()
 	if body.include?('"')
 		body.gsub!('"','{quote}')
 	end
+	title = parse_title(title)
 	sql.query(%Q{
 		INSERT INTO posts(
 			`user`,

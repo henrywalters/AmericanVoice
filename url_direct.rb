@@ -19,6 +19,7 @@ enable :sessions
 
 
 get '/' do 
+
 	if defined?(session[:user]) && logged_in?(session[:user])
 		log_analytics(session[:user])
 	else
@@ -53,7 +54,7 @@ get '/' do
 
 	@page = params[:page] || 0
 	all_posts.each do | post |
-		@titles.push(post["title"])
+		@titles.push(deparse_title(post["title"]))
 		if post["type"] == "text"
 			if post["body"].include? "{quote}"
 				body = post["body"].gsub("{quote}",'"')
@@ -542,7 +543,7 @@ post '/post' do
 end
 
 get '/posts/*' do 
-	title = params[:splat].first.split('-').join(' ')
+	title = params[:splat].first
 	post = sel_all_posts_where_title(title)[0]
 	@display_names = []	
 	@comments = sel_post_comments(title)
@@ -571,13 +572,15 @@ get '/posts/*' do
 		end
 	end
 	viewed_post(@title)
+	@title = deparse_title(@title)
+
 	erb :view_post
 end
 
 post '/posts/*' do 
 	redirect_title = params[:splat].first
 
-	title = params[:splat].first.split('-').join(' ')
+	title = params[:splat].first
 
 	comment_length = sel_post_comments(title).length
 	comments = sel_post_comments(title)
@@ -589,9 +592,9 @@ post '/posts/*' do
 		end
 	end
 	if params[:delete]
-		redirect "/delete/post/#{title.split(' ').join('-')}"
+		redirect "/delete/post/#{URI.escape(title.split(' ').join('-'))}"
 	elsif params[:edit]
-		redirect "/edit/post/#{title.split(' ').join('-')}"
+		redirect "/edit/post/#{URI.escape(title.split(' ').join('-'))}"
 	end
 	if params[:comment]
 		post_comment(session[:user],title + '/' + comment_length.to_s,params[:comment_field])
@@ -635,7 +638,7 @@ post '/posts/*' do
 end
 
 get '/edit/post/*' do 
-	title = params[:splat].first.split('-').join(' ')
+	title = params[:splat].first
 	posts = sel_all_posts_where_title(title)
 	session["edit_title"] = title
 	if posts.length == 0 || logged_in?(session["user"]) == false
@@ -657,7 +660,7 @@ get '/edit/post/*' do
 		if @body.include?("{quote}")
 			@body.gsub!("{quote}",'"')
 		end
-		@title = posts[0]["title"]
+		@title = deparse_title(posts[0]["title"])
 		@tags = posts[0]["tags"]
 		erb :post
 	end
@@ -672,7 +675,7 @@ post '/edit/post/*' do
 		post_count = sel_posts_where(session["edit_title"])
 		errors = []
 
-		if post_count.length != 0 && session["edit_title"] != title
+		if post_count.length != 0 && session["edit_title"] != parse_title(title)
 			errors.push('title_conflict=true')
 		end
 		if title.delete(' ') == ''
@@ -689,7 +692,7 @@ post '/edit/post/*' do
 			error = "?"+errors.join('&')
 			redirect "/post#{error}"
 		else
-			delete_post(params[:splat].first.split('-').join(' '))
+			delete_post(params[:splat].first)
 			new_post(session[:user],title,body,tags,"text")
 			redirect '/'
 		end
@@ -712,7 +715,7 @@ post '/edit/post/*' do
 			error = "?"+errors.join('&')
 			redirect "/post#{error}"
 		else
-			delete_post(params[:splat].first.split('-').join(' '))
+			delete_post(params[:splat].first)
 			new_post(session[:user],title,body,tags,"text_draft")
 			redirect '/'
 		end
@@ -757,7 +760,7 @@ end
 
 
 get '/delete/post/*' do
-	title = params[:splat].first.split('-').join(' ')
+	title = params[:splat].first
 	posts = sel_posts_where(title)
 	if posts.length == 0 || logged_in?(session["user"]) == false
 		redirect '/'

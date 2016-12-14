@@ -84,6 +84,9 @@ def parse_title(words)
 	if words.include?('&')
 		words.gsub!('&', '{ampersand}')
 	end
+	if words.include?('/')
+		words.gsub!('/','{slash}')
+	end
 	return words.split(' ').join('-')
 end
 
@@ -97,6 +100,9 @@ def deparse_title(words)
 	end
 	if words.include?('{ampersand}')
 		words.gsub!('{ampersand}','&')
+	end
+	if words.include?('{slash}')
+		words.gsub!('{slash}','/')
 	end
 	return words
 end
