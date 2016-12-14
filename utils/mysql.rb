@@ -189,4 +189,4 @@ def sel_analytics()
 	return sql.iter_query
 end
 
-print sel_analytics()
+print sel_image_posts()
