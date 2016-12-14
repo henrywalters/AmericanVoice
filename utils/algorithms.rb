@@ -74,3 +74,44 @@ def decompress(encoded_image)
 	end
 end
 
+def parse_title(words)
+	if words.include?('-')
+		words.gsub!('-','{hypen}')
+	end
+	if words.include?('?')
+		words.gsub!('?','{question}')
+	end
+	if words.include?('&')
+		words.gsub!('&', '{ampersand}')
+	end
+	return words.split(' ').join('-')
+end
+
+def deparse_title(words)
+	words = words.split('-').join(' ')
+	if words.include?('{hypen}')
+		words.gsub!('{hypen}','-')
+	end
+	if words.include?('{question}')
+		words.gsub!('{question}','?')
+	end
+	if words.include?('{ampersand}')
+		words.gsub!('{ampersand}','&')
+	end
+	return words
+end
+
+def parse_body(words)
+	if words.include?('"')
+		words.gsub!('"','{quote}')
+	end
+	return words
+end
+
+def deparse_body(words)
+	if words.include?('{quote}')
+		words.gsub!('{quote}','"')
+	end
+	return words
+end
+
