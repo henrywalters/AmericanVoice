@@ -672,7 +672,7 @@ post '/edit/post/*' do
 		body = params[:post_body]
 		tags = params[:post_tags]
 
-		post_count = sel_posts_where(session["edit_title"])
+		post_count = sel_posts_where(title)
 		errors = []
 
 		if post_count.length != 0 && session["edit_title"] != parse_title(title)
@@ -704,7 +704,7 @@ post '/edit/post/*' do
 		post_count = sel_posts_where(session["edit_title"])
 		errors = []
 
-		if post_count.length != 0 && session["edit_title"] != title
+		if post_count.length != 0 && session["edit_title"] != parse_title(title)
 			errors.push('title_conflict=true')
 		end
 		if title.delete(' ') == ''
