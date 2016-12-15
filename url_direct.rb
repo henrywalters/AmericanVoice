@@ -19,24 +19,27 @@ enable :sessions
 
 
 get '/' do 
-
+	
 	if defined?(session[:user]) && logged_in?(session[:user])
 		log_analytics(session[:user])
 	else
 		log_analytics('anon')
 	end
+
 	if  session["search"] != nil && session["search"] != []
 		all_matches = session["search"]
 		all_posts = []
 		all_matches.each do |match|
-			all_posts.push(match[:post])
+			all_posts += (sel_image_posts_where(match[:post]) + sel_posts_where(match[:post]))
 		end
+		
 		session["search"] = nil
 	else
 		session["search"] = []
-		posts = sel_posts()
-		images = sel_image_posts()
+		posts = sel_posts
+		images = sel_image_posts
 		all_posts = posts + images
+
 		all_posts = all_posts.sort_by { |post| post["time_posted"]}.reverse
 	end
 	@titles = []

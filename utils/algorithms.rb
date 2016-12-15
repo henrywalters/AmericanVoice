@@ -4,7 +4,7 @@ def search(checks, posts)
 	matches = []
 	posts.each do |post|
 		matches.push({
-			:post => post,
+			:post => post["title"],
 			:ranking => 0
 			})
 	end
@@ -15,7 +15,7 @@ def search(checks, posts)
 		checks.each do |check|
 			if tags.downcase.include?(check.downcase) || title.downcase.include?(check.downcase)
 				matches.each do |match|
-					if match[:post] == post
+					if match[:post] == post["title"]
 						puts "Match"
 						match[:ranking] = match[:ranking] + 1
 					end
