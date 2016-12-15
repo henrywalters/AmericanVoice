@@ -450,7 +450,7 @@ post '/post' do
 
 	if params[:submit_post]
 
-		post_count = sel_posts_where(title)
+		post_count = sel_posts_where(parse_title(title))
 		errors = []
 
 		if post_count.length != 0

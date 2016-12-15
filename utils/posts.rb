@@ -6,6 +6,7 @@ def new_post(user,title,body,tags,type)
 		body.gsub!('"','{quote}')
 	end
 	title = parse_title(title)
+
 	sql.query(%Q{
 		INSERT INTO posts(
 			`user`,

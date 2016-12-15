@@ -87,6 +87,27 @@ def parse_title(words)
 	if words.include?('/')
 		words.gsub!('/','{slash}')
 	end
+	if words.include?(']')
+		words.gsub!(']','{right_bracket}')
+	end
+	if words.include?('[')
+		words.gsub!('[','{left_bracket}')
+	end
+	if words.include?('#')
+		words.gsub!('#','{hash_tag}')
+	end
+	if words.include?('%')
+		words.gsub!('%','{percent}')
+	end
+	if words.include?('"')
+		words.gsub!('"','{quote}')
+	end
+	if words.include?('<')
+		words.gsub!('<','{less_than}')
+	end
+	if words.include?('>')
+		words.gsub!('>','{greater_than}')
+	end
 	return words.split(' ').join('-')
 end
 
@@ -103,6 +124,27 @@ def deparse_title(words)
 	end
 	if words.include?('{slash}')
 		words.gsub!('{slash}','/')
+	end
+	if words.include?('{left_bracket}')
+		words.gsub!('{left_bracket}','[')
+	end
+	if words.include?('{right_bracket}')
+		words.gsub!('{right_bracket}',']')
+	end
+	if words.include?('{hash_tag}')
+		words.gsub!('{hash_tag}','#')
+	end
+	if words.include?('{percent}')
+		words.gsub!('{percent}','%')
+	end
+	if words.include?('{quote}')
+		words.gsub!('{quote}','"')
+	end
+	if words.include?('{less_than}')
+		words.gsub!('{less_than}','<')
+	end
+	if words.include?('{greater_than}')
+		words.gsub!('{greater_than}','>')
 	end
 	return words
 end

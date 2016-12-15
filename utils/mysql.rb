@@ -199,3 +199,4 @@ def sel_analytics()
 	sql.close
 	return sql.iter_query
 end
+
