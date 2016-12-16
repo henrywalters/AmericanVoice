@@ -949,24 +949,6 @@ get '/search/*' do
 	redirect '/'
 end
 
-get '/admin' do 
-	if defined?(session["user"]) && privilege(session["user"]) == 2
-		erb :admin_page
-	else
-		redirect '/'
-	end
-end
-
-post '/admin' do 
-	if params[:submit_auth]
-		user = sel_userbase_where(params[:authorize_user])
-		if user != []
-			send_write_auth(user[0]["email"],generate_key(user[0]["user"]))
-			redirect '/admin'
-		end
-	end
-	redirect '/admin'
-end
 
 get '/change/username' do
 	if defined?(session[:user]) && logged_in?(session[:user])
@@ -1319,4 +1301,76 @@ post '/profile' do
 	if params[:search]
 		redirect "/search/#{params[:search_query].split(' ').join('-')}"
 	end
+end
+
+
+class Admin
+	def initialize()
+		@results = ""
+	end
+	def update(results)
+		@results = results
+	end
+	def results
+		return @results
+	end
+end
+
+a = Admin.new()
+
+get '/admin' do
+	if defined?(session[:user]) && logged_in?(session[:user]) && privilege(session[:user])==2
+		@sql_results = a.results
+		erb :admin_page
+	else
+		redirect '/'
+	end
+end
+
+post '/admin' do
+	if params[:home]
+		redirect '/'
+	end
+	if params[:login]
+		session["search"] = []
+		redirect '/login' 
+	end
+	if params[:register]
+		redirect '/register'
+	end
+	if params[:feedback]
+		redirect '/feedback'
+	end
+	if params[:logout]
+		logout(session[:user])
+		session[:user] = ""
+		session["search"] = []
+		redirect '/'
+	end
+	if params[:settings]
+		redirect '/settings'
+	end
+	if params[:profile]
+		redirect '/profile'
+	end
+	if params[:post]
+		redirect '/post'
+	end
+	if params[:post_image]
+		redirect '/post/image'
+	end
+	if params[:search]
+		redirect "/search/#{params[:search_query].split(' ').join('-')}"
+	end
+	if params["sql_query"]
+		begin 
+			sql = MySql.new()
+			sql.query(params["query"])
+			sql.close
+			a.update(sql.iter_query())
+		rescue
+			a.update("Invalid SQL cmd")
+		end	
+	end
+	redirect '/admin'
 end

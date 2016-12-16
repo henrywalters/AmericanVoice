@@ -1,4 +1,19 @@
+<style>
+	#scli {
+		height: 50px;
+		width: 500px;
+	}
+	#sql_results {
+		height:500px;
+		width:500px;
+	}
+</style>
+
 <h3>Hey <%= session[:user] %></h3>
 <form method="post" id="form">
-	<dt>Authorize User for contribution: <input name="authorize_user" type="text"> <input name="submit_auth" type="submit" value="submit"></dt>
+	<p>SQL command line</p>
+	<dt><textarea name = "query" id="scli"></textarea></dt>
+	<input type="submit" name="sql_query" id="sql_query" value="Submit SQL">
+	<p>SQL results</p>
+	<dt><textarea name="query_results" id="sql_results"><%=@sql_results%></textarea></dt>
 </form> 
