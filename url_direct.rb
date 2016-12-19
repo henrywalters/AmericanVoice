@@ -20,7 +20,7 @@ enable :sessions
 
 get '/' do 
 	
-	log_analytics(request.ip)
+	log_analytics(request.ip.encrypt)
 
 	if  session["search"] != nil && session["search"] != []
 		all_matches = session["search"]
