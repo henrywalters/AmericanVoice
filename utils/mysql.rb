@@ -203,7 +203,7 @@ def log_analytics(ip)
 		end
 	end
 	if comps.include?(ip) == false
-		log_comp = comp + 1
+		log_comp = comp
 	end
 
 
