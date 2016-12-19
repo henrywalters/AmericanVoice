@@ -177,26 +177,43 @@ def delete_user(username)
 	sql.close
 end
 
-def log_analytics(ip)
-	sql = MySql.new()
-	sql.query(%{INSERT INTO analytics 
-		(
-			`ip`,
-			`date`
-		)
-		VALUES
-		(
-			"#{ip}",
-			NOW()
-		);
-		})
-	sql.close
-end
-
 def sel_analytics()
 	sql = MySql.new()
 	sql.query("SELECT * FROM analytics;")
 	sql.close
 	return sql.iter_query
 end
+
+def log_analytics(ip)
+	comps = 0
+	ips = sel_analytics()
+	ips.each do |ip|
+		if ip["ip"] == ip
+			comps = comp
+			break
+		end 
+		comps += 1
+	end
+	if defined?(comp) == false
+		comp = comps
+	end
+
+
+	sql = MySql.new()
+	sql.query(%{INSERT INTO analytics 
+		(
+			`ip`,
+			`computer`,
+			`date`
+		)
+		VALUES
+		(
+			"#{ip}",
+			"#{comp}",
+			NOW()
+		);
+		})
+	sql.close
+end
+
 
