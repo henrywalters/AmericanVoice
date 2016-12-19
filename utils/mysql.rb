@@ -185,17 +185,23 @@ def sel_analytics()
 end
 
 def log_analytics(ip)
-	comps = 0
+	comp = 0
+	comps = []
 	ips = sel_analytics()
-	ips.each do |ip|
-		if ip["ip"] == ip
-			comps = comp
-			break
-		end 
-		comps += 1
+	ips.each do |sql_ip|
+		if comps.include? sql_ip == false
+			comps.push(sql_ip)
+			comp += 1
+		end
 	end
-	if defined?(comp) == false
-		comp = comps
+
+	comps.each do | computer |
+		if computer["ip"] == ip
+			log_comp = computer["computer"]
+		end
+	end
+	if defined? log_comp == false
+		log_comp = comp + 1
 	end
 
 
@@ -209,7 +215,7 @@ def log_analytics(ip)
 		VALUES
 		(
 			"#{ip}",
-			"#{comp}",
+			"#{log_comp}",
 			NOW()
 		);
 		})
