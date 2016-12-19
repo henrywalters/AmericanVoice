@@ -195,13 +195,14 @@ def log_analytics(ip)
 			comp += 1
 		end
 	end
-	puts comps
+
 	for i in 0...comps.length
 		if comps[i] == ip
 			log_comp = i
+			break
 		end
 	end
-	if defined? log_comp == false
+	if comps.include?(ip) == false
 		log_comp = comp + 1
 	end
 
