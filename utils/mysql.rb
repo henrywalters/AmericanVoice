@@ -188,16 +188,17 @@ def log_analytics(ip)
 	comp = 0
 	comps = []
 	ips = sel_analytics()
+
 	ips.each do |sql_ip|
-		if comps.include? sql_ip == false
-			comps.push(sql_ip)
+		if comps.include?(sql_ip["ip"]) == false
+			comps.push(sql_ip["ip"])
 			comp += 1
 		end
 	end
-
-	comps.each do | computer |
-		if computer["ip"] == ip
-			log_comp = computer["computer"]
+	puts comps
+	for i in 0...comps.length
+		if comps[i] == ip
+			log_comp = i
 		end
 	end
 	if defined? log_comp == false
