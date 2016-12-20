@@ -23,8 +23,8 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
         -webkit-transition: width 0.4s ease-in-out;
         transition: width 0.4s ease-in-out;}
 #search_query:focus{width: 225px;} --> 
-#text_post{height: 130;
-    max-height:135;
+#text_post{
+    height: relative;
     width: 500px;
     max-width:500px;
     box-shadow: 1px 2px 1px 1px #ccc;
@@ -32,7 +32,7 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
     margin-bottom: 10px;
     margin-left: 7px;
     word-wrap: break-word;
-    overflow: hidden;
+    overflow:hidden;
     background-color: white;
     }
 h7{color:black;
@@ -52,9 +52,8 @@ h7:hover{background-color: #ddd;
     width: relative;
     max-width: 500px;
     height: relative;
-    max-height: 45px;
     white-space:normal;
-    overflow:hidden;
+    
     text-overflow: ellipsis;
     padding-bottom:14px;
     }
@@ -99,7 +98,7 @@ body{background-color: #f9f9f9;}
                 <br><h9>by <%= @dn[i] %></h9>
                 </div>
                 <div id="content">
-                <p><%=@contents_on_page[@page.to_i][i] + "..."%></p>
+                <p><%=@contents_on_page[@page.to_i][i]%></p>
                 </div>
             </div>
             <% end %>

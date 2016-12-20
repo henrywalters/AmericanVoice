@@ -61,7 +61,10 @@ get '/' do
 				body = post["body"]
 			end
 			@links.push('posts/' + post["title"].split().join('-'))
+			body = noko(body)
+			puts body
 			@content.push(body)
+
 			@dn.push(get_display_name(post["user"]))
 		end
 		if post["type"] == "image"
