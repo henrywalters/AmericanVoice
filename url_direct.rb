@@ -1317,6 +1317,11 @@ a = Admin.new()
 get '/admin' do
 	if defined?(session[:user]) && logged_in?(session[:user]) && privilege(session[:user])==2
 		@sql_results = a.results
+		data = analytic_data
+		@dates = data[:days]
+		@views = data[:views]
+		puts @dates
+		puts @views
 		erb :admin_page
 	else
 		redirect '/'

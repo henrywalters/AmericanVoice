@@ -9,6 +9,12 @@
 	}
 </style>
 
+<head>
+<script>
+	src="https://cdn.plot.ly/plotly-latest.min.js">
+</script>
+
+</head>
 <h3>Hey <%= session[:user] %></h3>
 <form method="post" id="form">
 	<p>SQL command line</p>
@@ -17,3 +23,19 @@
 	<p>SQL results</p>
 	<dt><textarea name="query_results" id="sql_results"><%=@sql_results%></textarea></dt>
 </form> 
+
+
+<div id="data_plot"></div>
+
+
+
+<script>
+	PLOT = document.getElementById('data_plot')
+	plotly.plot( PLOT, [{
+		x: <%= @dates %>,
+		y: <%= @views %>
+	}],
+	{
+		margin: {t: 0}
+	}); 
+</script>

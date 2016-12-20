@@ -225,3 +225,24 @@ def log_analytics(ip)
 end
 
 
+def analytic_data
+	views = []
+	analytics = sel_analytics()
+	current_day = analytics[0]["date"].to_s.split()[0]
+	days = [current_day]
+	day_views = 0
+	analytics.each do |view|
+		if view["date"].to_s.split()[0] != current_day
+			current_day = view["date"].to_s.split()[0]
+			views.push(day_views)
+			days.push(current_day)
+		end
+		if view["computer"] > 3 && current_day == view["date"].to_s.split()[0]
+			day_views += 1
+		end
+	end
+	if views.length != days.length
+		views.push(day_views)
+	end
+	return {:days => days, :views => views}
+end
