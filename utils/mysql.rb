@@ -123,6 +123,17 @@ def sel_all_posts_where_title(title)
 	sql.close
 	return sql.iter_query()	
 end
+
+def sel_all_posts_where_id(id)
+	sql = sel_posts
+	sql.each do |post|
+		if post['id'].to_i == id.to_i
+			return post
+		end
+	end
+	return "nil"
+end
+
 def sel_all_posts_where(name)
 	sql = MySql.new()
 	sql.query(%Q{SELECT * FROM posts WHERE user="#{name}";})

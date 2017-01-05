@@ -2,6 +2,30 @@ require 'base64'
 require 'nokogiri'
 
 
+def parse_date(date)
+	date = date.split()[0].split('-')
+	y = date[0]
+	m = (date[1]).to_i - 1
+	d = date[2]
+
+	months = [
+		'Jan',
+		'Feb',
+		'Mar',
+		'Apr',
+		'may',
+		'June',
+		'July',
+		'Aug',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dec'
+	]
+
+	return "#{months[m]} #{d}, #{y}"
+end
+
 def search(checks, posts)
 	matches = []
 	posts.each do |post|

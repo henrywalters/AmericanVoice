@@ -56,11 +56,11 @@ GEM
     mini_portile2 (2.1.0)
     multi_json (1.12.1)
     mysql2 (0.4.5)
-    nokogiri (1.6.8.1)
+    nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     pony (1.11)
       mail (>= 2.0)
-    public_suffix (2.0.4)
+    public_suffix (2.0.5)
     rack (1.6.5)
     rack-protection (1.5.3)
       rack
@@ -76,6 +76,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   data_mapper
   encrypted_strings
   mail
@@ -86,4 +87,4 @@ DEPENDENCIES
   sinatra
 
 BUNDLED WITH
-   1.13.6
+   1.13.7

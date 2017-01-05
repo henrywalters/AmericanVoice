@@ -77,7 +77,7 @@ p1{font-family: arial;
 
 <div id="post_content">
 <h3><%= @title %></h3>
-<h5>by <%= @dn %></h5>
+<h5>by <%= @dn %> on <%=@date%></h5>
 <p><%= @body %></p>
 <br>
 <p1>Tags: <i><%= @tags %></i></p1>
@@ -90,25 +90,7 @@ p1{font-family: arial;
 	<p><input name="edit" type="submit" value="Edit Post" id="edit"></p>
 	<p><input name="delete" type="submit" value="Delete Post" id="delete"></p>
 <% end %>
-<!--
-      <% if @commentable %>
-            <p><textarea name="comment_field" style="width:500px"></textarea></p>
-            <button name="comment" id="comment">Post Comment</button>
-            <input type="hidden" name ="root_value" value="">
-      <% end %>
 
-      <% for i in 0...@comments.length %>
-            <div id="comment_div">
-                  <h3><%=@display_names[i]%> said:</h5>
-                  <p><%=@comments[i]["comment"]%></p>
-                  <% if @comments[i]["user"] == session[:user] && logged_in?(session[:user])%>
-                        <button name=<%="delete_comment-" + i.to_s%> id="delete_comment">Delete Comment</button>
-
-                  <% end %>
-                  <% session["delete_comment-" + i.to_s] = @comments[i]["root"]%>
-            </div>
-      <% end %>
--->
 </form>
 </div>
 </body>

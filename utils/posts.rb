@@ -86,11 +86,11 @@ def viewed_post(title)
 	sql.close
 end
 
-def delete_post(title)
+def delete_post(id)
 	sql = MySql.new()
 	sql.query(%Q{
 		DELETE FROM posts
-		WHERE `title`="#{title}";
+		WHERE `id`=#{id.to_s};
 		})
 	sql.close
 end

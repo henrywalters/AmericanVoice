@@ -60,9 +60,9 @@ get '/' do
 			else
 				body = post["body"]
 			end
-			@links.push('posts/' + post["title"].split().join('-'))
+			@links.push('posts/' + post["id"].to_s)
 			body = noko(body)
-			puts body
+
 			@content.push(body)
 
 			@dn.push(get_display_name(post["user"]))
@@ -129,9 +129,6 @@ get '/' do
 			@pages = [0,pages-4,pages-3,pages-2,pages-1]
 		end
 	end
-	puts @page
-	puts @pages.length
-	puts @page < @pages.length #&& @pages.length > 0
 
 	erb :home
 end
@@ -545,14 +542,10 @@ post '/post' do
 end
 
 get '/posts/*' do 
-	title = params[:splat].first
-	post = sel_all_posts_where_title(title)[0]
+	id = params[:splat].first
+	post = sel_all_posts_where_id(id)
 	@display_names = []	
-	@comments = sel_post_comments(title)
-	for i in 0...@comments.length
-		@display_names.push(@comments[i]["user"])
-	end
-	@comment_length = @comments.length
+
 	@title = post["title"]
 	if post["body"].include?("{quote}")
 		@body = post["body"].gsub!("{quote}",'"')
@@ -560,8 +553,9 @@ get '/posts/*' do
 		@body = post["body"]
 	end
 	@tags = post["tags"]
+	@date = parse_date(post["time_posted"].to_s)
 	@dn = get_display_name(post["user"])
-	if post["user"] == session["user"] && logged_in?(post["user"])
+	if post["user"].upcase == session["user"].upcase && logged_in?(post["user"])
 		@editable = true
 	else
 		@editable = false
@@ -641,7 +635,7 @@ end
 
 get '/edit/post/*' do 
 	title = params[:splat].first
-	posts = sel_all_posts_where_title(title)
+	posts = sel_all_posts_where_id(title)
 	session["edit_title"] = title
 	if posts.length == 0 || logged_in?(session["user"]) == false
 		redirect '/'
@@ -658,12 +652,12 @@ get '/edit/post/*' do
 		if params[:empty_tag]
 			@empty_tag = true 
 		end
-		@body = posts[0]["body"]
+		@body = posts["body"]
 		if @body.include?("{quote}")
 			@body.gsub!("{quote}",'"')
 		end
-		@title = deparse_title(posts[0]["title"])
-		@tags = posts[0]["tags"]
+		@title = deparse_title(posts["title"])
+		@tags = posts["tags"]
 		erb :post
 	end
 end
@@ -763,7 +757,7 @@ end
 
 get '/delete/post/*' do
 	title = params[:splat].first
-	posts = sel_posts_where(title)
+	posts = sel_all_posts_where_id(title)
 	if posts.length == 0 || logged_in?(session["user"]) == false
 		redirect '/'
 	else
@@ -1256,9 +1250,7 @@ get '/profile' do
 				@pages = [0,pages-4,pages-3,pages-2,pages-1]
 			end
 		end
-		puts @page
-		puts @pages.length
-		puts @page < @pages.length
+
 		erb :profile
 	else
 		redirect '/'
@@ -1323,8 +1315,6 @@ get '/admin' do
 		data = analytic_data
 		@dates = data[:days]
 		@views = data[:views]
-		puts @dates
-		puts @views
 		erb :admin_page
 	else
 		redirect '/'
