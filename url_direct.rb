@@ -557,16 +557,16 @@ get '/posts/*' do
 	@tags = post["tags"]
 	@date = parse_date(post["time_posted"].to_s)
 	@dn = get_display_name(post["user"])
-	if post["user"].upcase == session["user"].upcase && logged_in?(post["user"])
-		@editable = true
-	else
-		@editable = false
-	end
 	if defined?(session["user"]) && logged_in?(session["user"])
 		if privilege(session["user"]) > 0
 			@commentable = true
 		else
 			@commentable = false
+		end
+		if post["user"].upcase == session["user"].upcase && logged_in?(post["user"])
+			@editable = true
+		else
+			@editable = false
 		end
 	end
 	viewed_post(@title)
@@ -878,10 +878,12 @@ get '/image/post/*' do
 	@date = parse_date(img["time_posted"].to_s)
 	@dn = get_display_name(img["user"])
 	viewed_image(title)
-	if session["user"].upcase == img["user"].upcase && logged_in?(session["user"])
-		@editable = true
-	else
-		@editable = false
+	if defined?(session["user"]) && logged_in?(session["user"])
+		if session["user"].upcase == img["user"].upcase && logged_in?(session["user"])
+			@editable = true
+		else
+			@editable = false
+		end
 	end
 	erb :view_image_post
 end
