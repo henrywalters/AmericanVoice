@@ -60,7 +60,7 @@ def imgur_type(link)
 end
 
 def viewed_image(title)
-	post = sel_image_posts_where(title)[0]
+	post = sel_image_posts_where_id(title)
 	views = post["views"] += 1
 
 	sql=MySql.new()
@@ -73,11 +73,11 @@ def viewed_image(title)
 	sql.close
 end
 
-def delete_image_post(title)
+def delete_image_post(id)
 	sql = MySql.new()
 	sql.query(%Q{
 		DELETE FROM image_posts
-		WHERE `title`="#{title}";
+		WHERE `id`=#{id};
 		})
 	sql.close
 end

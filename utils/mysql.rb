@@ -162,6 +162,16 @@ def sel_image_posts
 	return sql.iter_query()
 end
 
+def sel_image_posts_where_id(id)
+	sql = sel_image_posts
+	sql.each do |post|
+		if post['id'].to_i == id.to_i
+			return post
+		end
+	end
+	return "nil"
+end	
+
 
 def grant_admin_access(username)
 	sql=MySql.new()

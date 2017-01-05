@@ -68,12 +68,14 @@ get '/' do
 			@dn.push(get_display_name(post["user"]))
 		end
 		if post["type"] == "image"
-			@links.push('image/post/' + post["title"].split().join('-'))
+			print post["id"]
+			@links.push('image/post/' + post["id"].to_s)
 			@content.push(["a/#{post["image_link"]}","//imgur.com/#{post["link"]}"])
 			@dn.push(get_display_name(post["user"]))
 		end
 		if post["type"] == "image_gallery"
-			@links.push('image/post/' + post["title"].split().join('-'))
+			print post["id"]
+			@links.push('image/post/' + post["id"].to_s)
 			@content.push(["a/#{post["image_link"]}","//imgur.com/#{post["link"]}"])
 			@dn.push(get_display_name(post["user"]))
 		end
@@ -861,21 +863,22 @@ post '/post/image' do
 end
 
 get '/image/post/*' do 
-	title = params[:splat].first.split('-').join(' ')
-	img = sel_image_posts_where(title)
+	title = params[:splat].first
+	img = sel_image_posts_where_id(title.to_i)
 	if img.length == 0
 		redirect '/'
 	else
-		link = img[0]["image_link"].split('/')
+		link = img["image_link"].split('/')
 		link = link[link.length-1]
 	end
 	@data = "a/#{link}"
 	@link = "//imgur.com/#{link}"
-	@title = img[0]["title"]
-	@tags = img[0]["tags"]
-	@dn = get_display_name(img[0]["user"])
+	@title = img["title"]
+	@tags = img["tags"]
+	@date = parse_date(img["time_posted"].to_s)
+	@dn = get_display_name(img["user"])
 	viewed_image(title)
-	if session["user"] == img[0]["user"] && logged_in?(session["user"])
+	if session["user"].upcase == img["user"].upcase && logged_in?(session["user"])
 		@editable = true
 	else
 		@editable = false
@@ -884,7 +887,7 @@ get '/image/post/*' do
 end
 
 post '/image/post/*' do
-	title = params[:splat].first.split('-').join(' ')
+	title = params[:splat].first
 	if params[:delete]
 		redirect "/delete/image/post/#{title.split(' ').join('-')}"
 	end
@@ -925,8 +928,8 @@ post '/image/post/*' do
 end
 
 get '/delete/image/post/*' do 
-	title = params[:splat].first.split('-').join(' ')
-	posts = sel_image_posts_where(title)
+	title = params[:splat].first
+	posts = sel_image_posts_where_id(title)
 	if posts.length == 0 || logged_in?(session["user"]) == false
 		redirect '/'
 	else
