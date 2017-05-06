@@ -1,4 +1,5 @@
 require 'mysql2'
+require 'av-ip'
 
 class MySql
 	def initialize(user='b84b5e214f662b',pass='3d58b94e',host='us-cdbr-iron-east-04.cleardb.net')
@@ -267,3 +268,22 @@ def analytic_data
 	end
 	return {:days => days, :views => views}
 end
+
+def geolocate
+	analytics = sel_analytics()
+	unique = []
+	analytics.each do |view|
+		if not unique.include? view['ip']
+			unique.push(view['ip'])
+		end
+	end
+	avip = AVIP.new()
+
+	unique.each do |ip|
+		puts ip
+		puts avip.search(ip)
+	end
+
+end
+
+geolocate
